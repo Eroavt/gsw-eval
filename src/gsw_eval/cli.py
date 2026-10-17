@@ -8,6 +8,7 @@ gsw-eval report                   tables and figures from everything in results/
 import json
 import time
 from pathlib import Path
+from typing import Annotated
 
 import typer
 from dotenv import load_dotenv
@@ -143,6 +144,46 @@ def run(
                 f"  spelling cost {costs['spelling_cost_texting']['value']:5.1f} chrF points (texting)"
             )
     typer.echo(f"wrote results/scores/{tag}.json")
+
+
+@app.command("rating-sheet")
+def rating_sheet(
+    models: str = typer.Option("apertus-8b,llama-3.1-8b", help="comma-separated models"),
+    clean: int = typer.Option(4, help="clean inputs per dialect"),
+    texting: int = typer.Option(2, help="texting inputs per dialect"),
+    seed: int = typer.Option(0),
+) -> None:
+    """Write a blind rating sheet (data/ratings/, not committed) and its key (ratings/)."""
+    from gsw_eval.ratings import KEY_COLUMNS, SHEET_COLUMNS, build_sample, write_csv
+
+    outputs = {}
+    for name in [m.strip() for m in models.split(",")]:
+        path = RESULTS / "outputs" / f"{name}_test.jsonl"
+        if not path.exists():
+            raise typer.BadParameter(f"run `gsw-eval run --model {name}` first")
+        outputs[name] = [json.loads(line) for line in path.open(encoding="utf-8")]
+    sample = build_sample(outputs, {"clean": clean, "texting": texting}, seed=seed)
+    sheet_path = REPO_ROOT / "data" / "ratings" / "sheet_v1.csv"
+    key_path = REPO_ROOT / "ratings" / "key_v1.csv"
+    write_csv(sample.sheet, SHEET_COLUMNS, sheet_path)
+    write_csv(sample.key, KEY_COLUMNS, key_path)
+    typer.echo(f"{len(sample.sheet)} rows -> {sheet_path.relative_to(REPO_ROOT)}")
+    typer.echo(f"key -> {key_path.relative_to(REPO_ROOT)}")
+
+
+@app.command()
+def ratings(
+    rater_a: Annotated[Path, typer.Argument(help="filled sheet of rater A")],
+    rater_b: Annotated[Path, typer.Argument(help="filled sheet of rater B")],
+) -> None:
+    """Agreement between the two raters and how well chrF matches them."""
+    from gsw_eval.ratings import analyse, read_key, read_ratings
+
+    result = analyse(
+        read_key(REPO_ROOT / "ratings" / "key_v1.csv"), read_ratings(rater_a), read_ratings(rater_b)
+    )
+    _save(result, RESULTS / "ratings" / "ratings_v1.json")
+    typer.echo(json.dumps(result, indent=1))
 
 
 @app.command()
