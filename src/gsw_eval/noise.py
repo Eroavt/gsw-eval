@@ -52,11 +52,16 @@ def load_rules(path: Path) -> list[Rule]:
     return rules
 
 
+def strip_punct(text: str) -> str:
+    """Remove punctuation, quotes and apostrophes; keep letters, digits and single spaces."""
+    return re.sub(r"\s+", " ", _PUNCT.sub("", text).replace("'", "")).strip()
+
+
 def _apply_operation(name: str, text: str) -> str:
     if name == "@lower":
         return text.lower()
     if name == "@strip_punct":
-        return re.sub(r"\s+", " ", _PUNCT.sub("", text)).strip()
+        return strip_punct(text)
     if name == "@strip_final_punct":
         return text.rstrip(".!? ")
     raise ValueError(f"unknown operation {name!r}")

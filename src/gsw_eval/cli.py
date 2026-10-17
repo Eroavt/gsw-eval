@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 from gsw_eval.data import load_split, load_swissdial, select
 from gsw_eval.models import MODELS, REPO_ROOT, get_model
-from gsw_eval.noise import load_rules
+from gsw_eval.noise import load_rules, strip_punct
 from gsw_eval.run import CONDITIONS, build_items, decompose, run_items, score_rows, write_jsonl
 
 app = typer.Typer(help="Benchmark LLMs on written Swiss German.", no_args_is_help=True)
@@ -57,6 +57,10 @@ def tax(
         c: [it.input for it in items if it.condition == c]
         for c in ("clean", "texting", "char_noise")
     }
+    # Control for texting: the texting rules drop punctuation, and punctuation costs tokens.
+    # Comparing both with punctuation stripped isolates what the spelling changes cost.
+    texts["clean_nopunct"] = [strip_punct(t) for t in texts["clean"]]
+    texts["texting_nopunct"] = [strip_punct(t) for t in texts["texting"]]
     rows = []
     for spec in TOKENIZERS:
         if not available(spec):
