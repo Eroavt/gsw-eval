@@ -11,3 +11,4 @@ data/*
 build/
 dist/
 .ipynb_checkpoints/
+results/outputs/
