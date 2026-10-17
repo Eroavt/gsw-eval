@@ -1,0 +1,31 @@
+sentence_id,domain,de
+f01,chat,Ich komme heute etwas später nach Hause.
+f02,chat,Hast du schon gegessen oder sollen wir zusammen kochen?
+f03,chat,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f04,chat,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f05,chat,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f06,chat,"Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f07,chat,"Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f08,chat,"Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f09,chat,Mein Bruder hat sich ein neues Velo gekauft.
+f10,chat,"Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f11,chat,"Weisst du, ob der Laden am Sonntag offen hat?"
+f12,chat,Die Kinder spielen draussen im Garten.
+f13,chat,"Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f14,chat,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f15,chat,Das Essen in diesem Restaurant ist nicht besonders gut.
+f16,chat,Morgen soll es den ganzen Tag regnen.
+f17,chat,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f18,chat,Kommst du nachher noch auf ein Bier vorbei?
+f19,chat,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f20,chat,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f21,news,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f22,news,Im Herbst steigen die Krankenkassenprämien erneut an.
+f23,news,Die Polizei sucht Zeugen für einen Unfall auf der Autobahn.
+f24,news,In den Alpen ist in der Nacht viel Schnee gefallen.
+f25,news,Der Fussballklub hat das wichtige Spiel knapp verloren.
+f26,news,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f27,news,Die Preise für Strom und Heizung sind stark gestiegen.
+f28,news,Der neue Tunnel soll die Fahrzeit nach Zürich verkürzen.
+f29,news,Im Sommer ist der See bei Familien sehr beliebt.
+f30,news,Die Bauern hoffen nach dem trockenen Sommer auf mehr Regen.
