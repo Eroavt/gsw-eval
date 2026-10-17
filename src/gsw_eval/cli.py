@@ -89,6 +89,7 @@ def run(
     split: str = typer.Option("test", help="test or dev"),
     limit: int = typer.Option(0, help="only the first N sentences of the split (0 = all)"),
     conditions: str = typer.Option(",".join(CONDITIONS), help="comma-separated conditions"),
+    prompt: str = typer.Option("", help="prompt version in prompts/ (default: the model's own)"),
     n_boot: int = typer.Option(1000, help="bootstrap resamples"),
 ) -> None:
     """Run one model on a split under every condition, then score and save."""
@@ -96,7 +97,7 @@ def run(
     wanted = [c.strip() for c in conditions.split(",") if c.strip()]
     examples = _examples(split, limit or None)
     items = build_items(examples, wanted, load_rules(RULES), SEED, NOISE_RATE)
-    normalizer = get_model(model)
+    normalizer = get_model(model, prompt=prompt or None)
     todo = len(normalizer.missing([it.input for it in items]))
     typer.echo(f"{model}: {len(items)} items, {todo} not cached yet")
 
@@ -110,7 +111,9 @@ def run(
         )
 
     rows = run_items(normalizer, items, progress=progress if model != "identity" else None)
-    tag = f"{model}_{split}" + (f"_first{limit}" if limit else "")
+    tag = (
+        f"{model}_{split}" + (f"_first{limit}" if limit else "") + (f"_{prompt}" if prompt else "")
+    )
     write_jsonl(rows, RESULTS / "outputs" / f"{tag}.jsonl")
     scores = score_rows(rows, n_boot=n_boot)
     costs = decompose(rows, n_boot=n_boot) if {"de_input", "clean"} <= set(wanted) else {}
