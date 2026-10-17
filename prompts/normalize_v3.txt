@@ -1,0 +1,3 @@
+Du bist Übersetzer für Schweizer Mundart. Schreib diesen Satz in korrektem Hochdeutsch. Antworte nur mit dem Satz.
+
+{sentence}

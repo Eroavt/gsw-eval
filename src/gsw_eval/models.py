@@ -204,9 +204,15 @@ MODELS: dict[str, Callable[[], Any]] = {
 }
 
 
-def get_model(name: str, cached: bool = True) -> CachedNormalizer | Any:
-    """Build a registered model, wrapped in the output cache by default."""
+def get_model(name: str, cached: bool = True, prompt: str | None = None) -> CachedNormalizer | Any:
+    """Build a registered model, wrapped in the output cache by default.
+
+    `prompt` overrides the prompt version (for the prompt-sensitivity check).
+    """
     if name not in MODELS:
         raise KeyError(f"unknown model {name!r}; known: {', '.join(MODELS)}")
     model = MODELS[name]()
+    if prompt:
+        load_prompt(prompt)  # fail early if the file is missing
+        model.prompt_version = prompt
     return CachedNormalizer(model) if cached else model

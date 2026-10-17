@@ -68,3 +68,10 @@ def test_registry() -> None:
     assert {"identity", "apertus-8b", "llama-3.1-8b", "claude-sonnet-5.5"} <= set(MODELS)
     with pytest.raises(KeyError):
         get_model("gpt-17")
+
+
+def test_prompt_override() -> None:
+    model = get_model("apertus-8b", cached=False, prompt="normalize_v2")
+    assert model.prompt_version == "normalize_v2"
+    with pytest.raises(FileNotFoundError):
+        get_model("apertus-8b", cached=False, prompt="does_not_exist")
