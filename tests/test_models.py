@@ -32,6 +32,9 @@ class CountingNormalizer:
         ("Übersetzung: Ich gehe.\nDas ist Hochdeutsch.", "Ich gehe."),
         ('\n\n„Wir sehen uns."\n', "Wir sehen uns."),
         ("", ""),
+        ('Der Satz lautet auf Standarddeutsch: "Ich gehe."', "Ich gehe."),
+        ("Der Satz im Standarddeutschen lautet: Wir gehen.", "Wir gehen."),
+        ("Es ist 18 Uhr: wir gehen.", "Es ist 18 Uhr: wir gehen."),
     ],
 )
 def test_clean_output(raw: str, expected: str) -> None:
