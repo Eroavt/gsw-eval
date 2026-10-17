@@ -38,7 +38,9 @@ def load_prompt(version: str) -> str:
     return template
 
 
-_LABEL = re.compile(r"^(satz|übersetzung|standarddeutsch|hochdeutsch|antwort)\s*:\s*", re.I)
+_LABEL = re.compile(
+    r"^(satz|übersetzung|standarddeutsch|hochdeutsch|antwort)\s*:\s*", re.IGNORECASE
+)
 
 
 def clean_output(text: str) -> str:
@@ -176,7 +178,9 @@ class CachedNormalizer:
 
 MODELS: dict[str, Callable[[], Any]] = {
     "identity": IdentityNormalizer,
-    "apertus-8b": lambda: MLXNormalizer("apertus-8b", "mlx-community/Apertus-8B-Instruct-2509-8bit"),
+    "apertus-8b": lambda: MLXNormalizer(
+        "apertus-8b", "mlx-community/Apertus-8B-Instruct-2509-8bit"
+    ),
     "llama-3.1-8b": lambda: MLXNormalizer(
         "llama-3.1-8b", "mlx-community/Meta-Llama-3.1-8B-Instruct-8bit"
     ),
