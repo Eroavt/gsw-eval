@@ -41,12 +41,16 @@ def load_prompt(version: str) -> str:
 _LABEL = re.compile(
     r"^(satz|übersetzung|standarddeutsch|hochdeutsch|antwort)\s*:\s*", re.IGNORECASE
 )
+# Preambles such as "Der Satz lautet auf Standarddeutsch:" (about 4.5% of 8B outputs).
+_PREAMBLE = re.compile(
+    r"^[^:\n]{0,80}(standarddeutsch|hochdeutsch|übersetz|lautet)[^:\n]{0,40}:\s*", re.IGNORECASE
+)
 
 
 def clean_output(text: str) -> str:
-    """Keep the first non-empty line, without labels like "Übersetzung:" or wrapping quotes."""
+    """Keep the first non-empty line, without preambles, labels or wrapping quotes."""
     for line in text.strip().splitlines():
-        line = _LABEL.sub("", line.strip())
+        line = _LABEL.sub("", _PREAMBLE.sub("", line.strip()))
         if line:
             return line.strip().strip('"„“”«»').strip()
     return ""
@@ -173,7 +177,10 @@ class CachedNormalizer:
                         f.write("\n")
             if progress:
                 progress(min(start + self.chunk_size, len(todo)), len(todo))
-        return [self._cache[self.key(s)] for s in sentences]
+        if isinstance(self.inner, IdentityNormalizer):
+            return [self._cache[self.key(s)] for s in sentences]
+        # Clean again on read, so improvements to clean_output apply to cached outputs too.
+        return [clean_output(self._cache[self.key(s)]) for s in sentences]
 
 
 MODELS: dict[str, Callable[[], Any]] = {
