@@ -53,3 +53,9 @@ def test_bad_probability_rejected(tmp_path: Path) -> None:
     path.write_text("pattern\treplacement\tprobability\tnote\nii\ti\t2\tx\n", encoding="utf-8")
     with pytest.raises(ValueError):
         load_rules(path)
+
+
+def test_strip_punct() -> None:
+    from gsw_eval.noise import strip_punct
+
+    assert strip_punct("Er isch «do», z'gseh!") == "Er isch do zgseh"

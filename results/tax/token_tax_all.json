@@ -344,6 +344,222 @@
    }
   },
   {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.050714254700187,
+   "tax": {
+    "value": 1.1943355670754836,
+    "low": 1.1875916529434642,
+    "high": 1.2015898239152176
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.155106055422511,
+   "tax": {
+    "value": 1.274370969781262,
+    "low": 1.2668890831414945,
+    "high": 1.282086739998804
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.815754818628038,
+   "tax": {
+    "value": 1.1506132254393728,
+    "low": 1.1438450211489695,
+    "high": 1.1577248500616353
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.8414211791549526,
+   "tax": {
+    "value": 1.1428499178151472,
+    "low": 1.1364268089942802,
+    "high": 1.1492328572986592
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.9524518316381378,
+   "tax": {
+    "value": 1.194133265899608,
+    "low": 1.1870860808866626,
+    "high": 1.2013479095748743
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.889616935483871,
+   "tax": {
+    "value": 1.137640662536351,
+    "low": 1.1309217578394535,
+    "high": 1.1440805613893361
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.095459436195395,
+   "tax": {
+    "value": 1.231204956378809,
+    "low": 1.2240157807315182,
+    "high": 1.2381478469058882
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.842545227698066,
+   "tax": {
+    "value": 1.1203439119989884,
+    "low": 1.1141665824011928,
+    "high": 1.1266151737027006
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.952637604487404,
+   "tax": {
+    "value": 1.1806865596156277,
+    "low": 1.1780022728483124,
+    "high": 1.1832051924041151
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.0487211776455774,
+   "tax": {
+    "value": 1.1930711847262612,
+    "low": 1.1856882946001404,
+    "high": 1.2007198072521625
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.1672727272727275,
+   "tax": {
+    "value": 1.2810721962321405,
+    "low": 1.2732285690124099,
+    "high": 1.289052594178
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.8253245456361094,
+   "tax": {
+    "value": 1.1555696042483248,
+    "low": 1.148838561101145,
+    "high": 1.1628234742699615
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.8518699783841104,
+   "tax": {
+    "value": 1.1482108989758504,
+    "low": 1.1415404010784818,
+    "high": 1.155155432888775
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.9513294463052557,
+   "tax": {
+    "value": 1.1932987735491212,
+    "low": 1.1859814161213558,
+    "high": 1.2010532376340326
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.8891317138774482,
+   "tax": {
+    "value": 1.136679731950942,
+    "low": 1.1300569187761804,
+    "high": 1.1432594708685206
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.090564575169028,
+   "tax": {
+    "value": 1.227588822860033,
+    "low": 1.2207615498435964,
+    "high": 1.235106979837288
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.873882118048334,
+   "tax": {
+    "value": 1.1392084966493867,
+    "low": 1.1324013952199885,
+    "high": 1.146159921103141
+   }
+  },
+  {
+   "tokenizer": "Apertus 8B",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.9596384880515907,
+   "tax": {
+    "value": 1.1843374636490074,
+    "low": 1.181626275105786,
+    "high": 1.1868931261788678
+   }
+  },
+  {
    "tokenizer": "Llama 3.1 8B",
    "condition": "clean",
    "dialect": "AG",
@@ -677,6 +893,222 @@
     "value": 1.1821481417940856,
     "low": 1.1800443487729009,
     "high": 1.1841325313417883
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.211497546784768,
+   "tax": {
+    "value": 1.0922562244000773,
+    "low": 1.0869360609418282,
+    "high": 1.0981862610931477
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.3000342114266163,
+   "tax": {
+    "value": 1.1533958096545216,
+    "low": 1.1476943188990538,
+    "high": 1.1597806392387722
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.9800470888702661,
+   "tax": {
+    "value": 1.0640561000193005,
+    "low": 1.0588917573536076,
+    "high": 1.0694254710993236
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.9861060180092083,
+   "tax": {
+    "value": 1.0453346486243058,
+    "low": 1.0406284096961989,
+    "high": 1.0502110883938667
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.116720416770032,
+   "tax": {
+    "value": 1.0978748043147262,
+    "low": 1.0922265361035106,
+    "high": 1.1038378817439354
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.0377604166666665,
+   "tax": {
+    "value": 1.0404023074778581,
+    "low": 1.0353674479685955,
+    "high": 1.0451062655461958
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.2469550247471486,
+   "tax": {
+    "value": 1.119598550320602,
+    "low": 1.1143245313494268,
+    "high": 1.1251810625885255
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 2.0043252235391975,
+   "tax": {
+    "value": 1.0335184748343376,
+    "low": 1.0283402112231503,
+    "high": 1.0386466207426874
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.1077416083349454,
+   "tax": {
+    "value": 1.0808046149557162,
+    "low": 1.0787251855710447,
+    "high": 1.0826736918378677
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.1841156802292763,
+   "tax": {
+    "value": 1.0786386738435805,
+    "low": 1.0731148453591102,
+    "high": 1.0845306576688925
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.2751657754010695,
+   "tax": {
+    "value": 1.1404859428277325,
+    "low": 1.1346037511218516,
+    "high": 1.146983191565016
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.9513880567205912,
+   "tax": {
+    "value": 1.0476507044669854,
+    "low": 1.0422710481618924,
+    "high": 1.0530624227428884
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.9676985195154777,
+   "tax": {
+    "value": 1.034633612832665,
+    "low": 1.0295691798707336,
+    "high": 1.0397694424263548
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.0868378613075302,
+   "tax": {
+    "value": 1.0822414273766379,
+    "low": 1.0764681131751421,
+    "high": 1.0886451686246317
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.0022274522988988,
+   "tax": {
+    "value": 1.021659411121357,
+    "low": 1.0164378133934358,
+    "high": 1.026674702659421
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.212264760346238,
+   "tax": {
+    "value": 1.101649117539834,
+    "low": 1.0962822951298534,
+    "high": 1.1079622787906604
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.9993760658874422,
+   "tax": {
+    "value": 1.0307949647230383,
+    "low": 1.0253481358099392,
+    "high": 1.036224300195414
+   }
+  },
+  {
+   "tokenizer": "Llama 3.1 8B",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.0822711653425525,
+   "tax": {
+    "value": 1.0672192318414788,
+    "low": 1.0652285762858527,
+    "high": 1.0690951947097875
    }
   },
   {
@@ -1016,6 +1448,222 @@
    }
   },
   {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 1.9508054361512743,
+   "tax": {
+    "value": 1.1464989282433398,
+    "low": 1.1397632959949267,
+    "high": 1.153150491587741
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.043491276086213,
+   "tax": {
+    "value": 1.2193783811370829,
+    "low": 1.2117828015587144,
+    "high": 1.2272357845291466
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.7358633624645836,
+   "tax": {
+    "value": 1.11000816576503,
+    "low": 1.1036412766861496,
+    "high": 1.1165295050583153
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.7479118282198591,
+   "tax": {
+    "value": 1.0946973563335716,
+    "low": 1.0886629388276172,
+    "high": 1.1007593603680543
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.8609526172165716,
+   "tax": {
+    "value": 1.1485403695008676,
+    "low": 1.1419360572675672,
+    "high": 1.1556236228798304
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.7925487231182795,
+   "tax": {
+    "value": 1.0890323568439317,
+    "low": 1.0830318640032865,
+    "high": 1.0951427616800218
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 1.9795567032494081,
+   "tax": {
+    "value": 1.1737011329998979,
+    "low": 1.1674270056440232,
+    "high": 1.180698844794794
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.7747972551466,
+   "tax": {
+    "value": 1.0889813208124937,
+    "low": 1.0827974924845574,
+    "high": 1.0952885295015664
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.8582578375354826,
+   "tax": {
+    "value": 1.133854751454527,
+    "low": 1.1314504276300776,
+    "high": 1.136178110414025
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 1.9460680012158582,
+   "tax": {
+    "value": 1.1436153924670818,
+    "low": 1.1369354067106368,
+    "high": 1.1505531428882168
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.0440641711229945,
+   "tax": {
+    "value": 1.2192507910584873,
+    "low": 1.2115550231023835,
+    "high": 1.2271135046901596
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.737567405632115,
+   "tax": {
+    "value": 1.1100336837807492,
+    "low": 1.1034852803828998,
+    "high": 1.1167231640910755
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.7530078714466333,
+   "tax": {
+    "value": 1.0968153516382566,
+    "low": 1.0905694148505787,
+    "high": 1.1030008629228834
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.854484555266096,
+   "tax": {
+    "value": 1.1444064509543739,
+    "low": 1.1375709156277654,
+    "high": 1.1519967135047875
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.787887702782214,
+   "tax": {
+    "value": 1.0855619067061346,
+    "low": 1.0792819467761317,
+    "high": 1.091809531078285
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 1.9747211575728867,
+   "tax": {
+    "value": 1.1701286107992241,
+    "low": 1.1636468914243518,
+    "high": 1.177018101441915
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.792604300985816,
+   "tax": {
+    "value": 1.0997244054302338,
+    "low": 1.0931838680019583,
+    "high": 1.1063634644667508
+   }
+  },
+  {
+   "tokenizer": "Gemma 3",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.8589046899271433,
+   "tax": {
+    "value": 1.1336920741043177,
+    "low": 1.1312524212347457,
+    "high": 1.1360560907677126
+   }
+  },
+  {
    "tokenizer": "Qwen 3",
    "condition": "clean",
    "dialect": "AG",
@@ -1349,6 +1997,222 @@
     "value": 1.1873517424307771,
     "low": 1.1851994353711592,
     "high": 1.1893393725249466
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.209456819069949,
+   "tax": {
+    "value": 1.0973432243595274,
+    "low": 1.0918032566345526,
+    "high": 1.1032471405228759
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.2987940472117687,
+   "tax": {
+    "value": 1.1592124557922885,
+    "low": 1.1531576728810466,
+    "high": 1.1657078149328615
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.9733030049084161,
+   "tax": {
+    "value": 1.066354696799793,
+    "low": 1.061107467944295,
+    "high": 1.0718260757801856
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.9833353705740944,
+   "tax": {
+    "value": 1.0497067195721557,
+    "low": 1.0447801040290678,
+    "high": 1.0545131573005269
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.1157281071694367,
+   "tax": {
+    "value": 1.1034891745018545,
+    "low": 1.0977640697611772,
+    "high": 1.1097073170949971
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.033182123655914,
+   "tax": {
+    "value": 1.0438626757526093,
+    "low": 1.038682267721261,
+    "high": 1.04874653697097
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.2411017860985583,
+   "tax": {
+    "value": 1.1229190028465452,
+    "low": 1.1175777137126903,
+    "high": 1.1288382463558504
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.9968808484092326,
+   "tax": {
+    "value": 1.0354308634520832,
+    "low": 1.0301989461360994,
+    "high": 1.0406390753459456
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.103763376217386,
+   "tax": {
+    "value": 1.084789851634607,
+    "low": 1.0827464202450696,
+    "high": 1.086645876449218
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.1881974901211514,
+   "tax": {
+    "value": 1.0866902441128268,
+    "low": 1.0807230206486884,
+    "high": 1.0926041995473401
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.279700534759358,
+   "tax": {
+    "value": 1.1491417234538084,
+    "low": 1.1428972447273715,
+    "high": 1.155799349055575
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.9511883363291391,
+   "tax": {
+    "value": 1.0533942896575519,
+    "low": 1.0479335860357795,
+    "high": 1.058739108087885
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.9704718789510176,
+   "tax": {
+    "value": 1.0418787199171915,
+    "low": 1.0365276702984523,
+    "high": 1.0470799714207928
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.0908489434726873,
+   "tax": {
+    "value": 1.090377814198223,
+    "low": 1.0846164316712548,
+    "high": 1.0967194726239846
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.003194082541817,
+   "tax": {
+    "value": 1.027861640645217,
+    "low": 1.0226389103903801,
+    "high": 1.0328440234614609
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.212006373541191,
+   "tax": {
+    "value": 1.1076727335461054,
+    "low": 1.1023141629407107,
+    "high": 1.1138834405408382
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.996131608502142,
+   "tax": {
+    "value": 1.0348701802812041,
+    "low": 1.0292364778024925,
+    "high": 1.0403437397613835
+   }
+  },
+  {
+   "tokenizer": "Qwen 3",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.083834997411047,
+   "tax": {
+    "value": 1.073985918226516,
+    "low": 1.0718175526451117,
+    "high": 1.0759678289620138
    }
   },
   {
@@ -1688,6 +2552,222 @@
    }
   },
   {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.373018974425774,
+   "tax": {
+    "value": 1.0798000553206624,
+    "low": 1.0744128808620874,
+    "high": 1.085049963914668
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.463607594936709,
+   "tax": {
+    "value": 1.1382028687714862,
+    "low": 1.132535622385673,
+    "high": 1.1441367446801065
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 2.125862963406361,
+   "tax": {
+    "value": 1.0525151143952267,
+    "low": 1.0476285507270011,
+    "high": 1.0576179995635302
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 2.150144644094039,
+   "tax": {
+    "value": 1.042616667325246,
+    "low": 1.0377784626571114,
+    "high": 1.047396951996426
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.274001488464401,
+   "tax": {
+    "value": 1.086636108586557,
+    "low": 1.080630542519891,
+    "high": 1.0923306919146107
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.1959005376344085,
+   "tax": {
+    "value": 1.0329157940490774,
+    "low": 1.027970190175572,
+    "high": 1.0373654281568372
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.412696363245104,
+   "tax": {
+    "value": 1.1075789307306279,
+    "low": 1.1026144849390127,
+    "high": 1.1126757734860524
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 2.1681014763984194,
+   "tax": {
+    "value": 1.02999170190066,
+    "low": 1.0248788987122122,
+    "high": 1.0352949460491012
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.2676184451960624,
+   "tax": {
+    "value": 1.071282155134943,
+    "low": 1.0693158449997053,
+    "high": 1.0730741333533391
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.3602848582222413,
+   "tax": {
+    "value": 1.073912356265065,
+    "low": 1.0683894630310138,
+    "high": 1.079554254439946
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.45544385026738,
+   "tax": {
+    "value": 1.1339945469632908,
+    "low": 1.1283454982211243,
+    "high": 1.1402677391854021
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 2.107729179149191,
+   "tax": {
+    "value": 1.0425376378077211,
+    "low": 1.0375189032523138,
+    "high": 1.0477852396161957
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 2.135405195970472,
+   "tax": {
+    "value": 1.0344568696408107,
+    "low": 1.0294389121356178,
+    "high": 1.0395853932917225
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.258115204896001,
+   "tax": {
+    "value": 1.0789109732485083,
+    "low": 1.0729154165970463,
+    "high": 1.0847347919714279
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.1722703202488023,
+   "tax": {
+    "value": 1.0211996680760265,
+    "low": 1.0164102828984631,
+    "high": 1.0258730096607556
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.392360363464106,
+   "tax": {
+    "value": 1.0975816967637413,
+    "low": 1.0921539981846051,
+    "high": 1.103116486873256
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 2.1681710411380557,
+   "tax": {
+    "value": 1.0298534002449915,
+    "low": 1.024421620499545,
+    "high": 1.0357922360013434
+   }
+  },
+  {
+   "tokenizer": "Mistral 7B v0.3",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.253429708625135,
+   "tax": {
+    "value": 1.0640558936262694,
+    "low": 1.0619629384874174,
+    "high": 1.065980025030825
+   }
+  },
+  {
    "tokenizer": "OpenAI o200k",
    "condition": "clean",
    "dialect": "AG",
@@ -2021,6 +3101,222 @@
     "value": 1.2784432683619467,
     "low": 1.275870806936051,
     "high": 1.2810523232025135
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 1.947983153141418,
+   "tax": {
+    "value": 1.1582289918678197,
+    "low": 1.15169333554656,
+    "high": 1.1647809842566839
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.057133082449538,
+   "tax": {
+    "value": 1.2418742739124822,
+    "low": 1.2346248919416716,
+    "high": 1.2490456477226215
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.751346821501257,
+   "tax": {
+    "value": 1.1330063250290434,
+    "low": 1.1264081904600118,
+    "high": 1.1394725708027469
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.761235382797539,
+   "tax": {
+    "value": 1.1159416548341294,
+    "low": 1.1096958867181717,
+    "high": 1.1219778772878168
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.8567766476473992,
+   "tax": {
+    "value": 1.1593649154511423,
+    "low": 1.1526618652499196,
+    "high": 1.1664913577028926
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.8159442204301075,
+   "tax": {
+    "value": 1.1161481863947333,
+    "low": 1.109895044480167,
+    "high": 1.122401797897346
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 1.9905745642349904,
+   "tax": {
+    "value": 1.1940364011875564,
+    "low": 1.187546229420396,
+    "high": 1.200431369616951
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.7964649615304638,
+   "tax": {
+    "value": 1.115167161481864,
+    "low": 1.1084027557276714,
+    "high": 1.121485538837668
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.8697690952527823,
+   "tax": {
+    "value": 1.1542209887698465,
+    "low": 1.1517024207261264,
+    "high": 1.1566539889117027
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 1.935038429805897,
+   "tax": {
+    "value": 1.150432425455015,
+    "low": 1.1433418384365752,
+    "high": 1.1572940030160752
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.0503101604278076,
+   "tax": {
+    "value": 1.2372789466890408,
+    "low": 1.2298880342575367,
+    "high": 1.2442613230249813
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.7465148791691631,
+   "tax": {
+    "value": 1.1287982444817348,
+    "low": 1.1222638249415406,
+    "high": 1.1351577618359439
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.7587992985032015,
+   "tax": {
+    "value": 1.113308377436427,
+    "low": 1.106862343752579,
+    "high": 1.119589369646998
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.8434023901087542,
+   "tax": {
+    "value": 1.1508713050212986,
+    "low": 1.1439431778722222,
+    "high": 1.15797115272939
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.8044044717155585,
+   "tax": {
+    "value": 1.1084032528720795,
+    "low": 1.1023013776390056,
+    "high": 1.1147970964066203
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 1.975797769260583,
+   "tax": {
+    "value": 1.1844585000645411,
+    "low": 1.1777017986434648,
+    "high": 1.191285360727414
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.805706917349528,
+   "tax": {
+    "value": 1.1207176971730992,
+    "low": 1.113882601433654,
+    "high": 1.127190560009628
+   }
+  },
+  {
+   "tokenizer": "OpenAI o200k",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.8626861300125002,
+   "tax": {
+    "value": 1.1492835936491546,
+    "low": 1.1469376500391013,
+    "high": 1.1516742226176349
    }
   },
   {
@@ -2360,6 +3656,222 @@
    }
   },
   {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.0326082236984933,
+   "tax": {
+    "value": 1.1868218233444885,
+    "low": 1.1797091586459623,
+    "high": 1.1936596525791956
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.120937393089292,
+   "tax": {
+    "value": 1.257377547916033,
+    "low": 1.2500062591479855,
+    "high": 1.2652596903247388
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.8115248014685343,
+   "tax": {
+    "value": 1.1508721225027887,
+    "low": 1.1436854087231092,
+    "high": 1.1583487769642833
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.8223118608157112,
+   "tax": {
+    "value": 1.1338860156170774,
+    "low": 1.126974700823812,
+    "high": 1.1400600191923853
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.9392210369635325,
+   "tax": {
+    "value": 1.189078186796471,
+    "low": 1.181499305279565,
+    "high": 1.1970258581539805
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.881762432795699,
+   "tax": {
+    "value": 1.1358127978906805,
+    "low": 1.1294046671204125,
+    "high": 1.1425049849621902
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.059565310953303,
+   "tax": {
+    "value": 1.2132136700131833,
+    "low": 1.2056443469460614,
+    "high": 1.220684225864461
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.8600540652942399,
+   "tax": {
+    "value": 1.1338860156170774,
+    "low": 1.1270041670331554,
+    "high": 1.1405266708253394
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.9384654792959417,
+   "tax": {
+    "value": 1.175118522462225,
+    "low": 1.172438383210536,
+    "high": 1.1777739023883986
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.0334795258152765,
+   "tax": {
+    "value": 1.1872274617178784,
+    "low": 1.1795775464124938,
+    "high": 1.1942800934745001
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.1492620320855615,
+   "tax": {
+    "value": 1.2736791400466485,
+    "low": 1.2653692063245112,
+    "high": 1.2818255395977431
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.831675654084282,
+   "tax": {
+    "value": 1.1625595781360916,
+    "low": 1.155101108895152,
+    "high": 1.1698470424274545
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.8449365797952608,
+   "tax": {
+    "value": 1.1468410911672244,
+    "low": 1.1391338127027026,
+    "high": 1.153634709562436
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 1.9495099863540504,
+   "tax": {
+    "value": 1.1952388195923334,
+    "low": 1.187224683409441,
+    "high": 1.2030198730719222
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.8855173573169706,
+   "tax": {
+    "value": 1.1374099989859041,
+    "low": 1.1302759392456443,
+    "high": 1.144518715814203
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.0705395977778736,
+   "tax": {
+    "value": 1.2189433120373188,
+    "low": 1.2111269237509974,
+    "high": 1.2263924354425404
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.8928497150700887,
+   "tax": {
+    "value": 1.1536862387181828,
+    "low": 1.1463764738267308,
+    "high": 1.160652326154976
+   }
+  },
+  {
+   "tokenizer": "XLM-R",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 1.954816236656433,
+   "tax": {
+    "value": 1.1844482050501977,
+    "low": 1.181614184497529,
+    "high": 1.1872937686229514
+   }
+  },
+  {
    "tokenizer": "SwissBERT",
    "condition": "clean",
    "dialect": "AG",
@@ -2693,6 +4205,222 @@
     "value": 1.589179332190288,
     "low": 1.584843875521644,
     "high": 1.5935078952360706
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.1809734705397075,
+   "tax": {
+    "value": 1.4597076516230276,
+    "low": 1.447757682476459,
+    "high": 1.4720167195835603
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.2313120082107423,
+   "tax": {
+    "value": 1.5162883961523932,
+    "low": 1.5038152497882564,
+    "high": 1.528991432890666
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 1.8766511033959854,
+   "tax": {
+    "value": 1.3666269506843742,
+    "low": 1.3557597704086488,
+    "high": 1.3777912997232469
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 1.8942672044982276,
+   "tax": {
+    "value": 1.351050536165761,
+    "low": 1.3402702494841436,
+    "high": 1.361442132298276
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.153559910692136,
+   "tax": {
+    "value": 1.5136438929412106,
+    "low": 1.5020994899785698,
+    "high": 1.5262533432939636
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 1.903309811827957,
+   "tax": {
+    "value": 1.3168463572694777,
+    "low": 1.306544891057252,
+    "high": 1.3268562130499393
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.195739186571982,
+   "tax": {
+    "value": 1.4826073058033769,
+    "low": 1.4713496874029142,
+    "high": 1.4940727365381758
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 1.8934081929715116,
+   "tax": {
+    "value": 1.3230362384121357,
+    "low": 1.312642990755417,
+    "high": 1.33372808434667
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.0380990219090287,
+   "tax": {
+    "value": 1.4162259161314696,
+    "low": 1.4121770867261438,
+    "high": 1.4201921834116404
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 2297,
+   "tokens_per_word": 2.3075687177037647,
+   "tax": {
+    "value": 1.5443026939060185,
+    "low": 1.5313278514951678,
+    "high": 1.5561780117922166
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 2297,
+   "tokens_per_word": 2.3893048128342245,
+   "tax": {
+    "value": 1.6230275202696811,
+    "low": 1.6097724709148915,
+    "high": 1.6356635240262365
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 2297,
+   "tokens_per_word": 2.0388256440982624,
+   "tax": {
+    "value": 1.4833047571997326,
+    "low": 1.4713692954403523,
+    "high": 1.4964966182476969
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 2297,
+   "tokens_per_word": 2.047881234960643,
+   "tax": {
+    "value": 1.4591845630757607,
+    "low": 1.4472795196352903,
+    "high": 1.4705899319554365
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 2297,
+   "tokens_per_word": 2.2902038622172602,
+   "tax": {
+    "value": 1.609485338990439,
+    "low": 1.5969815811940038,
+    "high": 1.6231580171791666
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 2297,
+   "tokens_per_word": 2.029923510128604,
+   "tax": {
+    "value": 1.4036209351660807,
+    "low": 1.3922768672366217,
+    "high": 1.4145615156120341
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 2297,
+   "tokens_per_word": 2.3287972094225053,
+   "tax": {
+    "value": 1.5715032983638952,
+    "low": 1.5593576390533965,
+    "high": 1.5835491659688603
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 2297,
+   "tokens_per_word": 2.0615199034981906,
+   "tax": {
+    "value": 1.440266193949609,
+    "low": 1.429208992341846,
+    "high": 1.4524453382013518
+   }
+  },
+  {
+   "tokenizer": "SwissBERT",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 18376,
+   "tokens_per_word": 2.1839620914554096,
+   "tax": {
+    "value": 1.5168369126151522,
+    "low": 1.512464020545941,
+    "high": 1.521105944508264
    }
   }
  ]
