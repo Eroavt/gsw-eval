@@ -14,9 +14,12 @@ dependencies = [
     "typer>=0.12",
     "python-dotenv>=1.0",
     "tqdm>=4.66",
+    "matplotlib>=3.9",
 ]
 
 [project.optional-dependencies]
+mlx = ["mlx-lm>=0.32"]
+api = ["anthropic>=1.0"]
 dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
 
 [project.scripts]
