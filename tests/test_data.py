@@ -82,3 +82,12 @@ def test_load_fresh_rejects_unknown_style(tmp_path: Path) -> None:
     path.write_text("sentence_id,writer,dialect,style,gsw,de\n1,w1,zh,sms,x,y\n", encoding="utf-8")
     with pytest.raises(ValueError):
         load_fresh(path)
+
+
+def test_numerics_variant_becomes_second_reference(swissdial_root: Path) -> None:
+    rows = json.loads((swissdial_root / "data1.1" / "sentences_ch_de_transcribed.json").read_text())
+    rows[0]["de"] = "Er kam 2011."
+    (swissdial_root / "data1.1" / "sentences_ch_de_numerics.json").write_text(json.dumps(rows))
+    examples = load_swissdial(swissdial_root)
+    first = next(e for e in examples if e.id == "0")
+    assert first.de == "Satz 0." and first.de_alt == "Er kam 2011."

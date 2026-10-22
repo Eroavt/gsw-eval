@@ -35,6 +35,8 @@ class CountingNormalizer:
         ('Der Satz lautet auf Standarddeutsch: "Ich gehe."', "Ich gehe."),
         ("Der Satz im Standarddeutschen lautet: Wir gehen.", "Wir gehen."),
         ("Es ist 18 Uhr: wir gehen.", "Es ist 18 Uhr: wir gehen."),
+        ("Der Satz ist bereits Standarddeutsch. Hier ist er:\n\nWir gehen.", "Wir gehen."),
+        ("Er sagte:", "Er sagte:"),
     ],
 )
 def test_clean_output(raw: str, expected: str) -> None:
@@ -100,3 +102,11 @@ def test_empty_cleaned_output_is_regenerated(tmp_path: Path) -> None:
     assert cached.missing(["a"]) == ["a"]
     assert cached.normalize(["a"]) == ["A"] and inner.calls == ["a"]
     assert CachedNormalizer(CountingNormalizer(), cache_dir=tmp_path).missing(["a"]) == []
+
+
+def test_cache_only_never_calls_the_model(tmp_path: Path) -> None:
+    inner = CountingNormalizer()
+    cached = CachedNormalizer(inner, cache_dir=tmp_path)
+    cached.normalize(["a"])
+    assert cached.normalize(["a", "b"], generate=False) == ["A", ""]
+    assert inner.calls == ["a"]

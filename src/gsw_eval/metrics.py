@@ -6,16 +6,42 @@ and Cohen's kappa for the human ratings.
 Bootstrap works on sufficient statistics: chrF of a corpus is computed from the summed
 per-sentence n-gram counts, so we extract the counts once and resample sums. That makes
 1,000 resamples of 4,000 sentences take well under a second.
+
+A reference can be one string or a tuple of equally valid strings (for example a number
+written as a word and as digits). chrF then uses the best-matching one per sentence.
 """
 
 from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import TypeAlias
 
 import numpy as np
 from sacrebleu.metrics import CHRF
 from sklearn.metrics import cohen_kappa_score
 
 _CHRF = CHRF()
+
+Reference: TypeAlias = str | tuple[str, ...]
+
+
+def _as_tuple(reference: Reference) -> tuple[str, ...]:
+    if isinstance(reference, str):
+        return (reference,)
+    unique = tuple(dict.fromkeys(r for r in reference if r))
+    return unique or ("",)
+
+
+def reference_of(row: dict[str, str]) -> Reference:
+    """The reference(s) of an output row: the main one, plus `reference_alt` when present."""
+    alt = row.get("reference_alt") or ""
+    return (row["reference"], alt) if alt and alt != row["reference"] else row["reference"]
+
+
+def _streams(references: Sequence[Reference]) -> list[list[str]]:
+    """sacrebleu's layout: one list per reference position, padded with the first reference."""
+    refs = [_as_tuple(r) for r in references]
+    width = max(len(r) for r in refs)
+    return [[r[k] if k < len(r) else r[0] for r in refs] for k in range(width)]
 
 
 @dataclass(frozen=True)
@@ -43,17 +69,17 @@ class Difference:
         return {"delta": self.delta, "low": self.low, "high": self.high, "p_value": self.p_value}
 
 
-def _check(hypotheses: Sequence[str], references: Sequence[str]) -> None:
+def _check(hypotheses: Sequence[str], references: Sequence[Reference]) -> None:
     if len(hypotheses) != len(references):
         raise ValueError(f"{len(hypotheses)} hypotheses but {len(references)} references")
     if not hypotheses:
         raise ValueError("nothing to score")
 
 
-def chrf_stats(hypotheses: Sequence[str], references: Sequence[str]) -> np.ndarray:
+def chrf_stats(hypotheses: Sequence[str], references: Sequence[Reference]) -> np.ndarray:
     """Per-sentence chrF sufficient statistics, shape (n_sentences, n_stats)."""
     _check(hypotheses, references)
-    stats = _CHRF._extract_corpus_statistics(list(hypotheses), [list(references)])
+    stats = _CHRF._extract_corpus_statistics(list(hypotheses), _streams(references))
     return np.asarray(stats, dtype=np.int64)
 
 
@@ -61,16 +87,18 @@ def _score_from_stats(summed: np.ndarray) -> float:
     return float(_CHRF._compute_score_from_stats(summed.tolist()).score)
 
 
-def chrf(hypotheses: Sequence[str], references: Sequence[str]) -> float:
+def chrf(hypotheses: Sequence[str], references: Sequence[Reference]) -> float:
     """Corpus chrF score (0 to 100), identical to sacrebleu's corpus_chrf."""
     _check(hypotheses, references)
-    return float(_CHRF.corpus_score(list(hypotheses), [list(references)]).score)
+    return float(_CHRF.corpus_score(list(hypotheses), _streams(references)).score)
 
 
-def sentence_chrf(hypotheses: Sequence[str], references: Sequence[str]) -> list[float]:
+def sentence_chrf(hypotheses: Sequence[str], references: Sequence[Reference]) -> list[float]:
     """chrF for each sentence on its own, for error analysis and correlation with ratings."""
     _check(hypotheses, references)
-    return [_CHRF.sentence_score(h, [r]).score for h, r in zip(hypotheses, references)]
+    return [
+        _CHRF.sentence_score(h, list(_as_tuple(r))).score for h, r in zip(hypotheses, references)
+    ]
 
 
 def _resample_indices(n_items: int, n: int, seed: int) -> np.ndarray:
@@ -78,7 +106,7 @@ def _resample_indices(n_items: int, n: int, seed: int) -> np.ndarray:
 
 
 def bootstrap_ci(
-    hypotheses: Sequence[str], references: Sequence[str], n: int = 1000, seed: int = 0
+    hypotheses: Sequence[str], references: Sequence[Reference], n: int = 1000, seed: int = 0
 ) -> tuple[float, float, float]:
     """Return (score, lower, upper) for a 95 percent bootstrap interval on corpus chrF."""
     stats = chrf_stats(hypotheses, references)
@@ -89,7 +117,7 @@ def bootstrap_ci(
 
 
 def chrf_estimate(
-    hypotheses: Sequence[str], references: Sequence[str], n: int = 1000, seed: int = 0
+    hypotheses: Sequence[str], references: Sequence[Reference], n: int = 1000, seed: int = 0
 ) -> Estimate:
     """Corpus chrF with its bootstrap interval, as an Estimate."""
     return Estimate(*bootstrap_ci(hypotheses, references, n=n, seed=seed))
@@ -98,7 +126,7 @@ def chrf_estimate(
 def paired_bootstrap(
     hypotheses_a: Sequence[str],
     hypotheses_b: Sequence[str],
-    references: Sequence[str],
+    references: Sequence[Reference],
     n: int = 1000,
     seed: int = 0,
 ) -> Difference:

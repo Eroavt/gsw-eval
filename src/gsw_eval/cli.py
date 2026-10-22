@@ -96,6 +96,7 @@ def run(
     limit: int = typer.Option(0, help="only the first N sentences of the split (0 = all)"),
     conditions: str = typer.Option(",".join(CONDITIONS), help="comma-separated conditions"),
     prompt: str = typer.Option("", help="prompt version in prompts/ (default: the model's own)"),
+    cache_only: bool = typer.Option(False, help="score cached outputs only, never call a model"),
     n_boot: int = typer.Option(1000, help="bootstrap resamples"),
 ) -> None:
     """Run one model on a split under every condition, then score and save."""
@@ -123,7 +124,14 @@ def run(
             f"  {done}/{total} new outputs, {elapsed / 60:.1f} min, ~{eta / 60:.0f} min left"
         )
 
-    rows = run_items(normalizer, items, progress=progress if model != "identity" else None)
+    if cache_only and todo and model != "identity":
+        typer.echo(f"  cache-only: {todo} inputs have no output and score as empty")
+    rows = run_items(
+        normalizer,
+        items,
+        progress=progress if model != "identity" else None,
+        generate=not cache_only,
+    )
     tag = (
         f"{model}_{split}" + (f"_first{limit}" if limit else "") + (f"_{prompt}" if prompt else "")
     )

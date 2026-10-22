@@ -19,7 +19,7 @@ from typing import Any
 
 import numpy as np
 
-from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats
+from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats, reference_of
 
 FRESH_COLUMNS = ["sentence_id", "writer", "dialect", "style", "gsw", "de"]
 
@@ -95,7 +95,7 @@ def analyse_fresh(
 
     scores = {
         name: chrf_estimate(
-            [r["output"] for r in g], [r["reference"] for r in g], n=n_boot
+            [r["output"] for r in g], [reference_of(r) for r in g], n=n_boot
         ).as_dict()
         for name, g in sorted(groups.items())
     }
@@ -105,7 +105,7 @@ def analyse_fresh(
         g = groups.get(name, [])
         if not g:
             return {}
-        stats = chrf_stats([r["output"] for r in g], [r["reference"] for r in g])
+        stats = chrf_stats([r["output"] for r in g], [reference_of(r) for r in g])
         out: dict[str, np.ndarray] = {}
         for r, s in zip(g, stats):
             out[r["sentence_id"]] = out.get(r["sentence_id"], 0) + s
@@ -140,7 +140,7 @@ def analyse_fresh(
         for r in groups.get(name, []):
             by_writer.setdefault(_parse(r)[0], []).append(r)
         for writer, g in sorted(by_writer.items()):
-            est = chrf_estimate([r["output"] for r in g], [r["reference"] for r in g], n=n_boot)
+            est = chrf_estimate([r["output"] for r in g], [reference_of(r) for r in g], n=n_boot)
             per_writer.setdefault(writer, {"dialect": g[0]["dialect"]})[name] = est.value
 
     return {"n_sentences": len(ids), "scores": scores, "costs": costs, "per_writer": per_writer}

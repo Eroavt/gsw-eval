@@ -21,7 +21,7 @@ from typing import Any
 import numpy as np
 
 from gsw_eval.data import Example
-from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats
+from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats, reference_of
 from gsw_eval.noise import Rule, character_noise, texting_style
 
 CONDITIONS = ("de_input", "clean", "texting", "char_noise")
@@ -37,6 +37,7 @@ class Item:
     condition: str
     input: str
     reference: str
+    reference_alt: str = ""
 
 
 def build_items(
@@ -61,22 +62,34 @@ def build_items(
                 if e.id in seen_de:
                     continue
                 seen_de.add(e.id)
-                items.append(Item(f"{e.source}:{e.id}:de", e.id, "DE", condition, e.de, e.de))
+                items.append(
+                    Item(f"{e.source}:{e.id}:de", e.id, "DE", condition, e.de, e.de, e.de_alt)
+                )
             elif condition == "clean":
-                items.append(Item(base, e.id, e.dialect, condition, e.gsw, e.de))
+                items.append(Item(base, e.id, e.dialect, condition, e.gsw, e.de, e.de_alt))
             elif condition == "texting":
                 text = texting_style(e.gsw, rules or [], seed=seed, key=base)
-                items.append(Item(base, e.id, e.dialect, condition, text, e.de))
+                items.append(Item(base, e.id, e.dialect, condition, text, e.de, e.de_alt))
             elif condition == "char_noise":
                 text = character_noise(e.gsw, noise_rate, seed=seed, key=base)
-                items.append(Item(base, e.id, e.dialect, condition, text, e.de))
+                items.append(Item(base, e.id, e.dialect, condition, text, e.de, e.de_alt))
     return items
 
 
-def run_items(model: Any, items: Sequence[Item], progress: Any = None) -> list[dict[str, str]]:
-    """Run the model on every item; returns one row per item with its output."""
+def run_items(
+    model: Any, items: Sequence[Item], progress: Any = None, generate: bool = True
+) -> list[dict[str, str]]:
+    """Run the model on every item; returns one row per item with its output.
+
+    With `generate=False`, only cached outputs are used and no model is loaded.
+    """
     inputs = [it.input for it in items]
-    outputs = model.normalize(inputs, progress=progress) if progress else model.normalize(inputs)
+    if not generate:
+        outputs = model.normalize(inputs, generate=False)
+    elif progress:
+        outputs = model.normalize(inputs, progress=progress)
+    else:
+        outputs = model.normalize(inputs)
     return [{**asdict(it), "output": out} for it, out in zip(items, outputs)]
 
 
@@ -89,7 +102,9 @@ def score_rows(rows: Sequence[dict[str, str]], n_boot: int = 1000) -> list[dict[
             groups[(row["condition"], "ALL")].append(row)
     scores = []
     for (condition, dialect), group in sorted(groups.items()):
-        est = chrf_estimate([r["output"] for r in group], [r["reference"] for r in group], n=n_boot)
+        est = chrf_estimate(
+            [r["output"] for r in group], [reference_of(r) for r in group], n=n_boot
+        )
         scores.append(
             {"condition": condition, "dialect": dialect, "n": len(group), "chrf": est.as_dict()}
         )
@@ -99,7 +114,7 @@ def score_rows(rows: Sequence[dict[str, str]], n_boot: int = 1000) -> list[dict[
 def _stats_by_sentence(rows: Sequence[dict[str, str]], condition: str) -> dict[str, np.ndarray]:
     """Summed chrF statistics per sentence id for one condition (all dialects pooled)."""
     selected = [r for r in rows if r["condition"] == condition]
-    stats = chrf_stats([r["output"] for r in selected], [r["reference"] for r in selected])
+    stats = chrf_stats([r["output"] for r in selected], [reference_of(r) for r in selected])
     per_sentence: dict[str, np.ndarray] = {}
     for row, s in zip(selected, stats):
         per_sentence[row["sentence_id"]] = per_sentence.get(row["sentence_id"], 0) + s

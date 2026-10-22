@@ -21,7 +21,7 @@ from typing import Any
 
 from scipy.stats import spearmanr
 
-from gsw_eval.metrics import cohen_kappa, mean_estimate, sentence_chrf
+from gsw_eval.metrics import cohen_kappa, mean_estimate, reference_of, sentence_chrf
 
 SHEET_COLUMNS = ["item", "swiss_german", "reference_de", "output", "adequacy", "comment"]
 KEY_COLUMNS = ["item", "model", "key", "condition", "dialect", "sentence_id", "chrf"]
@@ -79,7 +79,7 @@ def build_sample(
     sheet, key = [], []
     for i, (model, r) in enumerate(rows, start=1):
         item = f"r{i:03d}"
-        chrf = sentence_chrf([r["output"]], [r["reference"]])[0]
+        chrf = sentence_chrf([r["output"]], [reference_of(r)])[0]
         sheet.append(
             {
                 "item": item,

@@ -28,6 +28,7 @@ class Example:
     writer: str = ""  # fresh set only; SwissDial has one writer per dialect
     style: str = "careful"  # "careful" or "texting"
     topic: str = ""
+    de_alt: str = ""  # an equally valid reference, e.g. numbers as digits instead of words
 
 
 def find_swissdial_file(root: Path, variant: str = "transcribed") -> Path:
@@ -53,6 +54,14 @@ def load_swissdial(
     their reference is not purely Standard German.
     """
     rows = json.loads(find_swissdial_file(root, variant).read_text(encoding="utf-8"))
+    # The other variant writes numbers differently ("2011" vs "zweitausendelf"); both are
+    # correct Standard German, so it becomes a second reference.
+    other = "numerics" if variant == "transcribed" else "transcribed"
+    try:
+        other_rows = json.loads(find_swissdial_file(root, other).read_text(encoding="utf-8"))
+        alternative = {str(r["id"]): r["de"].strip() for r in other_rows}
+    except FileNotFoundError:
+        alternative = {}
     examples: list[Example] = []
     for row in rows:
         if drop_code_switching and row.get("code_switching"):
@@ -70,6 +79,7 @@ def load_swissdial(
                         de=row["de"].strip(),
                         source="swissdial",
                         topic=row.get("thema", ""),
+                        de_alt=alternative.get(str(row["id"]), ""),
                     )
                 )
     return examples

@@ -73,3 +73,15 @@ def test_cohen_kappa_against_textbook_values() -> None:
 def test_weighted_kappa_rewards_near_misses() -> None:
     a, b = [1, 2, 3, 4, 5], [2, 3, 4, 5, 5]
     assert cohen_kappa(a, b, weighted=True) > cohen_kappa(a, b)
+
+
+def test_multi_reference_uses_best_match() -> None:
+    hyp = ["Er leitet seit 2011 die Firma."]
+    words = ["Er leitet seit zweitausendelf die Firma."]
+    both = [("Er leitet seit zweitausendelf die Firma.", "Er leitet seit 2011 die Firma.")]
+    assert chrf(hyp, both) == pytest.approx(100.0)
+    assert chrf(hyp, words) < 60
+    assert sentence_chrf(hyp, both)[0] == pytest.approx(100.0)
+    mixed = ["Er kommt.", ("Er geht.", "Er läuft.")]
+    score, low, high = bootstrap_ci(["Er kommt.", "Er läuft."], mixed, n=50)
+    assert score == pytest.approx(100.0) and low <= score <= high

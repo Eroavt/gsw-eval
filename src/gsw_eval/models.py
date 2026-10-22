@@ -49,9 +49,16 @@ _PREAMBLE = re.compile(
 
 
 def clean_output(text: str) -> str:
-    """Keep the first non-empty line, without preambles, labels or wrapping quotes."""
-    for line in text.strip().splitlines():
-        line = _LABEL.sub("", _PREAMBLE.sub("", line.strip()))
+    """Keep the first non-empty line, without preambles, labels or wrapping quotes.
+
+    A line that ends with a colon and is followed by more text is an introduction
+    ("Der Satz ist bereits Standarddeutsch. Hier ist er unverändert:") and is skipped.
+    """
+    lines = [line.strip() for line in text.strip().splitlines() if line.strip()]
+    for i, line in enumerate(lines):
+        if line.endswith(":") and i + 1 < len(lines):
+            continue
+        line = _LABEL.sub("", _PREAMBLE.sub("", line))
         if line:
             return line.strip().strip('"„“”«»').strip()
     return ""
@@ -173,8 +180,17 @@ class CachedNormalizer:
         )
 
     def normalize(
-        self, sentences: Sequence[str], progress: Callable[[int, int], None] | None = None
+        self,
+        sentences: Sequence[str],
+        progress: Callable[[int, int], None] | None = None,
+        generate: bool = True,
     ) -> list[str]:
+        """Outputs for `sentences`, calling the model only for inputs not yet cached.
+
+        With `generate=False` the model is never called; uncached inputs get an empty output.
+        """
+        if not generate and not isinstance(self.inner, IdentityNormalizer):
+            return [clean_output(self._cache.get(self.key(s), "")) for s in sentences]
         todo = self.missing(sentences)
         if todo and not isinstance(self.inner, IdentityNormalizer):
             self.path.parent.mkdir(parents=True, exist_ok=True)
