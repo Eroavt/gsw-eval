@@ -4,6 +4,7 @@
 #
 #   scripts/run_local_models.sh            all jobs, in order of importance
 #   scripts/run_local_models.sh main       only the main runs (fixes + Gemma 3 27B)
+#   scripts/run_local_models.sh ntrex      only the second test set (Swiss German NTREX)
 #   scripts/run_local_models.sh prompts    only the prompt check
 #   scripts/run_local_models.sh bf16       only the full-precision check
 #   scripts/run_local_models.sh fresh      only the fresh set
@@ -43,6 +44,14 @@ if [[ "$JOB" == all || "$JOB" == main ]]; then
   done
   step "Main runs: Gemma 3 27B on the full test split (about 5 hours + 31 GB download)"
   run --model gemma-3-27b --split test
+fi
+
+if [[ "$JOB" == all || "$JOB" == ntrex ]]; then
+  step "Second test set: Swiss German NTREX, 3 models (about 2.5 hours)"
+  [[ -f data/ntrex/newstest2019-ref.deu.txt ]] || scripts/get_ntrex.sh
+  for model in apertus-8b llama-3.1-8b gemma-3-27b; do
+    run --model "$model" --split ntrex
+  done
 fi
 
 if [[ "$JOB" == all || "$JOB" == prompts ]]; then

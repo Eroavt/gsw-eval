@@ -13,7 +13,7 @@ from typing import Annotated
 import typer
 from dotenv import load_dotenv
 
-from gsw_eval.data import load_fresh, load_split, load_swissdial, select
+from gsw_eval.data import load_fresh, load_ntrex, load_split, load_swissdial, select
 from gsw_eval.models import MODELS, REPO_ROOT, get_model
 from gsw_eval.noise import load_rules, strip_punct
 from gsw_eval.run import CONDITIONS, build_items, decompose, run_items, score_rows, write_jsonl
@@ -24,6 +24,8 @@ DATA = REPO_ROOT / "data" / "swissdial"
 SPLIT = REPO_ROOT / "splits" / "swissdial_v1.json"
 RULES = REPO_ROOT / "rules" / "texting_v0.tsv"
 FRESH = REPO_ROOT / "fresh" / "data" / "fresh_v1.csv"
+NTREX = REPO_ROOT / "data" / "ntrex"
+NTREX_SPLIT = REPO_ROOT / "splits" / "ntrex_v1.json"
 RESULTS = REPO_ROOT / "results"
 SEED = 0
 NOISE_RATE = 0.1
@@ -34,6 +36,13 @@ def _examples(split: str, limit: int | None = None) -> list:
         if not FRESH.exists():
             raise typer.BadParameter("no fresh set yet: run `gsw-eval fresh-import` first")
         return load_fresh(FRESH)
+    if split.startswith("ntrex"):
+        # "ntrex": the fixed 500-sentence test split; "ntrex-all": every aligned sentence.
+        examples = load_ntrex(NTREX)
+        if split == "ntrex":
+            ids = load_split(NTREX_SPLIT)["test"]
+            examples = select(examples, ids[:limit] if limit else ids)
+        return examples
     examples = load_swissdial(DATA)
     if split != "all":
         ids = load_split(SPLIT)[split]
@@ -48,7 +57,7 @@ def _save(obj: object, path: Path) -> None:
 
 @app.command()
 def tax(
-    split: str = typer.Option("all", help="all, test or dev"),
+    split: str = typer.Option("all", help="all, test, dev, ntrex or ntrex-all"),
     n_boot: int = typer.Option(1000, help="bootstrap resamples"),
     claude: bool = typer.Option(
         False, help="only the Claude tokenizer (API calls; use --split test to keep it small)"
@@ -107,7 +116,7 @@ def tax(
 @app.command()
 def run(
     model: str = typer.Option(..., help=f"one of: {', '.join(MODELS)}"),
-    split: str = typer.Option("test", help="test, dev or fresh"),
+    split: str = typer.Option("test", help="test, dev, fresh or ntrex"),
     limit: int = typer.Option(0, help="only the first N sentences of the split (0 = all)"),
     conditions: str = typer.Option(",".join(CONDITIONS), help="comma-separated conditions"),
     prompt: str = typer.Option("", help="prompt version in prompts/ (default: the model's own)"),

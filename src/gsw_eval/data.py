@@ -9,6 +9,7 @@ Files live under data/swissdial/ and are never committed (CC BY-NC 4.0, ETH Zuri
 import csv
 import json
 import random
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -80,6 +81,58 @@ def load_swissdial(
                         source="swissdial",
                         topic=row.get("thema", ""),
                         de_alt=alternative.get(str(row["id"]), ""),
+                    )
+                )
+    return examples
+
+
+NTREX_DIALECTS = ["BE", "ZH"]
+
+
+def load_ntrex(root: Path, parallel_only: bool = True) -> list[Example]:
+    """Load Swiss German NTREX (Aepli et al., 2023) with the NTREX-128 German reference.
+
+    Two professional translators translated the 1,997 English NTREX sentences into Bernese and
+    Zurich German. NTREX-128 has a Standard German translation of the same English sentences,
+    which is the reference here. The Swiss German files hold ranges of sentences
+    (001_1-16_gsw-be.txt); a file whose line count does not match its range cannot be aligned
+    and is skipped (1 of 123 files for BE, 6 for ZH). Run scripts/get_ntrex.sh first.
+    """
+    de_path = root / "newstest2019-ref.deu.txt"
+    if not de_path.exists():
+        raise FileNotFoundError(f"{de_path} not found. Run scripts/get_ntrex.sh first.")
+    german = de_path.read_text(encoding="utf-8").splitlines()
+    texts: dict[str, dict[int, str]] = {}
+    for dialect in NTREX_DIALECTS:
+        aligned: dict[int, str] = {}
+        for path in sorted(root.rglob(f"*_gsw-{dialect.lower()}.txt")):
+            match = re.match(r"\d+_(\d+)-(\d+)_", path.name)
+            if not match:
+                continue
+            first, last = int(match[1]), int(match[2])
+            lines = path.read_text(encoding="utf-8").rstrip("\n").split("\n")
+            if len(lines) != last - first + 1:
+                continue
+            for number, line in zip(range(first, last + 1), lines):
+                if line.strip():
+                    aligned[number] = line.strip()
+        texts[dialect] = aligned
+    numbers = (
+        set.intersection(*(set(t) for t in texts.values()))
+        if parallel_only
+        else set.union(*(set(t) for t in texts.values()))
+    )
+    examples = []
+    for number in sorted(numbers):
+        for dialect in NTREX_DIALECTS:
+            if number in texts[dialect]:
+                examples.append(
+                    Example(
+                        id=str(number),
+                        dialect=dialect,
+                        gsw=texts[dialect][number],
+                        de=german[number - 1].strip(),
+                        source="ntrex",
                     )
                 )
     return examples

@@ -362,6 +362,12 @@ def build_report(results: Path) -> list[Path]:
         written += dialect_figure(runs, results / "figures" / "dialects")
         (tables / "quality.tex").write_text(quality_latex(runs), encoding="utf-8")
         written.append(tables / "quality.tex")
+    ntrex = [r for r in _load(list((results / "scores").glob("*_ntrex.json"))) if "meta" in r]
+    ntrex.sort(key=lambda r: (order.get(r["meta"]["model"], 9), r["meta"]["model"]))
+    if ntrex:
+        sections += ["## Second test set: Swiss German NTREX (chrF)\n", quality_table(ntrex), ""]
+        (tables / "quality_ntrex.tex").write_text(quality_latex(ntrex), encoding="utf-8")
+        written.append(tables / "quality_ntrex.tex")
     tax_path = results / "tax" / "token_tax_all.json"
     if tax_path.exists():
         tax = json.loads(tax_path.read_text(encoding="utf-8"))

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from gsw_eval.data import DIALECTS, load_fresh, load_swissdial, make_split, select
+from gsw_eval.data import DIALECTS, load_fresh, load_ntrex, load_swissdial, make_split, select
 
 
 def _row(i: int, **extra: object) -> dict[str, object]:
@@ -91,3 +91,18 @@ def test_numerics_variant_becomes_second_reference(swissdial_root: Path) -> None
     examples = load_swissdial(swissdial_root)
     first = next(e for e in examples if e.id == "0")
     assert first.de == "Satz 0." and first.de_alt == "Er kam 2011."
+
+
+def test_load_ntrex_aligns_ranges_and_skips_bad_files(tmp_path: Path) -> None:
+    (tmp_path / "newstest2019-ref.deu.txt").write_text("Eins.\nZwei.\nDrei.\n", encoding="utf-8")
+    be, zh = tmp_path / "be", tmp_path / "zh"
+    be.mkdir()
+    zh.mkdir()
+    (be / "001_1-2_gsw-be.txt").write_text("Eis BE.\nZwöi BE.\n", encoding="utf-8")
+    (be / "002_3-3_gsw-be.txt").write_text("Drü BE.\n", encoding="utf-8")
+    (zh / "001_1-2_gsw-zh.txt").write_text("Eis ZH.\nZwei ZH.\n", encoding="utf-8")
+    (zh / "002_3-3_gsw-zh.txt").write_text("Drü ZH.\nextra line\n", encoding="utf-8")  # misaligned
+    examples = load_ntrex(tmp_path)
+    assert {e.id for e in examples} == {"1", "2"}  # sentence 3 only aligned for BE
+    assert next(e for e in examples if e.id == "2" and e.dialect == "ZH").de == "Zwei."
+    assert len(load_ntrex(tmp_path, parallel_only=False)) == 5
