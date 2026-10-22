@@ -3,9 +3,10 @@
 Every adapter has the same interface: Swiss German sentences in, Standard German out.
 Decoding is greedy where the backend allows it. Prompts are read from prompts/, never inline.
 
-All model calls go through `CachedNormalizer`, which stores every output in
+All model calls go through `CachedNormalizer`, which stores every raw output in
 results/cache/<model>.jsonl, keyed by model, prompt version and input. The cache is committed,
 so anyone can rescore every number without a GPU or an API key, and a crashed run resumes.
+Outputs are cleaned (`clean_output`) only when read, so a better cleaner never needs a rerun.
 """
 
 import hashlib
@@ -98,7 +99,7 @@ class MLXNormalizer:
             chunk = sentences[start : start + self.batch_size]
             prompts = [self._encode(tokenizer, s) for s in chunk]
             response = batch_generate(model, tokenizer, prompts, max_tokens=self.max_tokens)
-            outputs.extend(clean_output(t) for t in response.texts)
+            outputs.extend(response.texts)
         return outputs
 
 
@@ -125,8 +126,7 @@ class AnthropicNormalizer:
         response = client.messages.create(**kwargs)
         if response.stop_reason == "refusal":
             return ""
-        text = "".join(block.text for block in response.content if block.type == "text")
-        return clean_output(text)
+        return "".join(block.text for block in response.content if block.type == "text")
 
     def normalize(self, sentences: Sequence[str]) -> list[str]:
         import anthropic
@@ -156,8 +156,21 @@ class CachedNormalizer:
         return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
 
     def missing(self, sentences: Sequence[str]) -> list[str]:
-        """Unique inputs that still need a model call."""
-        return sorted({s for s in sentences if self.key(s) not in self._cache})
+        """Unique inputs that still need a model call.
+
+        Before raw outputs were stored, about 1% of outputs were a lone preamble line whose
+        translation on the next line was cut off; they clean to an empty string. Those are
+        treated as missing so that one rerun replaces them with the full raw output.
+        """
+        identity = isinstance(self.inner, IdentityNormalizer)
+        return sorted(
+            {
+                s
+                for s in sentences
+                if self.key(s) not in self._cache
+                or (not identity and not clean_output(self._cache[self.key(s)]))
+            }
+        )
 
     def normalize(
         self, sentences: Sequence[str], progress: Callable[[int, int], None] | None = None
@@ -197,6 +210,10 @@ MODELS: dict[str, Callable[[], Any]] = {
     ),
     "llama-3.1-8b-bf16": lambda: MLXNormalizer(
         "llama-3.1-8b-bf16", "mlx-community/Meta-Llama-3.1-8B-Instruct-bf16"
+    ),
+    # Three times larger general model: does scale make up for missing Swiss data?
+    "gemma-3-27b": lambda: MLXNormalizer(
+        "gemma-3-27b", "mlx-community/gemma-3-27b-it-8bit", batch_size=16
     ),
     "claude-sonnet-5.5": lambda: AnthropicNormalizer(
         "claude-sonnet-5.5", "claude-sonnet-5-5", thinking={"type": "between_tools"}

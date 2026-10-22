@@ -16,7 +16,7 @@ cost comes from spelling rather than from dialect?
 **Baselines.** Lower bound: identity, the dialect text copied unchanged.
 Upper bound: the model receives the Standard German sentence itself.
 
-**Models.** Apertus 8B (Swiss), Llama 3.1 8B (same size, not Swiss), Claude Sonnet 5.5.
+**Models.** Apertus 8B (Swiss), Llama 3.1 8B (same size, not Swiss), Gemma 3 27B (three times larger), Claude Sonnet 5.5.
 
 Course project, Essentials in Text and Speech Processing, University of Zurich, HS 2026.
 Team: Erik Avtandilyan, Simone Martinecz, Kelvin Myers.
@@ -53,7 +53,7 @@ gsw-eval report                               # results/summary.md and results/f
 pytest
 ```
 
-Models: `identity`, `apertus-8b`, `llama-3.1-8b`, `claude-sonnet-5.5`, and the bf16
+Models: `identity`, `apertus-8b`, `llama-3.1-8b`, `gemma-3-27b`, `claude-sonnet-5.5`, and the bf16
 variants `apertus-8b-bf16`, `llama-3.1-8b-bf16` for checking the effect of 8-bit quantization.
 
 ## How it works

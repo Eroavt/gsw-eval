@@ -8,7 +8,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 gsw-eval tax
-for model in identity apertus-8b llama-3.1-8b claude-sonnet-5.5; do
+for model in identity apertus-8b llama-3.1-8b gemma-3-27b claude-sonnet-5.5; do
   gsw-eval run --model "$model" --split test
 done
 gsw-eval report

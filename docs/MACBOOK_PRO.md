@@ -1,6 +1,6 @@
 # Run the local models on the MacBook Pro
 
-About 30 minutes of your time. Then the Mac works alone for about 2 hours.
+About 30 minutes of your time. Then the Mac works alone for about 7 hours: start it in the evening.
 
 ## 1. Get the code
 

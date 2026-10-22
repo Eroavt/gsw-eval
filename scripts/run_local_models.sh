@@ -2,7 +2,8 @@
 # Run every local-model job on an Apple Silicon Mac (made for the M4 MacBook Pro, 48 GB).
 # No sudo needed: uv and Python install into your home folder.
 #
-#   scripts/run_local_models.sh            all jobs
+#   scripts/run_local_models.sh            all jobs, in order of importance
+#   scripts/run_local_models.sh main       only the main runs (fixes + Gemma 3 27B)
 #   scripts/run_local_models.sh prompts    only the prompt check
 #   scripts/run_local_models.sh bf16       only the full-precision check
 #   scripts/run_local_models.sh fresh      only the fresh set
@@ -35,6 +36,15 @@ caffeinate -dimsw $$ &
 
 run() { gsw-eval run "$@" 2>&1 | grep -E "items|chrF|cost|wrote|Error|Traceback" || true; }
 
+if [[ "$JOB" == all || "$JOB" == main ]]; then
+  step "Main runs: redo about 130 cut-off outputs of the 8B models (about 2 min)"
+  for model in apertus-8b llama-3.1-8b; do
+    run --model "$model" --split test
+  done
+  step "Main runs: Gemma 3 27B on the full test split (about 5 hours + 31 GB download)"
+  run --model gemma-3-27b --split test
+fi
+
 if [[ "$JOB" == all || "$JOB" == prompts ]]; then
   step "Prompt check: 3 prompts x 2 models, 100 test sentences (about 50 min)"
   for model in apertus-8b llama-3.1-8b; do
@@ -53,8 +63,8 @@ fi
 
 if [[ "$JOB" == all || "$JOB" == fresh ]]; then
   if [[ -f fresh/data/fresh_v1.csv ]]; then
-    step "Fresh set: 2 models (a few minutes)"
-    for model in apertus-8b llama-3.1-8b; do
+    step "Fresh set: 3 models (a few minutes)"
+    for model in apertus-8b llama-3.1-8b gemma-3-27b; do
       run --model "$model" --split fresh
     done
   else

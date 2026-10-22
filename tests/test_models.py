@@ -75,3 +75,28 @@ def test_prompt_override() -> None:
     assert model.prompt_version == "normalize_v2"
     with pytest.raises(FileNotFoundError):
         get_model("apertus-8b", cached=False, prompt="does_not_exist")
+
+
+class PreambleNormalizer(CountingNormalizer):
+    name = "preamble"
+
+    def normalize(self, sentences: Sequence[str]) -> list[str]:
+        self.calls.extend(sentences)
+        return [f"Der Satz lautet auf Standarddeutsch:\n{s.upper()}" for s in sentences]
+
+
+def test_raw_output_is_cached_and_cleaned_on_read(tmp_path: Path) -> None:
+    cached = CachedNormalizer(PreambleNormalizer(), cache_dir=tmp_path)
+    assert cached.normalize(["a"]) == ["A"]
+    assert "Standarddeutsch" in (tmp_path / "preamble.jsonl").read_text(encoding="utf-8")
+
+
+def test_empty_cleaned_output_is_regenerated(tmp_path: Path) -> None:
+    path = tmp_path / "counting.jsonl"
+    inner = CountingNormalizer()
+    key = CachedNormalizer(inner, cache_dir=tmp_path).key("a")
+    path.write_text(f'{{"key": "{key}", "output": "Der Satz lautet:"}}\n', encoding="utf-8")
+    cached = CachedNormalizer(inner, cache_dir=tmp_path)
+    assert cached.missing(["a"]) == ["a"]
+    assert cached.normalize(["a"]) == ["A"] and inner.calls == ["a"]
+    assert CachedNormalizer(CountingNormalizer(), cache_dir=tmp_path).missing(["a"]) == []
