@@ -13,7 +13,7 @@ from typing import Annotated
 import typer
 from dotenv import load_dotenv
 
-from gsw_eval.data import load_split, load_swissdial, select
+from gsw_eval.data import load_fresh, load_split, load_swissdial, select
 from gsw_eval.models import MODELS, REPO_ROOT, get_model
 from gsw_eval.noise import load_rules, strip_punct
 from gsw_eval.run import CONDITIONS, build_items, decompose, run_items, score_rows, write_jsonl
@@ -23,12 +23,17 @@ app = typer.Typer(help="Benchmark LLMs on written Swiss German.", no_args_is_hel
 DATA = REPO_ROOT / "data" / "swissdial"
 SPLIT = REPO_ROOT / "splits" / "swissdial_v1.json"
 RULES = REPO_ROOT / "rules" / "texting_v0.tsv"
+FRESH = REPO_ROOT / "fresh" / "data" / "fresh_v1.csv"
 RESULTS = REPO_ROOT / "results"
 SEED = 0
 NOISE_RATE = 0.1
 
 
 def _examples(split: str, limit: int | None = None) -> list:
+    if split == "fresh":
+        if not FRESH.exists():
+            raise typer.BadParameter("no fresh set yet: run `gsw-eval fresh-import` first")
+        return load_fresh(FRESH)
     examples = load_swissdial(DATA)
     if split != "all":
         ids = load_split(SPLIT)[split]
@@ -87,7 +92,7 @@ def tax(
 @app.command()
 def run(
     model: str = typer.Option(..., help=f"one of: {', '.join(MODELS)}"),
-    split: str = typer.Option("test", help="test or dev"),
+    split: str = typer.Option("test", help="test, dev or fresh"),
     limit: int = typer.Option(0, help="only the first N sentences of the split (0 = all)"),
     conditions: str = typer.Option(",".join(CONDITIONS), help="comma-separated conditions"),
     prompt: str = typer.Option("", help="prompt version in prompts/ (default: the model's own)"),
@@ -96,8 +101,15 @@ def run(
     """Run one model on a split under every condition, then score and save."""
     load_dotenv(REPO_ROOT / ".env")
     wanted = [c.strip() for c in conditions.split(",") if c.strip()]
+    if split == "fresh":
+        wanted = ["de_input", "clean", "texting"]
     examples = _examples(split, limit or None)
     items = build_items(examples, wanted, load_rules(RULES), SEED, NOISE_RATE)
+    if split == "fresh":
+        # Synthetic texting only for careful versions; texting versions are already real texting.
+        items = [
+            it for it in items if not (it.condition == "texting" and it.key.endswith(":texting"))
+        ]
     normalizer = get_model(model, prompt=prompt or None)
     todo = len(normalizer.missing([it.input for it in items]))
     typer.echo(f"{model}: {len(items)} items, {todo} not cached yet")
@@ -116,6 +128,22 @@ def run(
         f"{model}_{split}" + (f"_first{limit}" if limit else "") + (f"_{prompt}" if prompt else "")
     )
     write_jsonl(rows, RESULTS / "outputs" / f"{tag}.jsonl")
+    if split == "fresh":
+        from gsw_eval.fresh import analyse_fresh
+
+        result = analyse_fresh(rows, n_boot=n_boot)
+        _save(
+            {"meta": {"model": model, "n_items": len(items)}, **result},
+            RESULTS / "fresh" / f"{model}.json",
+        )
+        for name, est in result["scores"].items():
+            typer.echo(
+                f"  {name:10s} chrF {est['value']:5.1f} [{est['low']:.1f}, {est['high']:.1f}]"
+            )
+        for name, est in result["costs"].items():
+            typer.echo(f"  {name} {est['value']:5.1f} [{est['low']:.1f}, {est['high']:.1f}]")
+        typer.echo(f"wrote results/fresh/{model}.json")
+        return
     scores = score_rows(rows, n_boot=n_boot)
     costs = decompose(rows, n_boot=n_boot) if {"de_input", "clean"} <= set(wanted) else {}
     meta = {
@@ -144,6 +172,20 @@ def run(
                 f"  spelling cost {costs['spelling_cost_texting']['value']:5.1f} chrF points (texting)"
             )
     typer.echo(f"wrote results/scores/{tag}.json")
+
+
+@app.command("fresh-import")
+def fresh_import(
+    sheet: Annotated[Path, typer.Argument(help="filled writer sheet (CSV)")],
+    writer: str = typer.Option(..., help="anonymous writer id, e.g. w1"),
+    dialect: str = typer.Option(..., help="canton code of the writer's dialect, e.g. ZH"),
+) -> None:
+    """Add one writer's careful and texting translations to the fresh set."""
+    from gsw_eval.fresh import import_sheet, merge_into
+
+    rows = import_sheet(sheet, writer, dialect)
+    total = merge_into(FRESH, rows)
+    typer.echo(f"{writer} ({dialect.upper()}): {len(rows)} rows; fresh set now {total} rows")
 
 
 @app.command("rating-sheet")
