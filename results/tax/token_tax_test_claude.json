@@ -1,0 +1,347 @@
+{
+ "meta": {
+  "split": "test",
+  "n_examples": 4000,
+  "seed": 0,
+  "noise_rate": 0.1,
+  "rules": "texting_v0.tsv"
+ },
+ "rows": [
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "AG",
+   "n": 500,
+   "tokens_per_word": 3.395812361586471,
+   "tax": {
+    "value": 0.9901960784313726,
+    "low": 0.9822820483874096,
+    "high": 0.9981656994599415
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "BE",
+   "n": 500,
+   "tokens_per_word": 3.4925639500297443,
+   "tax": {
+    "value": 1.0339908418457204,
+    "low": 1.0250982231435424,
+    "high": 1.0424430981938801
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "BS",
+   "n": 500,
+   "tokens_per_word": 3.2053903345724906,
+   "tax": {
+    "value": 1.0123869907244334,
+    "low": 1.0042269632682537,
+    "high": 1.0205801275920654
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "GR",
+   "n": 500,
+   "tokens_per_word": 3.243648084945013,
+   "tax": {
+    "value": 1.0042855465539509,
+    "low": 0.9965830027779736,
+    "high": 1.0119319189713767
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "LU",
+   "n": 500,
+   "tokens_per_word": 3.225081620894949,
+   "tax": {
+    "value": 0.9858518257602442,
+    "low": 0.97694116576768,
+    "high": 0.9947867688240518
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "SG",
+   "n": 500,
+   "tokens_per_word": 3.22568093385214,
+   "tax": {
+    "value": 0.9733474228014559,
+    "low": 0.9660364735898254,
+    "high": 0.9802869935380265
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "VS",
+   "n": 500,
+   "tokens_per_word": 3.5436174469787916,
+   "tax": {
+    "value": 1.0397440413291066,
+    "low": 1.0319955814959425,
+    "high": 1.0472101934652904
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "ZH",
+   "n": 500,
+   "tokens_per_word": 3.1893250821891317,
+   "tax": {
+    "value": 0.9681812844898439,
+    "low": 0.9605740956504472,
+    "high": 0.9759404889961334
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean",
+   "dialect": "ALL",
+   "n": 4000,
+   "tokens_per_word": 3.3124817872753765,
+   "tax": {
+    "value": 1.0009980039920159,
+    "low": 0.998341196464637,
+    "high": 1.0039470375203103
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "de_input",
+   "dialect": "DE",
+   "n": 500,
+   "tokens_per_word": 3.2833461835003854,
+   "tax": {
+    "value": 1.0,
+    "low": 1.0,
+    "high": 1.0
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "AG",
+   "n": 500,
+   "tokens_per_word": 3.18381316690155,
+   "tax": {
+    "value": 0.9750894068319151,
+    "low": 0.9668582942693936,
+    "high": 0.9834248543680147
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "BE",
+   "n": 500,
+   "tokens_per_word": 3.3343248066627007,
+   "tax": {
+    "value": 1.0368109507954124,
+    "low": 1.0271267198918141,
+    "high": 1.0458329907253723
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "BS",
+   "n": 500,
+   "tokens_per_word": 3.052973977695167,
+   "tax": {
+    "value": 1.0127635960044394,
+    "low": 1.0041321420177773,
+    "high": 1.021043653198632
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "GR",
+   "n": 500,
+   "tokens_per_word": 3.091840607210626,
+   "tax": {
+    "value": 1.0046861511900358,
+    "low": 0.9966384915259405,
+    "high": 1.0124586958436548
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "LU",
+   "n": 500,
+   "tokens_per_word": 3.0693297484155946,
+   "tax": {
+    "value": 0.9854482673572573,
+    "low": 0.9763215347437422,
+    "high": 0.9949582551391152
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "SG",
+   "n": 500,
+   "tokens_per_word": 3.068093385214008,
+   "tax": {
+    "value": 0.9723763719324208,
+    "low": 0.9648757546421093,
+    "high": 0.9796174355966762
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "VS",
+   "n": 500,
+   "tokens_per_word": 3.3333333333333335,
+   "tax": {
+    "value": 1.0272536687631026,
+    "low": 1.0194710884412013,
+    "high": 1.034884771328174
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "ZH",
+   "n": 500,
+   "tokens_per_word": 3.0400309417907563,
+   "tax": {
+    "value": 0.9692933777284499,
+    "low": 0.9613470787529168,
+    "high": 0.9775651871807272
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "clean_nopunct",
+   "dialect": "ALL",
+   "n": 4000,
+   "tokens_per_word": 3.144550223431125,
+   "tax": {
+    "value": 0.9979652238253792,
+    "low": 0.9950257493877488,
+    "high": 1.000995084327451
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "AG",
+   "n": 500,
+   "tokens_per_word": 2.9053754781558285,
+   "tax": {
+    "value": 0.8898137871500802,
+    "low": 0.8812706288527661,
+    "high": 0.8986437676334683
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "BE",
+   "n": 500,
+   "tokens_per_word": 3.052370561396548,
+   "tax": {
+    "value": 0.9487606363300037,
+    "low": 0.9396602607397636,
+    "high": 0.9586386339383134
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "BS",
+   "n": 500,
+   "tokens_per_word": 2.764421287681429,
+   "tax": {
+    "value": 0.9160192378838328,
+    "low": 0.9063225402051144,
+    "high": 0.9248767647634013
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "GR",
+   "n": 500,
+   "tokens_per_word": 2.806917521854808,
+   "tax": {
+    "value": 0.9107164878530029,
+    "low": 0.9026031666713945,
+    "high": 0.9191628622305492
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "LU",
+   "n": 500,
+   "tokens_per_word": 2.789473684210526,
+   "tax": {
+    "value": 0.8954248366013072,
+    "low": 0.8859360928907652,
+    "high": 0.9052219658009811
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "SG",
+   "n": 500,
+   "tokens_per_word": 2.798481308411215,
+   "tax": {
+    "value": 0.8862375138734739,
+    "low": 0.8782143057895117,
+    "high": 0.8943337130939877
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "VS",
+   "n": 500,
+   "tokens_per_word": 3.0582699239086906,
+   "tax": {
+    "value": 0.94173140954495,
+    "low": 0.9327739599679733,
+    "high": 0.9502730207363382
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "ZH",
+   "n": 500,
+   "tokens_per_word": 2.7564325788353647,
+   "tax": {
+    "value": 0.8785300283635467,
+    "low": 0.8698117631125896,
+    "high": 0.887379945340327
+   }
+  },
+  {
+   "tokenizer": "Claude",
+   "condition": "texting_nopunct",
+   "dialect": "ALL",
+   "n": 4000,
+   "tokens_per_word": 2.864225133053051,
+   "tax": {
+    "value": 0.9084042422000247,
+    "low": 0.9053204329264813,
+    "high": 0.9116306069069965
+   }
+  }
+ ]
+}
