@@ -84,7 +84,9 @@ SwissDial \citep{dogan2021swissdial} provides the same sentences in eight dialec
 German references, which makes a controlled comparison across dialects possible. Collecting
 dialect data remains the bottleneck \citep{sun2025dialingle}.
 
-\textbf{Dialect and noise robustness.} DialectBench \citep{faisal2024dialectbench} shows large
+\textbf{Dialect and noise robustness.} \citet{aepli2023benchmark} show that standard MT
+metrics are unreliable when the output is Swiss German. Our outputs are Standard German, where
+chrF is on firmer ground, but we still check it against human ratings. DialectBench \citep{faisal2024dialectbench} shows large
 gaps between standard and non-standard varieties across many tasks. Synthetic character noise
 breaks neural translation \citep{belinkov2018noise}, and injecting such noise during training
 helps transfer between closely related languages \citep{aepli2022noise}. We use the same noise
@@ -104,6 +106,15 @@ writer per dialect. We keep the 2,529 sentences available in all eight dialects 
 marked as code-switching, leaving 2,297. We draw a fixed split of 50 development and 500 test
 sentences (seed 13), giving 4,000 Swiss German test inputs per condition. The Standard German
 sentence is always the reference.
+
+\textbf{Swiss German NTREX.} To check that our findings are not specific to SwissDial, we
+repeat the evaluation on a second, independent test set. \citet{aepli2023benchmark} had two
+professional translators translate the 1,997 English news sentences of NTREX-128 into Bernese and
+Zurich German; NTREX-128 itself provides a Standard German translation of the same sentences,
+which serves as the reference. 1,850 sentences can be aligned in both dialects, and we fix 500
+of them as a second test split. Because both the Swiss and the Standard German versions are
+translated from English, the reference is looser than in SwissDial, so absolute scores are lower;
+the comparisons between models and conditions remain valid.
 
 \textbf{Fresh set.} \todo{Simone: who wrote it (number of writers, dialects), how long it took.}
 Each writer translated the same 30 Standard German sentences (20 everyday chat, 10 news-like)
@@ -218,10 +229,19 @@ creates rarer word forms but also shortens words, and the two effects cancel. Be
 expensive dialect and Zurich German the cheapest for all LLM tokenizers. Apertus pays the highest
 \emph{relative} tax only because its tokenizer is very efficient on Standard German
 (1.64 tokens per word against 1.93 for Llama); in absolute terms it needs fewer tokens for Swiss
-German than Llama. \todo{price per 1,000 sentences for Claude once the key is set.}
+German than Llama. Claude's tokenizer behaves differently: it needs about 3.3 tokens per word for Standard and
+Swiss German alike, so Swiss German costs no extra there, but every German sentence is
+expensive (test split, counted with Anthropic's token-counting endpoint).
 
-\textbf{Robustness.} \todo{prompt check (3 prompts) and full precision vs 8-bit, from the MacBook
-Pro runs: does the ranking change?}
+\textbf{The findings hold on a second test set.} On Swiss German NTREX, texting spelling again
+costs almost nothing: Claude scores 59.9 on clean and 59.5 on texting input (identity baseline
+38.6). We do not interpret the NTREX dialect cost, because its Swiss and Standard German
+versions are independent translations from English, so part of the gap is wording, not dialect.
+\todo{local models on NTREX from the MacBook Pro run; add the NTREX table.}
+
+\textbf{Robustness.} Claude's score on clean dialect changes by at most 0.2 points across three
+prompt wordings (86.5 to 86.7 on 100 test sentences). \todo{same check for Apertus and Llama,
+and full precision vs 8-bit, from the MacBook Pro run.}
 
 \textbf{Human ratings.} \todo{kappa, Spearman chrF vs rating, and whether chrF picks the same
 better model as the raters.}
