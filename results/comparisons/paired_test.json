@@ -1,0 +1,50 @@
+{
+ "apertus-8b_vs_llama-3.1-8b_de_input": {
+  "delta": 2.483292366284701,
+  "low": 1.374737954784815,
+  "high": 3.637889305957218,
+  "p_value": 0.002
+ },
+ "apertus-8b_vs_llama-3.1-8b_clean": {
+  "delta": 7.188560993633445,
+  "low": 6.6043776586884455,
+  "high": 7.756831501233376,
+  "p_value": 0.0
+ },
+ "apertus-8b_vs_llama-3.1-8b_texting": {
+  "delta": 8.681091693834816,
+  "low": 8.087290575805364,
+  "high": 9.256045872406677,
+  "p_value": 0.0
+ },
+ "apertus-8b_vs_llama-3.1-8b_char_noise": {
+  "delta": 7.360462809759298,
+  "low": 6.731688161681776,
+  "high": 7.939608937724019,
+  "p_value": 0.0
+ },
+ "claude-sonnet-5.5_vs_apertus-8b_de_input": {
+  "delta": 0.24203134134977233,
+  "low": -1.116292283464753,
+  "high": 1.4835525687882234,
+  "p_value": 0.716
+ },
+ "claude-sonnet-5.5_vs_apertus-8b_clean": {
+  "delta": 11.609190681304256,
+  "low": 11.138617403850018,
+  "high": 12.11504576954942,
+  "p_value": 0.0
+ },
+ "claude-sonnet-5.5_vs_apertus-8b_texting": {
+  "delta": 13.92747412875788,
+  "low": 13.40616822022273,
+  "high": 14.437836845145176,
+  "p_value": 0.0
+ },
+ "claude-sonnet-5.5_vs_apertus-8b_char_noise": {
+  "delta": 13.013237370147678,
+  "low": 12.519678519221987,
+  "high": 13.537570214320036,
+  "p_value": 0.0
+ }
+}

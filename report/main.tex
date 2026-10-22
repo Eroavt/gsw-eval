@@ -34,8 +34,10 @@ German and need more tokens for it. We ask how much of this cost comes from the 
 much from the spelling. We build \textsc{gsw-eval}, an open, reproducible benchmark that feeds
 the same 500 sentences to a model as Standard German, as careful Swiss German in eight dialects,
 and as texting-style and character-noised Swiss German. On SwissDial, the dialect costs
-Apertus~8B 20.1 chrF points and Llama~3.1~8B 24.4 points; texting spelling adds only 3.4 and 4.9.
-The Swiss model Apertus beats Llama by 7.1 points, and the gap grows under noisy spelling.
+the 8B models 20 to 25 chrF points but Claude Sonnet~5.5 only 8.6; texting spelling adds just 1
+to 5 points. At equal size, the Swiss model Apertus beats Llama~3.1 by 7.2 points, and the gap
+grows under noisy spelling, yet Claude is 11.6 points ahead of Apertus on dialect input while the
+two tie on Standard German.
 Token counts tell the same story: Swiss German needs 16 to 30\% more tokens than Standard German,
 while texting spelling changes the count by about 1\%. Per-dialect difficulty follows how close
 each written dialect is to Standard German ($r = 0.93$). \todo{one sentence on the fresh set and
@@ -62,8 +64,9 @@ We measure both on the same sentences.
 \itemsep0em
 \item \textsc{gsw-eval}, an open benchmark that runs any LLM on written Swiss German and splits
 the quality loss into a \emph{dialect cost} and a \emph{spelling cost}, with confidence intervals.
-\item A comparison of a Swiss and a non-Swiss model of the same size, plus a commercial reference,
-showing that \todo{headline finding, final wording after the Claude run}.
+\item A comparison of a Swiss and a non-Swiss model of the same size and a commercial model,
+showing that Swiss training data is worth about 7 chrF points at 8B scale, but that a frontier
+model loses less than half as much to the dialect.
 \item A token-tax analysis of nine tokenizers, showing that the extra tokens come from the
 dialect, not from the spelling.
 \item A small fresh test set in which each native writer translates the same sentences twice,
@@ -129,16 +132,18 @@ on texting input. Both are computed on the same sentences, so content is held co
 
 \textbf{Models.} Apertus 8B Instruct \citep{apertus2025}, trained with a strong Swiss and
 multilingual focus, and Llama 3.1 8B Instruct \citep{grattafiori2024llama3}, the same size
-without a Swiss focus, both run locally with 8-bit weights and greedy decoding via MLX. Claude
-Sonnet 5.5 serves as a commercial reference. \todo{Claude results.} All models receive the same
-German prompt asking for the Standard German sentence only.
+without a Swiss focus, both run locally with 8-bit weights and greedy decoding via MLX, and
+Claude Sonnet 5.5 through its API with the lowest thinking setting, as a commercial reference.
+All models receive the same German prompt asking for the Standard German sentence only.
 
 \textbf{Metric and statistics.} We score with chrF \citep{popovic2015chrf} as implemented in
 sacreBLEU \citep{post2018sacrebleu}; character n-grams suit a task where most errors are partial
 word forms. All intervals are 95\% bootstrap intervals over sentences \citep{koehn2004significance};
 model differences use a paired bootstrap, and the costs use a cluster bootstrap that resamples
-whole sentences with all their dialects. We remove answer preambles such as ``Der Satz lautet
-auf Standarddeutsch:'', which 4.5\% of 8B outputs contain.
+whole sentences with all their dialects. SwissDial writes numbers as words (\emph{zweitausendelf}) while
+models mostly write digits (\emph{2011}); we therefore score against both versions of the
+reference, which SwissDial provides, and keep the better match (multi-reference chrF). We also
+remove answer preambles such as ``Der Satz lautet auf Standarddeutsch:''.
 
 \textbf{Token tax.} For a tokenizer, the token tax is the number of tokens of the Swiss German
 sentences divided by the tokens of the same sentences in Standard German, summed over all 2,297
@@ -160,17 +165,20 @@ clean; spelling cost = clean minus texting.}
 \end{table*}
 
 \textbf{The dialect costs far more than the spelling.} Table~\ref{tab:quality} shows that moving
-from Standard German to clean Swiss German costs Apertus 20.1 and Llama 24.4 chrF points. Texting
-spelling costs a further 3.4 and 4.9 points, and character noise 2.8 and 3.0. Both models stay far
-above the identity baseline (46.7), so they do translate rather than copy.
+from Standard German to clean Swiss German costs Apertus 20.0 and Llama 24.7 chrF points, but
+Claude only 8.6. Texting spelling costs a further 3.4, 4.9 and 1.1 points, character noise 2.8,
+3.0 and 1.4. All models stay far above the identity baseline (46.9), so they translate rather
+than copy.
 
-\textbf{The Swiss model is better, and more robust.} Apertus beats Llama in every condition
-(paired bootstrap, $p < 0.001$): by 2.8 points on Standard German input, 7.1 on clean dialect and
-8.6 on texting input. The advantage is largest where the input is least standard, which suggests
-that exposure to Swiss text helps most where spelling varies.
+\textbf{Swiss data helps; a frontier model helps more.} Apertus beats Llama in every condition
+(paired bootstrap, $p < 0.001$): by 2.5 points on Standard German input, 7.2 on clean dialect and
+8.7 on texting input. The advantage is largest where the input is least standard, which suggests
+that exposure to Swiss text helps most where spelling varies. Claude is 11.6 points ahead of
+Apertus on clean dialect and 13.9 on texting input, but the two tie on Standard German input
+($+0.2$, interval $-1.1$ to $+1.5$): Claude's lead is entirely about the dialect.
 
-\textbf{Even Standard German is not copied.} Neither model reaches 100 on Standard German input:
-Apertus returns the sentence unchanged 64\% of the time, Llama only 45\%; the rest are
+\textbf{Even Standard German is not copied.} No model reaches 100 on Standard German input:
+Apertus returns the sentence unchanged 64\% of the time, Claude 59\%, Llama only 45\%; the rest are
 paraphrases such as ``Jemand stört mich hier bei meiner Arbeit'' for ``Irgendjemand pfuscht mir
 hier ins Handwerk''. This is why the upper bound matters: part of every model's gap to 100 is
 paraphrase that chrF counts as error, not misunderstanding. \todo{the human ratings tell how big
@@ -185,9 +193,10 @@ dialect text, a measure of how close its spelling is to Standard German.}
 \end{figure}
 
 \textbf{Hard dialects are the ones written farthest from Standard German.} Scores range from
-69.0 (AG) to 80.0 (GR) for Apertus, and the ranking is almost the same for Llama
+69.3 (LU) to 80.4 (GR) for Apertus, and the ranking is almost the same for Llama
 (Figure~\ref{fig:dialects}). Both correlate strongly with the identity score of each dialect
 ($r = 0.93$ and $0.94$): models do worst where the written form is farthest from Standard German.
+Claude depends less on it ($r = 0.79$, range 81.0 to 89.4).
 Since SwissDial has one writer per dialect, this mixes the dialect with the writer's personal
 spelling. The fresh set separates the two. \todo{fresh-set result.}
 
@@ -233,7 +242,12 @@ both on a subset.
 cannot be.
 
 \section{Conclusion}
-\todo{3--4 sentences: answer the question in the title with the two numbers.}
+What does Swiss German cost a language model? Mostly the dialect, not the spelling. Moving
+from Standard German to careful Swiss German costs 8B models 20 to 25 chrF points and needs 16 to
+30\% more tokens, while texting spelling adds only 1 to 5 points and about 1\% of tokens. Swiss
+training data recovers about 7 points at equal size, and a frontier model cuts the dialect cost
+to 8.6. For users, this means that cleaning up spelling buys little; choosing a model that knows
+the dialect buys a lot. \todo{one sentence on the fresh set once it is in.}
 
 \section*{Code and Data}
 Code, outputs of every model, and the fresh set: \url{https://github.com/Eroavt/gsw-eval}.
