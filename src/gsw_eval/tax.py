@@ -9,10 +9,14 @@ Gated repositories (Llama, Gemma, Mistral) are loaded from the mlx-community cop
 the identical tokenizer files without a licence gate, so the table reproduces without a HF token.
 """
 
+import hashlib
+import json
 import os
 from collections.abc import Callable, Sequence
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from functools import cache
+from pathlib import Path
 
 from gsw_eval.data import Example
 from gsw_eval.metrics import ratio_estimate
@@ -57,20 +61,59 @@ def _tiktoken_counter(encoding: str) -> Counter:
     return lambda text: len(enc.encode(text))
 
 
-def _anthropic_counter(model: str) -> Counter:
-    """Count with the free count_tokens endpoint, minus the fixed overhead of a message."""
-    import anthropic
+class AnthropicCounter:
+    """Token counts from the free count_tokens endpoint, cached on disk.
 
-    client = anthropic.Anthropic()
+    The cache (results/cache/claude_token_counts.jsonl) is committed, so the Claude token tax
+    reproduces without an API key. `prefetch` counts many texts in parallel.
+    """
 
-    def raw(text: str) -> int:
-        result = client.messages.count_tokens(
-            model=model, messages=[{"role": "user", "content": text}]
+    def __init__(self, model: str, cache_path: Path | None = None, workers: int = 4) -> None:
+        import anthropic
+
+        self.model = model
+        self.client = anthropic.Anthropic(max_retries=8)
+        self.path = (
+            cache_path
+            or Path(__file__).resolve().parents[2]
+            / "results"
+            / "cache"
+            / "claude_token_counts.jsonl"
         )
-        return result.input_tokens
+        self.workers = workers
+        self.counts: dict[str, int] = {}
+        if self.path.exists():
+            for line in self.path.read_text(encoding="utf-8").splitlines():
+                row = json.loads(line)
+                self.counts[row["key"]] = row["tokens"]
+        self.overhead = self._raw("a") - 1
 
-    overhead = raw("a") - 1
-    return lambda text: raw(text) - overhead
+    def _key(self, text: str) -> str:
+        return hashlib.sha256(f"{self.model}\x1f{text}".encode()).hexdigest()[:24]
+
+    def _raw(self, text: str) -> int:
+        key = self._key("RAW\x1f" + text)
+        if key not in self.counts:
+            result = self.client.messages.count_tokens(
+                model=self.model, messages=[{"role": "user", "content": text}]
+            )
+            self._store(key, result.input_tokens)
+        return self.counts[key]
+
+    def _store(self, key: str, tokens: int) -> None:
+        self.counts[key] = tokens
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        with self.path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps({"key": key, "tokens": tokens}) + "\n")
+
+    def prefetch(self, texts: Sequence[str]) -> None:
+        """Count all texts not yet cached, several requests at a time."""
+        todo = sorted({t for t in texts if self._key("RAW\x1f" + t) not in self.counts})
+        with ThreadPoolExecutor(max_workers=self.workers) as pool:
+            list(pool.map(self._raw, todo))
+
+    def __call__(self, text: str) -> int:
+        return self._raw(text) - self.overhead
 
 
 @cache
@@ -81,7 +124,7 @@ def load_counter(spec: TokenizerSpec) -> Counter:
     if spec.kind == "tiktoken":
         return _tiktoken_counter(spec.source)
     if spec.kind == "anthropic":
-        return _anthropic_counter(spec.source)
+        return AnthropicCounter(spec.source)
     raise ValueError(f"unknown tokenizer kind {spec.kind!r}")
 
 
@@ -110,12 +153,15 @@ def tax_rows(
     condition: str = "clean",
     texts: Sequence[str] | None = None,
     n_boot: int = 1000,
+    reference: Callable[[str], str] | None = None,
 ) -> list[dict[str, object]]:
     """Token tax of one tokenizer, one row per dialect plus an "ALL" row and a "DE" row.
 
     `texts` overrides the Swiss German input (for noised conditions); it must align with
     `examples`. The ratio compares each input with the Standard German reference of the
-    same sentence, so dialects are compared on identical content.
+    same sentence, so dialects are compared on identical content. `reference` transforms
+    the Standard German side the same way as the input (for example removing punctuation
+    from both), so the comparison stays fair.
     """
     inputs = list(texts) if texts is not None else [e.gsw for e in examples]
     if len(inputs) != len(examples):
@@ -123,10 +169,11 @@ def tax_rows(
     de_cache: dict[str, int] = {}
     gsw_tokens, de_tokens, dialects = [], [], []
     for example, text in zip(examples, inputs):
-        if example.de not in de_cache:
-            de_cache[example.de] = counter(example.de)
+        de = reference(example.de) if reference else example.de
+        if de not in de_cache:
+            de_cache[de] = counter(de)
         gsw_tokens.append(counter(text))
-        de_tokens.append(de_cache[example.de])
+        de_tokens.append(de_cache[de])
         dialects.append(example.dialect)
 
     rows: list[dict[str, object]] = []

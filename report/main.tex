@@ -36,7 +36,7 @@ the same 500 sentences to a model as Standard German, as careful Swiss German in
 and as texting-style and character-noised Swiss German. On SwissDial, the dialect costs
 Apertus~8B 20.1 chrF points and Llama~3.1~8B 24.4 points; texting spelling adds only 3.4 and 4.9.
 The Swiss model Apertus beats Llama by 7.1 points, and the gap grows under noisy spelling.
-Token counts tell the same story: Swiss German needs 7 to 18\% more tokens than Standard German,
+Token counts tell the same story: Swiss German needs 16 to 30\% more tokens than Standard German,
 while texting spelling changes the count by about 1\%. Per-dialect difficulty follows how close
 each written dialect is to Standard German ($r = 0.93$). \todo{one sentence on the fresh set and
 the human ratings once they are in.}
@@ -202,8 +202,8 @@ caused by texting spelling.}
 \label{tab:tax}
 \end{table}
 
-\textbf{Token tax comes from the dialect, not the spelling.} Swiss German needs 7\% (Mistral) to
-18\% (Apertus, XLM-R) more tokens than the same content in Standard German
+\textbf{Token tax comes from the dialect, not the spelling.} Swiss German needs 16\% (Mistral) to
+30\% (Apertus, XLM-R) more tokens than the same content in Standard German
 (Table~\ref{tab:tax}). Texting spelling changes this by about 1\% for every LLM tokenizer: it
 creates rarer word forms but also shortens words, and the two effects cancel. Bernese is the most
 expensive dialect and Zurich German the cheapest for all LLM tokenizers. Apertus pays the highest

@@ -50,6 +50,9 @@ def _save(obj: object, path: Path) -> None:
 def tax(
     split: str = typer.Option("all", help="all, test or dev"),
     n_boot: int = typer.Option(1000, help="bootstrap resamples"),
+    claude: bool = typer.Option(
+        False, help="only the Claude tokenizer (API calls; use --split test to keep it small)"
+    ),
 ) -> None:
     """Compute the token tax table for every available tokenizer and input condition."""
     from gsw_eval.tax import TOKENIZERS, available, load_counter, tax_rows
@@ -68,13 +71,24 @@ def tax(
     texts["clean_nopunct"] = [strip_punct(t) for t in texts["clean"]]
     texts["texting_nopunct"] = [strip_punct(t) for t in texts["texting"]]
     rows = []
-    for spec in TOKENIZERS:
+    specs = [t for t in TOKENIZERS if (t.kind == "anthropic") == claude]
+    if claude:
+        # Only the conditions the report uses, to keep the number of API calls down.
+        texts = {c: texts[c] for c in ("clean", "clean_nopunct", "texting_nopunct")}
+    for spec in specs:
         if not available(spec):
             typer.echo(f"skip {spec.name}: {spec.note}")
             continue
         counter = load_counter(spec)
+        if hasattr(counter, "prefetch"):
+            refs = [e.de for e in examples] + [strip_punct(e.de) for e in examples]
+            counter.prefetch([t for v in texts.values() for t in v] + refs)
         for condition, inputs in texts.items():
-            new = tax_rows(examples, spec, counter, condition, inputs, n_boot=n_boot)
+            # Punctuation-free conditions are compared with punctuation-free Standard German.
+            reference = strip_punct if condition.endswith("_nopunct") else None
+            new = tax_rows(
+                examples, spec, counter, condition, inputs, n_boot=n_boot, reference=reference
+            )
             rows.extend(r for r in new if condition == "clean" or r["dialect"] != "DE")
         clean_all = next(r for r in rows if r["tokenizer"] == spec.name and r["dialect"] == "ALL")
         typer.echo(f"{spec.name:18s} clean tax {clean_all['tax']['value']:.3f}")
@@ -85,8 +99,9 @@ def tax(
         "noise_rate": NOISE_RATE,
         "rules": RULES.name,
     }
-    _save({"meta": meta, "rows": rows}, RESULTS / "tax" / f"token_tax_{split}.json")
-    typer.echo(f"wrote results/tax/token_tax_{split}.json ({len(rows)} rows)")
+    name = f"token_tax_{split}" + ("_claude" if claude else "")
+    _save({"meta": meta, "rows": rows}, RESULTS / "tax" / f"{name}.json")
+    typer.echo(f"wrote results/tax/{name}.json ({len(rows)} rows)")
 
 
 @app.command()

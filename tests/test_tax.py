@@ -51,3 +51,12 @@ def test_anthropic_needs_key(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     assert not available(TokenizerSpec("Claude", "anthropic", "x"))
     assert available(TokenizerSpec("Qwen", "hf", "x"))
+
+
+def test_reference_transform_applies_to_standard_german() -> None:
+    stripped = [e.gsw.replace(" ", "") for e in EXAMPLES]
+    rows = tax_rows(
+        EXAMPLES, SPEC, char_counter, "x", stripped, n_boot=20, reference=lambda t: t[:5]
+    )
+    de_row = next(r for r in rows if r["dialect"] == "DE")
+    assert de_row["tokens_per_word"] == pytest.approx(8 / 4)  # "ich g", "wir s": 4 letters each
