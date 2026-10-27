@@ -1,34 +1,35 @@
 # CLAUDE.md
 
-Instructions for AI coding agents working in this repository. Read before changing anything.
+Instructions for AI coding agents in this repository. Read before changing anything.
 
 ## What this project is
-A benchmark that measures how LLMs handle written Swiss German. See README.md.
-One research question: what does Swiss German cost with an LLM, and how much of that is spelling vs dialect.
-Deadline: 20 November 2026. Scope is fixed. Do not add models, tasks or tools that are not in docs/plan.
+gsw-eval: a benchmark of LLMs on written Swiss German. One question: what does Swiss German
+cost an LLM, and how much of that comes from the dialect versus the spelling.
+Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pages, ACL style).
+
+## Status (keep this short and current)
+- Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Claude Sonnet 5.5;
+  token tax for 9 tokenizers; rating sheet; fresh-set code; report draft.
+- Open: Gemma 3 27B, prompt check and bf16 check for the local models (run
+  `scripts/run_local_models.sh` on an Apple Silicon Mac), fresh set and human ratings
+  (need native speakers), issue #24 (generic adapter + leaderboard).
 
 ## Layout
-- src/gsw_eval/data.py       load SwissDial and the fresh set, make splits. Owner: Simone
-- src/gsw_eval/noise.py      spelling-noise generator (texting style rules + Aepli-style character noise). Owner: Simone
-- src/gsw_eval/baselines.py  identity baseline, Standard-German-input upper bound. Owner: Kelvin
-- src/gsw_eval/metrics.py    chrF, bootstrap confidence intervals, Cohen's kappa. Owner: Kelvin
-- src/gsw_eval/models.py     model adapters: HF local (Apertus, Llama), API. Owner: Erik
-- src/gsw_eval/tax.py        token counting per tokenizer, cost per 1000 sentences. Owner: Erik
-- src/gsw_eval/cli.py        `gsw-eval` command. Owner: Erik
-- tests/                     pytest. Every module has tests.
-- data/                      never committed. Loader reads from a local path.
-- results/                   JSON outputs, one file per run. Committed.
-- docs/                      plan, notes.
+- `src/gsw_eval/data.py`     SwissDial, NTREX and fresh-set loaders, fixed splits (`splits/`)
+- `src/gsw_eval/noise.py`    texting rules (`rules/`) and character noise, seeded per sentence
+- `src/gsw_eval/models.py`   MLX and Claude adapters; every raw output cached in `results/cache/`
+- `src/gsw_eval/run.py`      input conditions, scoring, dialect vs spelling decomposition
+- `src/gsw_eval/metrics.py`  chrF (multi-reference), bootstrap, paired bootstrap, kappa
+- `src/gsw_eval/tax.py`      token tax per tokenizer
+- `src/gsw_eval/fresh.py`, `ratings.py`  fresh set and human ratings
+- `src/gsw_eval/report.py`   tables (`results/tables/*.tex`) and figures for the report
+- `data/`  never committed (SwissDial licence; NTREX via `scripts/get_ntrex.sh`)
 
 ## Rules
-1. Only change modules you own. Changes to other modules go through a pull request.
-2. Type hints on every function. Docstring on every public function.
-3. Every new function gets a test. Run `pytest` before committing.
-4. Deterministic: fixed seeds, fixed prompts in `prompts/`, temperature 0 for all models.
-5. No data in git. No API keys in git. Keys come from `.env`.
-6. Results are JSON in `results/` with model name, dataset, condition, metric, value, interval, timestamp.
-7. Prefer existing libraries: sacrebleu for chrF, transformers/tokenizers for counting, scikit-learn for kappa.
-8. Keep it small. If a change is more than 200 lines, stop and ask.
-
-## Commits
-Short imperative subject. Say what changed and why. Mention the issue number.
+1. Work on a branch, never commit to `main`. Run `ruff check src tests` and `pytest` before committing.
+2. Commit messages: plain text. No "Co-Authored-By" lines and no AI attribution in commits or PRs.
+3. Type hints on every function, docstring on every public function, a test for every new function.
+4. Never type numbers into the report by hand: they come from `gsw-eval report`.
+5. Scoring without generating: `gsw-eval run --model X --split test --cache-only`.
+6. Local model runs take hours and heat the Mac: only start them when the user asks.
+7. No data and no API keys in git. Keys live in `.env`.
