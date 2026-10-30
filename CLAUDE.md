@@ -8,11 +8,11 @@ cost an LLM, and how much of that comes from the dialect versus the spelling.
 Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pages, ACL style).
 
 ## Status (keep this short and current)
-- Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Claude Sonnet 5.5;
-  token tax for 9 tokenizers; rating sheet; fresh-set code; report draft.
-- Open: Gemma 3 27B, prompt check and bf16 check for the local models (run
-  `scripts/run_local_models.sh` on an Apple Silicon Mac), fresh set and human ratings
-  (need native speakers), issue #24 (generic adapter + leaderboard).
+- Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Gemma 3 27B,
+  Claude Sonnet 5.5 on both; prompt and bf16 checks; token tax for 9 tokenizers; paired
+  comparisons (`gsw-eval compare`); rating sheet; fresh-set code; report draft.
+- Open: fresh set and human ratings (need native speakers), Discussion section, issue #24
+  (generic adapter + leaderboard).
 
 ## Layout
 - `src/gsw_eval/data.py`     SwissDial, NTREX and fresh-set loaders, fixed splits (`splits/`)
@@ -30,6 +30,7 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 2. Commit messages: plain text. No "Co-Authored-By" lines and no AI attribution in commits or PRs.
 3. Type hints on every function, docstring on every public function, a test for every new function.
 4. Never type numbers into the report by hand: they come from `gsw-eval report`.
-5. Scoring without generating: `gsw-eval run --model X --split test --cache-only`.
+5. Scoring without generating: `gsw-eval run --model X --split test --cache-only`; everything
+   at once: `scripts/reproduce.sh`.
 6. Local model runs take hours and heat the Mac: only start them when the user asks.
 7. No data and no API keys in git. Keys live in `.env`.
