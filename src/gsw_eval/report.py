@@ -77,6 +77,11 @@ def tax_table(tax: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _two_lines(label: str, width: int = 12) -> str:
+    """Break a long tick label after its first word."""
+    return label.replace(" ", "\n", 1) if len(label) > width else label
+
+
 def quality_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
     """Grouped bars: chrF per model under each condition, with 95 percent intervals."""
     import matplotlib
@@ -116,7 +121,7 @@ def quality_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
             yerr=[lo, hi],
             error_kw={"ecolor": INK, "elinewidth": 0.8, "capsize": 2},
         )
-    ax.set_xticks(range(len(models)), models)
+    ax.set_xticks(range(len(models)), [_two_lines(MODEL_LABEL.get(m, m)) for m in models])
     ax.set_ylabel("chrF", color=INK)
     ax.set_ylim(0, 100)
     _style(ax)
@@ -199,20 +204,37 @@ def _tex_est(est: dict[str, float], digits: int = 1) -> str:
     return f"{est['value']:.{digits}f}\\,{{\\scriptsize$\\pm${half:.{digits}f}}}"
 
 
-def quality_latex(runs: list[dict[str, Any]]) -> str:
-    """LaTeX tabular: chrF per model and condition, then dialect and spelling cost."""
-    head = "Model & Std.\\ German & Clean & Texting & Char.\\ noise & Dialect cost & Spelling cost"
-    lines = ["\\begin{tabular}{lrrrrrr}", "\\toprule", head + " \\\\", "\\midrule"]
+def quality_latex(runs: list[dict[str, Any]], compact: bool = False) -> str:
+    """LaTeX tabular: chrF per model and condition, then dialect and spelling cost.
+
+    `compact` fits one column: no intervals and no dialect cost (used for NTREX, whose
+    dialect cost mixes dialect with translation wording).
+    """
+
+    def cell(est: dict[str, float]) -> str:
+        return f"{est['value']:.1f}" if compact else _tex_est(est)
+
+    if compact:
+        head = "Model & Std.\\ DE & Clean & Texting & Noise & Spelling"
+    else:
+        head = (
+            "Model & Std.\\ German & Clean & Texting & Char.\\ noise & Dialect cost & Spelling cost"
+        )
+    lines = [f"\\begin{{tabular}}{{l{'r' * (5 if compact else 6)}}}", "\\toprule"]
+    lines += [head + " \\\\", "\\midrule"]
     for run in runs:
         overall = {
             s["condition"]: s["chrf"] for s in run["scores"] if s["dialect"] in ("ALL", "DE")
         }
         dec = run.get("decomposition") or {}
-        cells = [_tex_est(overall[c]) if c in overall else "--" for c in CONDITION_ORDER]
-        cells.append(_tex_est(dec["dialect_cost"]) if "dialect_cost" in dec else "--")
+        cells = [cell(overall[c]) if c in overall else "--" for c in CONDITION_ORDER]
+        if not compact:
+            cells.append(cell(dec["dialect_cost"]) if "dialect_cost" in dec else "--")
         texting = dec.get("spelling_cost_texting")
-        cells.append(_tex_est(texting) if texting else "--")
+        cells.append(cell(texting) if texting else "--")
         name = MODEL_LABEL.get(run["meta"]["model"], run["meta"]["model"])
+        if compact:
+            name = name.replace(" (lower bound)", "")
         lines.append(f"{name} & " + " & ".join(cells) + " \\\\")
     lines += ["\\bottomrule", "\\end{tabular}"]
     return "\n".join(lines) + "\n"
@@ -304,8 +326,8 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
     if identity is None:
         return []
     x = per_dialect(identity)
-    fig, ax = plt.subplots(figsize=(3.1, 2.6))
-    markers = ["o", "s", "^"]
+    fig, ax = plt.subplots(figsize=(3.1, 3.1))
+    markers = ["o", "s", "^", "D"]
     for j, run in enumerate(r for r in runs if r["meta"]["model"] != "identity"):
         y = per_dialect(run)
         dialects = sorted(x)
@@ -316,7 +338,7 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
             xs,
             ys,
             s=28,
-            marker=markers[j % 3],
+            marker=markers[j % len(markers)],
             color=SERIES[j],
             label=label,
             zorder=3,
@@ -342,7 +364,15 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
     ax.tick_params(labelsize=7)
     _style(ax)
     ax.grid(axis="x", color=GRID, linewidth=0.8)
-    ax.legend(frameon=False, fontsize=6.5, loc="upper left")
+    ax.legend(
+        frameon=False,
+        fontsize=6,
+        loc="upper center",
+        bbox_to_anchor=(0.45, -0.3),
+        ncol=2,
+        columnspacing=0.8,
+        handletextpad=0.2,
+    )
     fig.tight_layout()
     return _save(fig, out)
 
@@ -366,7 +396,9 @@ def build_report(results: Path) -> list[Path]:
     ntrex.sort(key=lambda r: (order.get(r["meta"]["model"], 9), r["meta"]["model"]))
     if ntrex:
         sections += ["## Second test set: Swiss German NTREX (chrF)\n", quality_table(ntrex), ""]
-        (tables / "quality_ntrex.tex").write_text(quality_latex(ntrex), encoding="utf-8")
+        (tables / "quality_ntrex.tex").write_text(
+            quality_latex(ntrex, compact=True), encoding="utf-8"
+        )
         written.append(tables / "quality_ntrex.tex")
     tax_path = results / "tax" / "token_tax_all.json"
     if tax_path.exists():
