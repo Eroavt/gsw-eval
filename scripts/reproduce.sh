@@ -8,8 +8,22 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+SUBSET=(--split test --limit 100 --conditions de_input,clean,texting --cache-only)
+
+[[ -f data/ntrex/newstest2019-ref.deu.txt ]] || scripts/get_ntrex.sh
 gsw-eval tax
-for model in identity apertus-8b llama-3.1-8b gemma-3-27b claude-sonnet-5.5; do
-  gsw-eval run --model "$model" --split test --cache-only
+for split in test ntrex; do
+  for model in identity apertus-8b llama-3.1-8b gemma-3-27b claude-sonnet-5.5; do
+    gsw-eval run --model "$model" --split "$split" --cache-only
+  done
+  gsw-eval compare --split "$split"
+done
+for model in apertus-8b llama-3.1-8b claude-sonnet-5.5; do
+  for prompt in normalize_v1 normalize_v2 normalize_v3; do
+    gsw-eval run --model "$model" "${SUBSET[@]}" --prompt "$prompt"
+  done
+done
+for model in apertus-8b-bf16 llama-3.1-8b-bf16; do
+  gsw-eval run --model "$model" "${SUBSET[@]}"
 done
 gsw-eval report

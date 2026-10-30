@@ -3,7 +3,7 @@ import pytest
 from gsw_eval.data import Example
 from gsw_eval.models import IdentityNormalizer
 from gsw_eval.noise import Rule
-from gsw_eval.run import build_items, decompose, run_items, score_rows
+from gsw_eval.run import build_items, compare_rows, copy_rate, decompose, run_items, score_rows
 
 EXAMPLES = [
     Example("1", "BE", "I gange hei.", "Ich gehe nach Hause.", "swissdial"),
@@ -44,3 +44,17 @@ def test_identity_scores_and_decomposition() -> None:
         costs["chrf_de_input"]["value"] - costs["chrf_clean"]["value"]
     )
     assert costs["n_sentences"]["value"] == 2
+
+
+def test_compare_rows_and_copy_rate() -> None:
+    items = build_items(EXAMPLES, rules=RULES)
+    identity = run_items(IdentityNormalizer(), items)
+    perfect = [{**r, "output": r["reference"]} for r in identity]
+    diff = compare_rows(perfect, identity, n_boot=50)
+    assert diff["de_input"]["delta"] == pytest.approx(0.0)
+    assert diff["clean"]["delta"] > 0
+    texting_only = [r if r["condition"] == "texting" else {**r, "output": ""} for r in identity]
+    assert compare_rows(identity, texting_only, n_boot=50)["texting"]["delta"] == 0.0
+    assert copy_rate(identity) == 1.0
+    assert copy_rate(identity, "clean") == 1.0
+    assert copy_rate(perfect, "clean") == 0.0

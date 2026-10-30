@@ -2,6 +2,7 @@
 
 gsw-eval tax                      token tax table for every tokenizer and condition
 gsw-eval run --model apertus-8b   run one model on the test split, all conditions
+gsw-eval compare                  paired model differences and copy rates from saved outputs
 gsw-eval report                   tables and figures from everything in results/
 """
 
@@ -16,7 +17,16 @@ from dotenv import load_dotenv
 from gsw_eval.data import load_fresh, load_ntrex, load_split, load_swissdial, select
 from gsw_eval.models import MODELS, REPO_ROOT, get_model
 from gsw_eval.noise import load_rules, strip_punct
-from gsw_eval.run import CONDITIONS, build_items, decompose, run_items, score_rows, write_jsonl
+from gsw_eval.run import (
+    CONDITIONS,
+    build_items,
+    compare_rows,
+    copy_rate,
+    decompose,
+    run_items,
+    score_rows,
+    write_jsonl,
+)
 
 app = typer.Typer(help="Benchmark LLMs on written Swiss German.", no_args_is_help=True)
 
@@ -204,6 +214,47 @@ def run(
                 f"  spelling cost {costs['spelling_cost_texting']['value']:5.1f} chrF points (texting)"
             )
     typer.echo(f"wrote results/scores/{tag}.json")
+
+
+PAIRS = "apertus-8b:llama-3.1-8b,gemma-3-27b:apertus-8b,claude-sonnet-5.5:apertus-8b,claude-sonnet-5.5:gemma-3-27b"
+
+
+@app.command()
+def compare(
+    split: str = typer.Option("test", help="test or ntrex"),
+    pairs: str = typer.Option(PAIRS, help="comma-separated model_a:model_b pairs"),
+    n_boot: int = typer.Option(1000, help="bootstrap resamples"),
+) -> None:
+    """Paired bootstrap between models and copy rates on Standard German input (cache only)."""
+
+    examples = _examples(split)
+    items = build_items(examples, CONDITIONS, load_rules(RULES), SEED, NOISE_RATE)
+
+    def rows_of(model: str) -> list[dict[str, str]]:
+        normalizer = get_model(model)
+        if model != "identity" and normalizer.missing([it.input for it in items]):
+            raise typer.BadParameter(f"{model} has uncached outputs on {split}: run it first")
+        return run_items(normalizer, items, generate=False)
+
+    result: dict[str, object] = {}
+    models: set[str] = set()
+    for pair in pairs.split(","):
+        a, b = pair.split(":")
+        models |= {a, b}
+        for condition, diff in compare_rows(rows_of(a), rows_of(b), n_boot=n_boot).items():
+            result[f"{a}_vs_{b}_{condition}"] = diff
+            typer.echo(
+                f"  {a} - {b} {condition:10s} {diff['delta']:+5.1f} "
+                f"[{diff['low']:+.1f}, {diff['high']:+.1f}] p={diff['p_value']:.3f}"
+            )
+    copies = {m: copy_rate(rows_of(m)) for m in sorted(models)}
+    for m, rate in copies.items():
+        typer.echo(f"  {m} returns Standard German input unchanged: {rate:.0%}")
+    _save(
+        {"meta": {"split": split, "n_boot": n_boot}, "pairs": result, "copy_rate": copies},
+        RESULTS / "comparisons" / f"paired_{split}.json",
+    )
+    typer.echo(f"wrote results/comparisons/paired_{split}.json")
 
 
 @app.command("fresh-import")

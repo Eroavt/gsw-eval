@@ -1,50 +1,110 @@
 {
- "apertus-8b_vs_llama-3.1-8b_de_input": {
-  "delta": 2.483292366284701,
-  "low": 1.374737954784815,
-  "high": 3.637889305957218,
-  "p_value": 0.002
+ "meta": {
+  "split": "test",
+  "n_boot": 1000
  },
- "apertus-8b_vs_llama-3.1-8b_clean": {
-  "delta": 7.188560993633445,
-  "low": 6.6043776586884455,
-  "high": 7.756831501233376,
-  "p_value": 0.0
+ "pairs": {
+  "apertus-8b_vs_llama-3.1-8b_de_input": {
+   "delta": 2.483292366284701,
+   "low": 1.374737954784815,
+   "high": 3.637889305957218,
+   "p_value": 0.002
+  },
+  "apertus-8b_vs_llama-3.1-8b_clean": {
+   "delta": 6.362637935069458,
+   "low": 5.870505561599829,
+   "high": 6.812765396351711,
+   "p_value": 0.0
+  },
+  "apertus-8b_vs_llama-3.1-8b_texting": {
+   "delta": 7.874147387601624,
+   "low": 7.317252907097214,
+   "high": 8.393927730577353,
+   "p_value": 0.0
+  },
+  "apertus-8b_vs_llama-3.1-8b_char_noise": {
+   "delta": 6.461172096095552,
+   "low": 5.939962319317071,
+   "high": 6.926223687904872,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_de_input": {
+   "delta": -9.342405764905422,
+   "low": -10.5051787959463,
+   "high": -8.12998621328463,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_clean": {
+   "delta": 1.120880124979152,
+   "low": 0.6881512219402619,
+   "high": 1.5813036021999156,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_texting": {
+   "delta": 2.0467445722679827,
+   "low": 1.5812825653025058,
+   "high": 2.4967519791460604,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_char_noise": {
+   "delta": 2.0888420052452545,
+   "low": 1.6228501354172082,
+   "high": 2.5344891933765954,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_de_input": {
+   "delta": 0.24203134134977233,
+   "low": -1.116292283464753,
+   "high": 1.4835525687882234,
+   "p_value": 0.716
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_clean": {
+   "delta": 11.544145949331337,
+   "low": 11.086114643519338,
+   "high": 12.043101356913061,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_texting": {
+   "delta": 13.92747412875788,
+   "low": 13.40616822022273,
+   "high": 14.437836845145176,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_char_noise": {
+   "delta": 12.979098054063684,
+   "low": 12.486578163716413,
+   "high": 13.495415637798933,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_de_input": {
+   "delta": 9.584437106255194,
+   "low": 8.152503154201256,
+   "high": 10.7986341745768,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_clean": {
+   "delta": 10.423265824352185,
+   "low": 10.005285459156593,
+   "high": 10.847434517572358,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_texting": {
+   "delta": 11.880729556489896,
+   "low": 11.393306154074615,
+   "high": 12.362734497735744,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_char_noise": {
+   "delta": 10.89025604881843,
+   "low": 10.443290583544387,
+   "high": 11.32287200009993,
+   "p_value": 0.0
+  }
  },
- "apertus-8b_vs_llama-3.1-8b_texting": {
-  "delta": 8.681091693834816,
-  "low": 8.087290575805364,
-  "high": 9.256045872406677,
-  "p_value": 0.0
- },
- "apertus-8b_vs_llama-3.1-8b_char_noise": {
-  "delta": 7.360462809759298,
-  "low": 6.731688161681776,
-  "high": 7.939608937724019,
-  "p_value": 0.0
- },
- "claude-sonnet-5.5_vs_apertus-8b_de_input": {
-  "delta": 0.24203134134977233,
-  "low": -1.116292283464753,
-  "high": 1.4835525687882234,
-  "p_value": 0.716
- },
- "claude-sonnet-5.5_vs_apertus-8b_clean": {
-  "delta": 11.609190681304256,
-  "low": 11.138617403850018,
-  "high": 12.11504576954942,
-  "p_value": 0.0
- },
- "claude-sonnet-5.5_vs_apertus-8b_texting": {
-  "delta": 13.92747412875788,
-  "low": 13.40616822022273,
-  "high": 14.437836845145176,
-  "p_value": 0.0
- },
- "claude-sonnet-5.5_vs_apertus-8b_char_noise": {
-  "delta": 13.013237370147678,
-  "low": 12.519678519221987,
-  "high": 13.537570214320036,
-  "p_value": 0.0
+ "copy_rate": {
+  "apertus-8b": 0.64,
+  "claude-sonnet-5.5": 0.588,
+  "gemma-3-27b": 0.23,
+  "llama-3.1-8b": 0.448
  }
 }

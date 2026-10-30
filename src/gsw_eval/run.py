@@ -21,7 +21,13 @@ from typing import Any
 import numpy as np
 
 from gsw_eval.data import Example
-from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats, reference_of
+from gsw_eval.metrics import (
+    _score_from_stats,
+    chrf_estimate,
+    chrf_stats,
+    paired_bootstrap,
+    reference_of,
+)
 from gsw_eval.noise import Rule, character_noise, texting_style
 
 CONDITIONS = ("de_input", "clean", "texting", "char_noise")
@@ -159,6 +165,41 @@ def decompose(
         "high": float(len(ids)),
     }
     return result
+
+
+def compare_rows(
+    rows_a: Sequence[dict[str, str]],
+    rows_b: Sequence[dict[str, str]],
+    n_boot: int = 1000,
+) -> dict[str, dict[str, float]]:
+    """Paired bootstrap of model A minus model B per condition, on the items both have."""
+    # Clean, texting and noised items share a key, so match on the condition too.
+    by_key = {(r["key"], r["condition"]): r for r in rows_b}
+    result = {}
+    for condition in CONDITIONS:
+        pairs = [
+            (a, by_key[(a["key"], condition)])
+            for a in rows_a
+            if a["condition"] == condition and (a["key"], condition) in by_key
+        ]
+        if not pairs:
+            continue
+        diff = paired_bootstrap(
+            [a["output"] for a, _ in pairs],
+            [b["output"] for _, b in pairs],
+            [reference_of(a) for a, _ in pairs],
+            n=n_boot,
+        )
+        result[condition] = diff.as_dict()
+    return result
+
+
+def copy_rate(rows: Sequence[dict[str, str]], condition: str = "de_input") -> float:
+    """Share of inputs the model returned unchanged (ignoring surrounding whitespace)."""
+    selected = [r for r in rows if r["condition"] == condition]
+    if not selected:
+        return float("nan")
+    return sum(r["output"].strip() == r["input"].strip() for r in selected) / len(selected)
 
 
 def write_jsonl(rows: Sequence[dict[str, Any]], path: Path) -> None:
