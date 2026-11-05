@@ -26,5 +26,12 @@ done
 for model in apertus-8b-bf16 llama-3.1-8b-bf16; do
   gsw-eval run --model "$model" "${SUBSET[@]}"
 done
+# Stress test with stronger character noise. Add a model here once it has run at these rates.
+for model in claude-sonnet-5.5; do
+  for rate in 0.1 0.25 0.5 1.0; do
+    gsw-eval run --model "$model" --split test --limit 100 --conditions clean,char_noise \
+      --noise-rate "$rate" --cache-only
+  done
+done
 gsw-eval report
 gsw-eval site

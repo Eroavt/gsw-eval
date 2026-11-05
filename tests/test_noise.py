@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from gsw_eval.noise import Rule, character_noise, load_rules, texting_style
+from gsw_eval.noise import Rule, changed_words, character_noise, load_rules, texting_style
 
 RULES_FILE = Path(__file__).parent.parent / "rules" / "texting_v0.tsv"
 SENTENCE = "Zur Ziit isch er in «Parasite», em Siegerfilm vo Cannes, z'gseh."
@@ -59,3 +59,9 @@ def test_strip_punct() -> None:
     from gsw_eval.noise import strip_punct
 
     assert strip_punct("Er isch «do», z'gseh!") == "Er isch do zgseh"
+
+
+def test_changed_words_ignores_case_and_punctuation() -> None:
+    assert changed_words(["Ich gehe, heim."], ["ich gehe heim"]) == 0.0
+    assert changed_words(["ich gehe heim"], ["ich geh heim"]) == pytest.approx(1 / 3)
+    assert changed_words([""], [""]) == 0.0

@@ -70,6 +70,15 @@ if [[ "$JOB" == all || "$JOB" == bf16 ]]; then
   done
 fi
 
+if [[ "$JOB" == all || "$JOB" == dose ]]; then
+  step "Stress test: stronger character noise, 3 models, 100 test sentences (about 2 hours)"
+  for model in apertus-8b llama-3.1-8b gemma-3-27b; do
+    for rate in 0.1 0.25 0.5 1.0; do
+      run --model "$model" --split test --limit 100 --conditions clean,char_noise --noise-rate "$rate"
+    done
+  done
+fi
+
 if [[ "$JOB" == all || "$JOB" == fresh ]]; then
   if [[ -f fresh/data/fresh_v1.csv ]]; then
     step "Fresh set: 3 models (a few minutes)"

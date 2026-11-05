@@ -1,4 +1,4 @@
-"""Tables and figures for the report, built from results/. Owner: Erik.
+"""Tables and figures for the report, built from results/.
 
 Figures are vector PDFs (for LaTeX) plus PNGs (for the README). Colors come from a
 colorblind-validated categorical palette in fixed order; conditions also carry hatching,
@@ -277,6 +277,77 @@ def tax_latex(tax: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _pooled(run: dict[str, Any], condition: str) -> float:
+    return next(
+        r["chrf"]["value"]
+        for r in run["scores"]
+        if r["condition"] == condition and r["dialect"] == "ALL"
+    )
+
+
+DOSE_RATES = (10, 25, 50, 100)
+
+
+def dose_rows(results: Path) -> list[dict[str, Any]]:
+    """How much quality each amount of spelling change costs, on the first 100 test sentences.
+
+    One row per condition: the share of words changed, then per model the loss in chrF compared
+    with careful spelling. Models without a run at that rate are left out of the row.
+    """
+
+    def load(path: Path) -> dict[str, Any] | None:
+        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+    scores = results / "scores"
+    models = [m for m in MODEL_LABEL if m != "identity"]
+    rows = []
+    chat = {m: load(scores / f"{m}_test_first100_normalize_v1.json") for m in models}
+    chat = {m: run for m, run in chat.items() if run and "words_changed" in run["meta"]}
+    if chat:
+        rows.append(
+            {
+                "label": "Simulated chat spelling",
+                "words_changed": next(iter(chat.values()))["meta"]["words_changed"]["texting"],
+                "loss": {
+                    m: round(_pooled(r, "clean") - _pooled(r, "texting"), 2)
+                    for m, r in chat.items()
+                },
+            }
+        )
+    for rate in DOSE_RATES:
+        suffix = "" if rate == 10 else f"_noise{rate}"
+        runs = {m: load(scores / f"{m}_test_first100{suffix}.json") for m in models}
+        runs = {m: run for m, run in runs.items() if run}
+        if runs:
+            rows.append(
+                {
+                    "label": f"Noise in {rate}\\% of words",
+                    "words_changed": next(iter(runs.values()))["meta"]["words_changed"][
+                        "char_noise"
+                    ],
+                    "loss": {
+                        m: round(_pooled(r, "clean") - _pooled(r, "char_noise"), 2)
+                        for m, r in runs.items()
+                    },
+                }
+            )
+    return rows
+
+
+def dose_latex(rows: list[dict[str, Any]]) -> str:
+    """LaTeX tabular: words changed and chrF lost per spelling condition and model."""
+    models = [m for m in MODEL_LABEL if any(m in r["loss"] for r in rows)]
+    head = ["Input", "Words changed"] + [MODEL_LABEL[m].split()[0] for m in models]
+    lines = [f"\\begin{{tabular}}{{l{'r' * (len(models) + 1)}}}", "\\toprule"]
+    lines += [" & ".join(head) + " \\\\", "\\midrule"]
+    for row in rows:
+        cells = [row["label"], f"{100 * row['words_changed']:.0f}\\%"]
+        cells += [f"{row['loss'][m]:.1f}" if m in row["loss"] else "--" for m in models]
+        lines.append(" & ".join(cells) + " \\\\")
+    lines += ["\\bottomrule", "\\end{tabular}"]
+    return "\n".join(lines) + "\n"
+
+
 def prompt_latex(results: Path) -> str | None:
     """LaTeX tabular: clean and texting chrF per model under each prompt (first 100 test ids)."""
     runs = _load(list((results / "scores").glob("*_test_first100_normalize_v*.json")))
@@ -407,6 +478,10 @@ def build_report(results: Path) -> list[Path]:
         written += tax_figure(tax, results / "figures" / "token_tax")
         (tables / "tax.tex").write_text(tax_latex(tax), encoding="utf-8")
         written.append(tables / "tax.tex")
+    dose = dose_rows(results)
+    if dose:
+        (tables / "dose.tex").write_text(dose_latex(dose), encoding="utf-8")
+        written.append(tables / "dose.tex")
     prompts = prompt_latex(results)
     if prompts:
         (tables / "prompts.tex").write_text(prompts, encoding="utf-8")

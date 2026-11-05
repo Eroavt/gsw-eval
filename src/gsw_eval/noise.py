@@ -1,4 +1,4 @@
-"""Spelling-noise generator. Owner: Simone.
+"""Spelling-noise generator.
 
 Two kinds of noise, both deterministic given a seed and a sentence key:
 
@@ -11,9 +11,11 @@ Two kinds of noise, both deterministic given a seed and a sentence key:
 """
 
 import csv
+import difflib
 import random
 import re
 import zlib
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -107,3 +109,20 @@ def character_noise(text: str, rate: float, seed: int, key: str = "") -> str:
         raise ValueError("rate must be between 0 and 1")
     rng = rng_for(seed, key or text)
     return _WORD.sub(lambda m: _perturb(m[0], rng) if rng.random() < rate else m[0], text)
+
+
+def changed_words(originals: Sequence[str], rewritten: Sequence[str]) -> float:
+    """Share of words that a rewrite changed, ignoring case and punctuation.
+
+    This is the dose of a spelling condition: lower case and dropped punctuation count as
+    nothing, so it shows how much of a rewrite reaches the words themselves.
+    """
+    changed = total = 0
+    for original, new in zip(originals, rewritten):
+        before = _WORD.findall(original.lower())
+        after = _WORD.findall(new.lower())
+        matcher = difflib.SequenceMatcher(a=before, b=after, autojunk=False)
+        kept = sum(block.size for block in matcher.get_matching_blocks())
+        changed += len(before) - kept
+        total += len(before)
+    return changed / total if total else 0.0
