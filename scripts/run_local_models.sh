@@ -83,9 +83,10 @@ fi
 
 step "Report"
 gsw-eval report
+gsw-eval site
 
 step "Save results"
-git add results
+git add results site/data
 if git diff --cached --quiet; then
   echo "nothing new"
 else

@@ -27,3 +27,4 @@ for model in apertus-8b-bf16 llama-3.1-8b-bf16; do
   gsw-eval run --model "$model" "${SUBSET[@]}"
 done
 gsw-eval report
+gsw-eval site

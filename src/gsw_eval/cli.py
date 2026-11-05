@@ -4,6 +4,7 @@ gsw-eval tax                      token tax table for every tokenizer and condit
 gsw-eval run --model apertus-8b   run one model on the test split, all conditions
 gsw-eval compare                  paired model differences and copy rates from saved outputs
 gsw-eval report                   tables and figures from everything in results/
+gsw-eval site                     data files for the results website in site/
 """
 
 import json
@@ -338,6 +339,19 @@ def report() -> None:
 
     for path in build_report(RESULTS):
         typer.echo(f"wrote {path.relative_to(REPO_ROOT)}")
+
+
+@app.command()
+def site() -> None:
+    """Build the data files of the results website from the cache (no model is called)."""
+    from gsw_eval.site import SITE_MODELS, build_sentences, build_summary, write_site_data
+
+    items = build_items(_examples("test"), CONDITIONS, load_rules(RULES), SEED, NOISE_RATE)
+    outputs = {m: run_items(get_model(m), items, generate=False) for m in SITE_MODELS}
+    paths = write_site_data(
+        build_summary(RESULTS), build_sentences(outputs), REPO_ROOT / "site" / "data"
+    )
+    typer.echo(f"wrote {len(paths)} files to site/data/")
 
 
 if __name__ == "__main__":

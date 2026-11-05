@@ -23,14 +23,17 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 - `src/gsw_eval/tax.py`      token tax per tokenizer
 - `src/gsw_eval/fresh.py`, `ratings.py`  fresh set and human ratings
 - `src/gsw_eval/report.py`   tables (`results/tables/*.tex`) and figures for the report
+- `src/gsw_eval/site.py`     data for the results website; the page itself is `site/` (plain HTML, CSS, JS)
 - `data/`  never committed (SwissDial licence; NTREX via `scripts/get_ntrex.sh`)
 
 ## Rules
 1. Work on a branch, never commit to `main`. Run `ruff check src tests` and `pytest` before committing.
 2. Commit messages: plain text. No "Co-Authored-By" lines and no AI attribution in commits or PRs.
 3. Type hints on every function, docstring on every public function, a test for every new function.
-4. Never type numbers into the report by hand: they come from `gsw-eval report`.
+4. Never type numbers into the report or the website by hand: they come from `gsw-eval report`
+   and `gsw-eval site`.
 5. Scoring without generating: `gsw-eval run --model X --split test --cache-only`; everything
    at once: `scripts/reproduce.sh`.
 6. Local model runs take hours and heat the Mac: only start them when the user asks.
-7. No data and no API keys in git. Keys live in `.env`.
+7. No data and no API keys in git. Keys live in `.env`. The one exception is `site/data/`: SwissDial
+   test sentences for the website (CC BY-NC 4.0, credited on the page). Never add NTREX sentences there.
