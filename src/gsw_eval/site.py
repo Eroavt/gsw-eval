@@ -105,9 +105,7 @@ def build_summary(results: Path) -> dict[str, Any]:
         "test": _quality_rows(results, "test", models),
         "ntrex": _quality_rows(results, "ntrex", models),
         "tax": _tax_rows(tax),
-        "dose": [
-            {**row, "label": row["label"].replace("\\%", "%")} for row in dose_rows(results)
-        ],
+        "dose": [{**row, "label": row["label"].replace("\\%", "%")} for row in dose_rows(results)],
     }
 
 
