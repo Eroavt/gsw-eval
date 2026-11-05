@@ -1,4 +1,4 @@
-"""Build evaluation items, run a model on them, and score the outputs. Owner: Erik.
+"""Build evaluation items, run a model on them, and score the outputs.
 
 Conditions (what the model receives as input):
 - de_input:   the Standard German reference itself. Upper bound: the score a model reaches
@@ -109,7 +109,10 @@ def score_rows(rows: Sequence[dict[str, str]], n_boot: int = 1000) -> list[dict[
     scores = []
     for (condition, dialect), group in sorted(groups.items()):
         est = chrf_estimate(
-            [r["output"] for r in group], [reference_of(r) for r in group], n=n_boot
+            [r["output"] for r in group],
+            [reference_of(r) for r in group],
+            n=n_boot,
+            clusters=[r["sentence_id"] for r in group],
         )
         scores.append(
             {"condition": condition, "dialect": dialect, "n": len(group), "chrf": est.as_dict()}
@@ -189,6 +192,7 @@ def compare_rows(
             [b["output"] for _, b in pairs],
             [reference_of(a) for a, _ in pairs],
             n=n_boot,
+            clusters=[a["sentence_id"] for a, _ in pairs],
         )
         result[condition] = diff.as_dict()
     return result

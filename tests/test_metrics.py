@@ -85,3 +85,19 @@ def test_multi_reference_uses_best_match() -> None:
     mixed = ["Er kommt.", ("Er geht.", "Er läuft.")]
     score, low, high = bootstrap_ci(["Er kommt.", "Er läuft."], mixed, n=50)
     assert score == pytest.approx(100.0) and low <= score <= high
+
+
+def test_cluster_bootstrap_is_wider_when_items_are_not_independent() -> None:
+    good, bad = "Ich gehe nach Hause.", "Wir essen am Abend."
+    hyps, refs, clusters = [], [], []
+    for i in range(30):
+        text = good if i % 2 else bad
+        hyps += [text] * 8
+        refs += [good] * 8
+        clusters += [str(i)] * 8
+    plain = bootstrap_ci(hyps, refs, n=200)
+    clustered = bootstrap_ci(hyps, refs, n=200, clusters=clusters)
+    assert plain[0] == pytest.approx(clustered[0])
+    assert clustered[2] - clustered[1] > 1.5 * (plain[2] - plain[1])
+    with pytest.raises(ValueError):
+        bootstrap_ci(hyps, refs, n=10, clusters=["1"])

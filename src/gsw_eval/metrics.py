@@ -1,4 +1,4 @@
-"""Scoring. Owner: Kelvin.
+"""Scoring.
 
 chrF via sacrebleu, bootstrap confidence intervals, paired bootstrap for differences,
 and Cohen's kappa for the human ratings.
@@ -105,11 +105,31 @@ def _resample_indices(n_items: int, n: int, seed: int) -> np.ndarray:
     return np.random.default_rng(seed).integers(0, n_items, size=(n, n_items))
 
 
+def _by_cluster(stats: np.ndarray, clusters: Sequence[str] | None) -> np.ndarray:
+    """Sum the statistics per cluster, so a bootstrap resamples clusters instead of rows."""
+    if clusters is None:
+        return stats
+    if len(clusters) != len(stats):
+        raise ValueError(f"{len(clusters)} clusters for {len(stats)} items")
+    groups = {c: i for i, c in enumerate(dict.fromkeys(clusters))}
+    summed = np.zeros((len(groups), stats.shape[1]), dtype=stats.dtype)
+    np.add.at(summed, [groups[c] for c in clusters], stats)
+    return summed
+
+
 def bootstrap_ci(
-    hypotheses: Sequence[str], references: Sequence[Reference], n: int = 1000, seed: int = 0
+    hypotheses: Sequence[str],
+    references: Sequence[Reference],
+    n: int = 1000,
+    seed: int = 0,
+    clusters: Sequence[str] | None = None,
 ) -> tuple[float, float, float]:
-    """Return (score, lower, upper) for a 95 percent bootstrap interval on corpus chrF."""
-    stats = chrf_stats(hypotheses, references)
+    """Return (score, lower, upper) for a 95 percent bootstrap interval on corpus chrF.
+
+    Items that share a cluster, such as the eight dialects of one sentence, are not independent.
+    Pass `clusters` to resample whole clusters, which gives an honest interval.
+    """
+    stats = _by_cluster(chrf_stats(hypotheses, references), clusters)
     idx = _resample_indices(len(stats), n, seed)
     samples = [_score_from_stats(stats[row].sum(axis=0)) for row in idx]
     low, high = np.percentile(samples, [2.5, 97.5])
@@ -117,10 +137,14 @@ def bootstrap_ci(
 
 
 def chrf_estimate(
-    hypotheses: Sequence[str], references: Sequence[Reference], n: int = 1000, seed: int = 0
+    hypotheses: Sequence[str],
+    references: Sequence[Reference],
+    n: int = 1000,
+    seed: int = 0,
+    clusters: Sequence[str] | None = None,
 ) -> Estimate:
     """Corpus chrF with its bootstrap interval, as an Estimate."""
-    return Estimate(*bootstrap_ci(hypotheses, references, n=n, seed=seed))
+    return Estimate(*bootstrap_ci(hypotheses, references, n=n, seed=seed, clusters=clusters))
 
 
 def paired_bootstrap(
@@ -129,6 +153,7 @@ def paired_bootstrap(
     references: Sequence[Reference],
     n: int = 1000,
     seed: int = 0,
+    clusters: Sequence[str] | None = None,
 ) -> Difference:
     """chrF(a) minus chrF(b) on the same sentences, resampling sentences jointly.
 
@@ -137,8 +162,8 @@ def paired_bootstrap(
     """
     if len(hypotheses_a) != len(hypotheses_b):
         raise ValueError("paired systems must score the same sentences")
-    stats_a = chrf_stats(hypotheses_a, references)
-    stats_b = chrf_stats(hypotheses_b, references)
+    stats_a = _by_cluster(chrf_stats(hypotheses_a, references), clusters)
+    stats_b = _by_cluster(chrf_stats(hypotheses_b, references), clusters)
     idx = _resample_indices(len(stats_a), n, seed)
     deltas = np.array(
         [
