@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use gsw-eval, please cite it like this."
+title: "gsw-eval: an open benchmark for LLMs on written Swiss German"
+type: software
+license: MIT
+repository-code: "https://github.com/Eroavt/gsw-eval"
+date-released: "2026-11-19"
+authors:
+  - family-names: Avtandilyan
+    given-names: Erik
+  - family-names: Martinecz
+    given-names: Simone
+  - family-names: Myers
+    given-names: Kelvin

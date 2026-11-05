@@ -3,6 +3,13 @@ name = "gsw-eval"
 version = "0.1.0"
 description = "Benchmark for large language models on written Swiss German"
 requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Erik Avtandilyan" },
+    { name = "Simone Martinecz" },
+    { name = "Kelvin Myers" },
+]
 dependencies = [
     "sacrebleu>=2.4",
     "transformers>=4.45",
@@ -21,6 +28,9 @@ dependencies = [
 mlx = ["mlx-lm>=0.32"]
 api = ["anthropic>=1.0"]
 dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[project.urls]
+Repository = "https://github.com/Eroavt/gsw-eval"
 
 [project.scripts]
 gsw-eval = "gsw_eval.cli:app"

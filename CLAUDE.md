@@ -10,9 +10,9 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 ## Status (keep this short and current)
 - Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Gemma 3 27B,
   Claude Sonnet 5.5 on both; prompt and bf16 checks; token tax for 9 tokenizers; paired
-  comparisons (`gsw-eval compare`); rating sheet; fresh-set code; report draft.
-- Open: fresh set and human ratings (need native speakers), Discussion section, issue #24
-  (generic adapter + leaderboard).
+  comparisons (`gsw-eval compare`); website; Dialäkt-Duell voting tool; report draft.
+- Open: fresh set and human ratings (need native speakers), collecting votes, deployment
+  (`docs/DEPLOY.md`), Discussion section, issue #24 (generic adapter + leaderboard).
 
 ## Layout
 - `src/gsw_eval/data.py`     SwissDial, NTREX and fresh-set loaders, fixed splits (`splits/`)
@@ -24,6 +24,7 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 - `src/gsw_eval/fresh.py`, `ratings.py`  fresh set and human ratings
 - `src/gsw_eval/report.py`   tables (`results/tables/*.tex`) and figures for the report
 - `src/gsw_eval/site.py`     data for the results website; the page itself is `site/` (plain HTML, CSS, JS)
+- `src/gsw_eval/arena.py`    analysis of the votes; the voting tool itself is `arena/`, `api/`, `site/arena.html`
 - `data/`  never committed (SwissDial licence; NTREX via `scripts/get_ntrex.sh`)
 
 ## Rules
