@@ -19,3 +19,6 @@ report/*.blg
 report/*.fls
 report/*.fdb_latexmk
 report/*.out
+
+node_modules/
+.arena-db/

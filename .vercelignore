@@ -1,0 +1,13 @@
+results
+report
+data
+docs
+tests
+src
+scripts
+splits
+fresh
+ratings
+rules
+.venv
+.arena-db
