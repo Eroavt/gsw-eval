@@ -25,12 +25,72 @@ from gsw_eval.metrics import cohen_kappa, mean_estimate, reference_of, sentence_
 
 SHEET_COLUMNS = ["item", "swiss_german", "reference_de", "output", "adequacy", "comment"]
 KEY_COLUMNS = ["item", "model", "key", "condition", "dialect", "sentence_id", "chrf"]
+ERROR_COLUMNS = [
+    "item",
+    "dialect",
+    "model",
+    "swiss_german",
+    "reference_de",
+    "output",
+    "chrf",
+    "error_type",
+    "comment",
+]
 
 
 @dataclass(frozen=True)
 class RatingSample:
     sheet: list[dict[str, str]]
     key: list[dict[str, str]]
+
+
+def error_sample(
+    outputs: dict[str, Sequence[dict[str, str]]],
+    per_cell: int = 3,
+    worst_share: float = 0.25,
+    seed: int = 0,
+) -> list[dict[str, str]]:
+    """Pick clean-input outputs with low chrF for error analysis.
+
+    Draws `per_cell` rows per dialect and model from that cell's worst `worst_share`, using
+    every sentence at most once, so no single dialect, model or sentence dominates.
+    """
+    rng = random.Random(seed)
+    used_sentences: set[str] = set()
+    picked: list[tuple[str, float, dict[str, str]]] = []
+    for model in sorted(outputs):
+        rows = [r for r in outputs[model] if r["condition"] == "clean" and r["output"].strip()]
+        scores = sentence_chrf([r["output"] for r in rows], [reference_of(r) for r in rows])
+        cells: dict[str, list[tuple[float, dict[str, str]]]] = defaultdict(list)
+        for row, score in zip(rows, scores):
+            cells[row["dialect"]].append((score, row))
+        for dialect in sorted(cells):
+            ranked = sorted(cells[dialect], key=lambda pair: pair[0])
+            pool = ranked[: max(per_cell, int(len(ranked) * worst_share))]
+            count = 0
+            for score, row in rng.sample(pool, len(pool)):
+                if row["sentence_id"] in used_sentences:
+                    continue
+                used_sentences.add(row["sentence_id"])
+                picked.append((model, score, row))
+                count += 1
+                if count == per_cell:
+                    break
+    rng.shuffle(picked)
+    return [
+        {
+            "item": f"e{i:02d}",
+            "dialect": row["dialect"],
+            "model": model,
+            "swiss_german": row["input"],
+            "reference_de": row["reference"],
+            "output": row["output"],
+            "chrf": f"{score:.1f}",
+            "error_type": "",
+            "comment": "",
+        }
+        for i, (model, score, row) in enumerate(picked, 1)
+    ]
 
 
 def build_sample(

@@ -40,5 +40,5 @@ Die Referenz hilft dir, wenn du ein Dialektwort nicht kennst. Sie ist aber manch
 
 ## Danach
 
-Speichere die Datei als `bewertung_<deine-initialen>.csv` und schick sie an Erik.
+Speichere die Datei als `bewertung_<deine-initialen>.xlsx` und schick sie an Erik.
 Ändere keine anderen Spalten und keine Reihenfolge.

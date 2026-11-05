@@ -32,3 +32,9 @@ Kein Name. Die Sätze werden mit dem Projekt veröffentlicht (CC BY 4.0).
 | Hochdeutsch | Sorgfältig | Wie im Chat |
 |---|---|---|
 | Ich komme heute etwas später nach Hause. | Ich chume hüt es bitzeli spöter hei. | i chume hüt chli spöter hei |
+
+## Danach
+
+Trag deine Sätze in die Excel-Datei ein (Spalten `careful` und `texting`). Ändere die anderen
+Spalten nicht. Speichere die Datei als `fresh_<dein-kanton>.xlsx`, zum Beispiel `fresh_ZH.xlsx`,
+und schick sie der Person zurück, die sie dir gegeben hat.

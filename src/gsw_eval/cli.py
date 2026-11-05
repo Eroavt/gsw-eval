@@ -311,6 +311,26 @@ def ratings(
     typer.echo(json.dumps(result, indent=1))
 
 
+@app.command("error-sheet")
+def error_sheet(
+    models: str = typer.Option("apertus-8b,claude-sonnet-5.5", help="comma-separated models"),
+    per_cell: int = typer.Option(3, help="outputs per dialect and model"),
+    seed: int = typer.Option(0),
+) -> None:
+    """Write low-chrF outputs for error analysis to data/ratings/ (not committed, cache only)."""
+    from gsw_eval.ratings import ERROR_COLUMNS, error_sample, write_csv
+
+    items = build_items(_examples("test"), ["clean"], None, SEED, NOISE_RATE)
+    outputs = {
+        name: run_items(get_model(name), items, generate=False)
+        for name in [m.strip() for m in models.split(",")]
+    }
+    rows = error_sample(outputs, per_cell=per_cell, seed=seed)
+    path = REPO_ROOT / "data" / "ratings" / "errors_v1.csv"
+    write_csv(rows, ERROR_COLUMNS, path)
+    typer.echo(f"{len(rows)} rows -> {path.relative_to(REPO_ROOT)}")
+
+
 @app.command()
 def report() -> None:
     """Build the results tables and figures from results/scores and results/tax."""

@@ -7,6 +7,7 @@ from gsw_eval.ratings import (
     SHEET_COLUMNS,
     analyse,
     build_sample,
+    error_sample,
     read_key,
     read_ratings,
     write_csv,
@@ -71,3 +72,35 @@ def test_blank_or_bad_rating_rejected(tmp_path: Path) -> None:
     write_csv([{"item": "r001", "adequacy": "7"}], ["item", "adequacy"], path)
     with pytest.raises(ValueError):
         read_ratings(path)
+
+
+def test_error_sample_is_stratified_and_picks_low_scores() -> None:
+    def rows(model_output: str) -> list[dict[str, str]]:
+        out = []
+        for i in range(40):
+            dialect = "BE" if i % 2 else "ZH"
+            bad = i < 20
+            out.append(
+                {
+                    "key": f"k{i}",
+                    "sentence_id": str(i),
+                    "dialect": dialect,
+                    "condition": "clean",
+                    "input": f"satz {i}",
+                    "reference": f"Das ist der richtige Satz Nummer {i}.",
+                    "reference_alt": "",
+                    "output": model_output if bad else f"Das ist der richtige Satz Nummer {i}.",
+                }
+            )
+        return out
+
+    sample = error_sample({"a": rows("xyz"), "b": rows("qqq")}, per_cell=2, seed=1)
+    assert len(sample) == 8
+    assert {(r["dialect"], r["model"]) for r in sample} == {
+        (d, m) for d in ("BE", "ZH") for m in ("a", "b")
+    }
+    assert all(r["output"] in ("xyz", "qqq") for r in sample)
+    assert len({r["swiss_german"] for r in sample}) == 8
+    assert error_sample({"a": rows("xyz")}, per_cell=2, seed=1) == error_sample(
+        {"a": rows("xyz")}, per_cell=2, seed=1
+    )

@@ -40,7 +40,7 @@ r038,apertus-8b,swissdial:699:ZH::careful,clean,ZH,699,73.36
 r039,llama-3.1-8b,swissdial:600:AG::careful,clean,AG,600,58.16
 r040,llama-3.1-8b,swissdial:2042:LU::careful,texting,LU,2042,58.82
 r041,apertus-8b,swissdial:1523:BE::careful,clean,BE,1523,41.95
-r042,llama-3.1-8b,swissdial:2066:GR::careful,clean,GR,2066,0.00
+r042,llama-3.1-8b,swissdial:2066:GR::careful,clean,GR,2066,25.04
 r043,apertus-8b,swissdial:1659:BE::careful,texting,BE,1659,76.45
 r044,llama-3.1-8b,swissdial:2312:BS::careful,texting,BS,2312,32.53
 r045,llama-3.1-8b,swissdial:699:ZH::careful,clean,ZH,699,56.14
