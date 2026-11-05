@@ -65,6 +65,7 @@ def test_build_summary_and_write(tmp_path: Path) -> None:
     assert row["dialects"] == {"BE": 80.1}
     assert summary["ntrex"] == []
     assert summary["tax"][0]["texting_change"] == 0.0
+    assert summary["dose"] == []
 
     paths = write_site_data(summary, {"BE": [{"id": "1"}]}, tmp_path / "data")
     assert {p.name for p in paths} == {"summary.json", "BE.json"}

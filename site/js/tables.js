@@ -138,3 +138,27 @@ export function taxTable(summary) {
   }
   document.querySelector("#tax-table").replaceChildren(el("thead", {}, head), body);
 }
+
+export function doseTable(summary) {
+  const models = summary.test.filter((r) => summary.dose.some((row) => r.model in row.loss));
+  const head = el(
+    "tr",
+    {},
+    el("th", { scope: "col", text: "Input" }),
+    el("th", { scope: "col", text: "Words changed" }),
+    ...models.map((m) => el("th", { scope: "col", text: m.label })),
+  );
+  const body = el("tbody");
+  for (const row of summary.dose) {
+    body.append(
+      el(
+        "tr",
+        {},
+        el("td", { text: row.label }),
+        el("td", { text: `${Math.round(row.words_changed * 100)}%` }),
+        ...models.map((m) => el("td", { text: row.loss[m.model]?.toFixed(1) ?? "" })),
+      ),
+    );
+  }
+  document.querySelector("#dose-table").replaceChildren(el("thead", {}, head), body);
+}

@@ -46,9 +46,9 @@ export const TEXT = {
     agreement: (share, n) => `Die automatische Metrik chrF wählt in ${share}% von ${n} klaren Duellen dieselbe Antwort wie die Menschen.`,
     download: "Alle Stimmen herunterladen (CSV)",
     aboutTitle: "Worum geht es?",
-    aboutText: "Das Duell gehört zu gsw-eval, einem offenen Benchmark für Sprachmodelle auf geschriebenem Schweizerdeutsch an der Universität Zürich. Automatische Metriken wissen nicht, was ein Dialektsatz wirklich bedeutet. Das wisst nur ihr.",
+    aboutText: "Das Duell gehört zu gsw-eval, einem offenen Benchmark für Sprachmodelle auf geschriebenem Schweizerdeutsch an der Universität Zürich. Automatische Metriken wissen nicht, was ein Dialektsatz wirklich bedeutet. Das wisst nur ihr. Die Idee der blinden Duelle stammt von Chatbot Arena (Chiang et al., 2024).",
     privacyText: "Wir speichern deine Stimme, deine Angaben zum Dialekt und eine zufällige Kennung aus deinem Browser. Keine IP-Adresse, kein Konto. Die Stimmen werden als offener Datensatz veröffentlicht.",
-    foot: "Erik Avtandilyan, Simone Martinecz, Kelvin Myers. Kursprojekt, Universität Zürich, 2026. Nicht kommerziell. Sätze: SwissDial (ETH Zürich, CC BY-NC 4.0).",
+    foot: "Erik Avtandilyan, Simone Martinecz, Kelvin Myers. Kursprojekt, Universität Zürich, 2026. Nicht kommerziell. Sätze: SwissDial (ETH Zürich, CC BY-NC 4.0), die Chat-Versionen sind von uns verändert.",
     errors: {
       closed: "Die Abstimmung ist noch nicht offen.",
       limit: "Für heute hast du genug getan. Danke! Komm morgen wieder.",
@@ -107,9 +107,9 @@ export const TEXT = {
     agreement: (share, n) => `The automatic metric chrF picks the same answer as people in ${share}% of ${n} clear duels.`,
     download: "Download all votes (CSV)",
     aboutTitle: "What is this?",
-    aboutText: "The duel is part of gsw-eval, an open benchmark of language models on written Swiss German at the University of Zurich. Automatic metrics don't know what a dialect sentence really means. You do.",
+    aboutText: "The duel is part of gsw-eval, an open benchmark of language models on written Swiss German at the University of Zurich. Automatic metrics don't know what a dialect sentence really means. You do. The idea of blind duels comes from Chatbot Arena (Chiang et al., 2024).",
     privacyText: "We store your vote, your dialect answers and a random ID from your browser. No IP address, no account. The votes are published as an open dataset.",
-    foot: "Erik Avtandilyan, Simone Martinecz, Kelvin Myers. Course project, University of Zurich, 2026. Non-commercial. Sentences: SwissDial (ETH Zürich, CC BY-NC 4.0).",
+    foot: "Erik Avtandilyan, Simone Martinecz, Kelvin Myers. Course project, University of Zurich, 2026. Non-commercial. Sentences: SwissDial (ETH Zürich, CC BY-NC 4.0); the chat versions are our changes.",
     errors: {
       closed: "Voting is not open yet.",
       limit: "That's enough for today. Thank you! Come back tomorrow.",

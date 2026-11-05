@@ -9,7 +9,8 @@ than the spelling?**
 gsw-eval is an open benchmark for LLMs on written Swiss German. It feeds a model the same sentences
 as Standard German, as careful Swiss German in eight dialects, and as chat-style Swiss German. The
 difference between those scores splits the cost into a dialect part and a spelling part, in quality
-and in tokens, with confidence intervals. The short answer: mostly the dialect, hardly the spelling.
+and in tokens, with confidence intervals. The short answer so far: mostly the dialect. The spelling
+result is under test with real texting from native speakers.
 
 | Results website | Dialäkt-Duell |
 |---|---|
@@ -69,10 +70,11 @@ Every test sentence reaches a model in four forms. The Standard German reference
 |---|---|---|
 | `de_input` | The reference itself | Upper bound: no dialect, no spelling problem |
 | `clean` | Careful Swiss German | Dialect only |
-| `texting` | `clean` rewritten by [texting rules](rules/) | Dialect and spelling |
+| `texting` | `clean` rewritten by [texting rules](rules/) | Dialect and simulated chat spelling |
 | `char_noise` | `clean` with random letter changes | Dialect and synthetic noise |
 
-**Dialect cost** is `de_input` minus `clean`. **Spelling cost** is `clean` minus `texting`. Both come
+**Dialect cost** is `de_input` minus `clean`, and includes each writer's careful spelling.
+**Spelling cost** is `clean` minus `texting`. Both come
 from the same sentences, and a cluster bootstrap over sentences gives their intervals. The
 **identity** baseline copies the Swiss German text unchanged and is the lower bound.
 
@@ -103,7 +105,8 @@ crashed run resumes and all scores can be recomputed for free.
 
 ## The Dialäkt-Duell
 
-A visitor sees a Swiss German sentence and two anonymous answers from different models. After the
+Inspired by [Chatbot Arena](https://arxiv.org/abs/2403.04132), a visitor sees a Swiss German
+sentence and two anonymous answers from different models. After the
 vote, the models and the reference appear. Votes feed a Bradley-Terry ranking with bootstrap
 intervals, and show how often chrF picks the same answer as people.
 

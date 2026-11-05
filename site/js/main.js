@@ -4,7 +4,7 @@
 import { costChart } from "./chart.js";
 import { explorer } from "./explorer.js";
 import { el, ofModel, pct } from "./format.js";
-import { dialectTable, leaderboard, taxTable } from "./tables.js";
+import { dialectTable, doseTable, leaderboard, taxTable } from "./tables.js";
 import { tokenChecker } from "./tokens.js";
 
 const ENCODERS = ["XLM-R", "SwissBERT"];
@@ -21,8 +21,8 @@ function headlineStats(summary, models) {
   const llms = summary.tax.filter((t) => !ENCODERS.includes(t.tokenizer)).map((t) => t.tax.value);
   const stats = [
     [`${range(small)} points`, "lost to the dialect by the 8B models"],
-    [`${range(spelling)} points`, "lost to chat-style spelling, all models"],
-    [`${pct(Math.min(...llms))} to ${pct(Math.max(...llms))}`, "tokens for Swiss German, LLM tokenizers"],
+    [`${range(spelling)} points`, "lost to simulated chat spelling, all models"],
+    [`${pct(Math.min(...llms))} to ${pct(Math.max(...llms))}`, "tokens for Swiss German, open LLM tokenizers"],
   ];
   document.querySelector("#stats").replaceChildren(
     ...stats.map(([value, label]) => el("div", {}, el("dt", { text: label }), el("dd", { text: value }))),
@@ -38,12 +38,12 @@ function findingNotes(models) {
   const german = (m) => m.scores.de_input.value;
   const notes = [
     [
-      "Swiss training data helps",
-      `At the same size, Apertus beats Llama by ${(clean(apertus) - clean(llama)).toFixed(1)} points on careful Swiss German. Gemma is three times larger, yet only ${(clean(gemma) - clean(apertus)).toFixed(1)} points ahead of Apertus.`,
+      "The Swiss-focused model leads at 8B",
+      `At the same size, Apertus scores ${(clean(apertus) - clean(llama)).toFixed(1)} points above Llama on careful Swiss German. Gemma is three times larger, yet only ${(clean(gemma) - clean(apertus)).toFixed(1)} points above Apertus. The models differ in more than their Swiss data, so this is not a clean test of it.`,
     ],
     [
-      "A frontier model helps most",
-      `Claude scores ${clean(claude).toFixed(1)} on Swiss German, Apertus ${clean(apertus).toFixed(1)}. On Standard German they are level: ${german(claude).toFixed(1)} and ${german(apertus).toFixed(1)}. Claude's lead is about the dialect.`,
+      "Claude's lead is on dialect input",
+      `Claude scores ${clean(claude).toFixed(1)} on Swiss German, Apertus ${clean(apertus).toFixed(1)}. On Standard German they are level: ${german(claude).toFixed(1)} and ${german(apertus).toFixed(1)}.`,
     ],
     [
       "A small cost can mislead",
@@ -61,7 +61,7 @@ function taxNote(summary) {
     .map((t) => t.texting_change * 100);
   const biggest = Math.max(...change.map(Math.abs));
   document.querySelector("#tax-note").textContent =
-    `Chat-style spelling changes the token count by at most ${biggest.toFixed(1)}% for LLM tokenizers, so the extra tokens come from the dialect. XLM-R and SwissBERT are encoders, not LLMs.`;
+    `Simulated chat spelling changes the token count by at most ${biggest.toFixed(1)}% for these open LLM tokenizers. XLM-R and SwissBERT are encoders, not LLMs.`;
 }
 
 async function main() {
@@ -76,6 +76,7 @@ async function main() {
     document.querySelector("#tip"),
   );
   findingNotes(models);
+  doseTable(summary);
   taxTable(summary);
   taxNote(summary);
   leaderboard(summary);
