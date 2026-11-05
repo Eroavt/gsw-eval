@@ -295,14 +295,17 @@ def dose_rows(results: Path) -> list[dict[str, Any]]:
     with careful spelling. Models without a run at that rate are left out of the row.
     """
 
-    def load(path: Path) -> dict[str, Any] | None:
-        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+    def load(pattern: str) -> dict[str, dict[str, Any]]:
+        """Score files of every model that has one, by model."""
+        paths = {m: results / "scores" / pattern.format(m) for m in models}
+        return {
+            m: json.loads(p.read_text(encoding="utf-8")) for m, p in paths.items() if p.exists()
+        }
 
-    scores = results / "scores"
     models = [m for m in MODEL_LABEL if m != "identity"]
     rows = []
-    chat = {m: load(scores / f"{m}_test_first100_normalize_v1.json") for m in models}
-    chat = {m: run for m, run in chat.items() if run and "words_changed" in run["meta"]}
+    chat = load("{}_test_first100_normalize_v1.json")
+    chat = {m: run for m, run in chat.items() if "words_changed" in run["meta"]}
     if chat:
         rows.append(
             {
@@ -316,8 +319,7 @@ def dose_rows(results: Path) -> list[dict[str, Any]]:
         )
     for rate in DOSE_RATES:
         suffix = "" if rate == 10 else f"_noise{rate}"
-        runs = {m: load(scores / f"{m}_test_first100{suffix}.json") for m in models}
-        runs = {m: run for m, run in runs.items() if run}
+        runs = load("{}_test_first100" + suffix + ".json")
         if runs:
             rows.append(
                 {
