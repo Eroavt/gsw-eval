@@ -40,7 +40,7 @@ words, and damaging half of all words costs Claude 9.2 points, as much as the di
 equal size, and the three times larger Gemma~3 27B only 1.1 above Apertus; Claude is 11.5 points
 ahead of Apertus on dialect input, while the two tie on Standard German. A small dialect cost can
 also mislead, because Gemma rewrites even Standard German. Open LLM tokenizers need 16 to 30\%
-more tokens for Swiss German. \todo{one sentence each on the fresh set, the ratings and the votes.}
+more tokens for Swiss German. \todo{one sentence each on the fresh set and the ratings.}
 \end{abstract}
 
 \section{Introduction}
@@ -69,8 +69,7 @@ model loses less than half as much to the dialect.
 \item A token-tax analysis of nine tokenizers, showing that simulated chat spelling does not explain
 the extra tokens.
 \item A small fresh test set in which each native writer translates the same sentences twice,
-carefully and in texting style, \todo{size once collected} and the \emph{Dialäkt-Duell}, a public tool
-for blind votes between model answers.
+carefully and in texting style. \todo{size once collected}
 \end{enumerate}
 
 \section{Related Work}
@@ -177,12 +176,6 @@ marks are tokens, we compare all conditions with punctuation removed.
 \textbf{Human evaluation.} Two native speakers rate 112 outputs, blind and in random order, for
 adequacy on a 1--5 scale: all four models on 24 inputs, plus 16 model rewrites of Standard German
 input, which show how much of the gap to 100 is harmless paraphrase. \todo{report kappa here.}
-
-\textbf{Blind votes.} In the \emph{Dialäkt-Duell}, inspired by Chatbot Arena \citep{chiang2024arena},
-visitors see a Swiss German sentence and two anonymous answers from our benchmark runs, vote, and
-only then see the models. We fit a Bradley-Terry model \citep{bradley1952rank} with bootstrap
-intervals. Votes are uncontrolled, so we treat them as added evidence and report native speakers
-separately. \todo{tool link, number of votes and voters.}
 
 \section{Results}
 
@@ -337,13 +330,13 @@ written dialect. It costs 8B models 20 to 24 chrF points, and open LLM tokenizer
 tokens. Simulated chat spelling adds only 1 to 5 points, but it is a mild test, and stronger spelling
 damage costs more. A Swiss-focused 8B model nearly matches a model three times its size, and a
 frontier model cuts the dialect cost to 8.6. The dialect cost should always be read with the upper
-bound. \todo{one sentence on the fresh set, the ratings and the votes.}
+bound. \todo{one sentence on the fresh set and the ratings.}
 
 \section*{Code and Data}
 Code, outputs of every model, and the fresh set: \url{https://github.com/Eroavt/gsw-eval}.
 Every number in this report can be reproduced with one command, \texttt{scripts/reproduce.sh}.
 It needs no GPU and no API key, because all model outputs are cached, only the SwissDial text from
-ETH Zurich. It ran unchanged on a fresh clone. The blind votes come from a separate export.
+ETH Zurich. It ran unchanged on a fresh clone.
 
 \section*{Use of AI Assistants}
 An AI coding assistant (Claude Code) wrote most of the code, the website and the voting tool, drafted
