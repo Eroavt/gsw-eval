@@ -23,7 +23,15 @@ Team: Erik Avtandilyan, Simone Martinecz, Kelvin Myers.
 
 ## Results so far
 
-See [`results/summary.md`](results/summary.md) for every number with its interval.
+See [`results/summary.md`](results/summary.md) for every number with its interval, or the results
+website in [`site/`](site/). To open it locally:
+
+```bash
+python3 -m http.server --directory site
+```
+
+The site shows the main findings, every model's answer sentence by sentence, a token counter that
+runs in the browser, and the leaderboard. `gsw-eval site` rebuilds its data from the cache.
 
 ![Token tax per tokenizer and dialect](results/figures/token_tax.png)
 
@@ -80,3 +88,8 @@ scripts/reproduce.sh
 ## Use of AI assistants
 
 Code was written with AI coding assistants (Claude Code) and reviewed by the team.
+
+## Licence
+
+Code: MIT, see [`LICENSE`](LICENSE). The sentences in `site/data/` come from SwissDial
+(CC BY-NC 4.0, see [`site/data/README.md`](site/data/README.md)).

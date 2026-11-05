@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gsw-eval: what Swiss German costs an LLM</title>
+<meta name="description" content="An open benchmark of LLMs on written Swiss German. How much quality and how many tokens are lost, and how much of it comes from the dialect or the spelling.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap top-row">
+    <a class="brand" href="#main">gsw-eval</a>
+    <nav aria-label="Sections">
+      <a href="#findings">Findings</a>
+      <a href="#explore">Explore</a>
+      <a href="#tokens">Token cost</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#your-model">Your model</a>
+      <a href="https://github.com/Eroavt/gsw-eval">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero wrap">
+  <h1>What does Swiss German cost an LLM?</h1>
+  <p class="lead">Mostly the dialect, hardly the spelling. We gave four LLMs the same 500 sentences as Standard German, as Swiss German in eight dialects, and as chat-style Swiss German.</p>
+  <dl class="stats" id="stats"></dl>
+</section>
+
+<section class="wrap" id="findings">
+  <h2>Where the points go</h2>
+  <p class="intro">Each model translates Swiss German into Standard German. The score is <a href="#chrf">chrF</a>, from 0 to 100. The blue line is what the dialect costs. The orange line is what chat-style spelling costs on top.</p>
+  <div class="legend" aria-hidden="true">
+    <span><i class="key key-dialect"></i>Dialect cost: Standard German to careful Swiss German</span>
+    <span><i class="key key-spelling"></i>Spelling cost: careful to chat-style spelling</span>
+  </div>
+  <div class="chart" id="cost-chart"></div>
+  <div class="notes" id="findings-notes"></div>
+</section>
+
+<section class="wrap" id="explore">
+  <h2>See it sentence by sentence</h2>
+  <p class="intro">Pick a dialect and a spelling. Every model's real answer is shown next to the reference.</p>
+
+  <div class="controls">
+    <div class="control">
+      <span class="control-label" id="l-dialect">Dialect</span>
+      <div class="segments" id="dialect-buttons" role="group" aria-labelledby="l-dialect"></div>
+    </div>
+    <div class="control">
+      <span class="control-label" id="l-form">Input</span>
+      <div class="segments" id="form-buttons" role="group" aria-labelledby="l-form"></div>
+    </div>
+    <div class="control-row">
+      <label class="control grow">
+        <span class="control-label">Search</span>
+        <input type="search" id="search" placeholder="A word in German or Swiss German" autocomplete="off">
+      </label>
+      <label class="control">
+        <span class="control-label">Show</span>
+        <select id="order">
+          <option value="gap">Biggest gap between models</option>
+          <option value="hard">Hardest for all models</option>
+          <option value="all">All sentences</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="pager">
+    <button type="button" id="prev">Previous</button>
+    <span id="position" aria-live="polite"></span>
+    <button type="button" id="next">Next</button>
+    <button type="button" id="random">Random</button>
+  </div>
+
+  <div id="sentence" class="sentence" aria-live="polite"></div>
+  <p class="hint"><mark class="diff">Marked words</mark> differ from the reference. Different does not always mean wrong: a good paraphrase also scores lower.</p>
+</section>
+
+<section class="wrap" id="tokens">
+  <h2>What does your sentence cost in tokens?</h2>
+  <p class="intro">API prices are per token, and Swiss German splits into more of them. Try your own sentence. It stays in your browser.</p>
+
+  <div class="two-col">
+    <label class="control">
+      <span class="control-label">Swiss German</span>
+      <textarea id="tok-gsw" rows="3" lang="gsw" spellcheck="false"></textarea>
+    </label>
+    <label class="control">
+      <span class="control-label">Standard German</span>
+      <textarea id="tok-de" rows="3" lang="de" spellcheck="false"></textarea>
+    </label>
+  </div>
+  <div class="control">
+    <span class="control-label" id="l-tok">Tokenizers (downloaded once from Hugging Face)</span>
+    <div class="segments multi" id="tok-buttons" role="group" aria-labelledby="l-tok"></div>
+  </div>
+  <div class="actions">
+    <button type="button" class="primary" id="tok-run">Count tokens</button>
+    <span id="tok-status" role="status"></span>
+  </div>
+  <div id="tok-result"></div>
+
+  <h3>Measured on all 2,297 sentences in eight dialects</h3>
+  <p class="intro">Extra tokens that Swiss German needs compared with the same sentences in Standard German, punctuation removed.</p>
+  <div class="scroll"><table class="data" id="tax-table"></table></div>
+  <p class="hint" id="tax-note"></p>
+</section>
+
+<section class="wrap" id="leaderboard">
+  <h2>Leaderboard</h2>
+  <p class="intro">chrF with 95% bootstrap intervals. Click a column to sort.</p>
+  <div class="segments" id="set-buttons" role="group" aria-label="Test set"></div>
+  <div class="scroll"><table class="data" id="board"></table></div>
+  <p class="hint" id="board-note"></p>
+
+  <h3>By dialect</h3>
+  <p class="intro">chrF on careful Swiss German in SwissDial. Dialects written closer to Standard German score higher. SwissDial has one writer per dialect, so dialect and writer can't be fully separated.</p>
+  <div class="scroll"><table class="data heat" id="dialect-table"></table></div>
+</section>
+
+<section class="wrap" id="your-model">
+  <h2>Test your own model</h2>
+  <p class="intro">gsw-eval is open source. Every number on this page comes from one command, and all model outputs are in the repository.</p>
+  <ol class="steps">
+    <li>Get the code and <a href="https://github.com/Eroavt/gsw-eval#setup">install it</a>.</li>
+    <li>Add your model to <code>MODELS</code> in <code>src/gsw_eval/models.py</code>.</li>
+    <li>Run it on the test set:</li>
+  </ol>
+  <pre><code>gsw-eval run --model your-model --split test</code></pre>
+  <p class="intro">Reproduce everything without a GPU or an API key:</p>
+  <pre><code>scripts/reproduce.sh</code></pre>
+
+  <h3 id="chrf">How we measure</h3>
+  <dl class="defs">
+    <dt>chrF</dt><dd>How many character sequences of the output match the reference, from 0 to 100. It suits a task where most errors are partial word forms.</dd>
+    <dt>Dialect cost</dt><dd>Score on Standard German input minus score on careful Swiss German.</dd>
+    <dt>Spelling cost</dt><dd>Score on careful Swiss German minus score on chat-style Swiss German.</dd>
+    <dt>Chat-style spelling</dt><dd>Careful text rewritten by rules: lower case, no punctuation, short forms. Character noise changes letters at random.</dd>
+    <dt>Identity</dt><dd>The Swiss German text copied unchanged. Every model must beat this.</dd>
+  </dl>
+</section>
+
+</main>
+
+<footer class="wrap foot">
+  <p>Erik Avtandilyan, Simone Martinecz, Kelvin Myers. Course project, Essentials in Text and Speech Processing, University of Zurich, 2026. Non-commercial.</p>
+  <p>Data: <a href="https://arxiv.org/abs/2103.11401">SwissDial</a> (Dogan-Schönberger, Mäder and Hofmann, 2021; ETH Zürich; CC BY-NC 4.0), shown here with model outputs. <a href="https://arxiv.org/abs/2311.16865">Swiss German NTREX</a> (Aepli et al., 2023), scores only. Tokenization by <a href="https://github.com/huggingface/tokenizers.js">tokenizers.js</a>.</p>
+</footer>
+
+<div id="tip" class="tip" hidden></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+// Entry point: loads the generated data and fills every section of the page.
+// All numbers on the page come from data/summary.json, written by `gsw-eval site`.
+
+import { costChart } from "./chart.js";
+import { explorer } from "./explorer.js";
+import { el, ofModel, pct } from "./format.js";
+import { dialectTable, leaderboard, taxTable } from "./tables.js";
+import { tokenChecker } from "./tokens.js";
+
+const ENCODERS = ["XLM-R", "SwissBERT"];
+
+function range(values, digits = 0) {
+  const low = Math.min(...values).toFixed(digits);
+  const high = Math.max(...values).toFixed(digits);
+  return low === high ? low : `${low} to ${high}`;
+}
+
+function headlineStats(summary, models) {
+  const small = ["apertus-8b", "llama-3.1-8b"].map((id) => ofModel(models, id).dialect_cost.value);
+  const spelling = models.map((m) => m.spelling_cost.value);
+  const llms = summary.tax.filter((t) => !ENCODERS.includes(t.tokenizer)).map((t) => t.tax.value);
+  const stats = [
+    [`${range(small)} points`, "lost to the dialect by the 8B models"],
+    [`${range(spelling)} points`, "lost to chat-style spelling, all models"],
+    [`${pct(Math.min(...llms))} to ${pct(Math.max(...llms))}`, "tokens for Swiss German, LLM tokenizers"],
+  ];
+  document.querySelector("#stats").replaceChildren(
+    ...stats.map(([value, label]) => el("div", {}, el("dt", { text: label }), el("dd", { text: value }))),
+  );
+}
+
+function findingNotes(models) {
+  const apertus = ofModel(models, "apertus-8b");
+  const llama = ofModel(models, "llama-3.1-8b");
+  const gemma = ofModel(models, "gemma-3-27b");
+  const claude = ofModel(models, "claude-sonnet-5.5");
+  const clean = (m) => m.scores.clean.value;
+  const german = (m) => m.scores.de_input.value;
+  const notes = [
+    [
+      "Swiss training data helps",
+      `At the same size, Apertus beats Llama by ${(clean(apertus) - clean(llama)).toFixed(1)} points on careful Swiss German. Gemma is three times larger, yet only ${(clean(gemma) - clean(apertus)).toFixed(1)} points ahead of Apertus.`,
+    ],
+    [
+      "A frontier model helps most",
+      `Claude scores ${clean(claude).toFixed(1)} on Swiss German, Apertus ${clean(apertus).toFixed(1)}. On Standard German they are level: ${german(claude).toFixed(1)} and ${german(apertus).toFixed(1)}. Claude's lead is about the dialect.`,
+    ],
+    [
+      "A small cost can mislead",
+      `Gemma's dialect cost looks as low as Claude's, but Gemma rewrites even Standard German: it copies only ${Math.round(gemma.copy_rate * 100)}% of those sentences, so its starting score is just ${german(gemma).toFixed(1)}.`,
+    ],
+  ];
+  document.querySelector("#findings-notes").replaceChildren(
+    ...notes.map(([title, text]) => el("div", {}, el("h3", { text: title }), el("p", { text }))),
+  );
+}
+
+function taxNote(summary) {
+  const change = summary.tax
+    .filter((t) => !ENCODERS.includes(t.tokenizer))
+    .map((t) => t.texting_change * 100);
+  const biggest = Math.max(...change.map(Math.abs));
+  document.querySelector("#tax-note").textContent =
+    `Chat-style spelling changes the token count by at most ${biggest.toFixed(1)}% for LLM tokenizers, so the extra tokens come from the dialect. XLM-R and SwissBERT are encoders, not LLMs.`;
+}
+
+async function main() {
+  const response = await fetch("data/summary.json");
+  const summary = await response.json();
+  const models = summary.test.filter((r) => r.model !== "identity");
+
+  headlineStats(summary, models);
+  costChart(
+    document.querySelector("#cost-chart"),
+    models.toSorted((a, b) => b.scores.clean.value - a.scores.clean.value),
+    document.querySelector("#tip"),
+  );
+  findingNotes(models);
+  taxTable(summary);
+  taxNote(summary);
+  leaderboard(summary);
+  dialectTable(summary);
+
+  const view = await explorer(summary, models.map((m) => ({ id: m.model, label: m.label })));
+  const { entry } = view.current();
+  tokenChecker({ gsw: entry.forms.clean.input, de: entry.de });
+}
+
+main().catch(() => {
+  document.querySelector("#stats").replaceChildren(
+    el("p", { class: "error", text: "Could not load the results. Please reload the page." }),
+  );
+});
