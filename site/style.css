@@ -211,5 +211,3 @@ code { font: 0.9375rem/1.5 ui-monospace, Menlo, Consolas, monospace; }
 .notice p:last-child { margin-bottom: 0; }
 .consent { display: flex; gap: 0.625rem; align-items: flex-start; }
 .consent input { width: 1.25rem; min-height: 1.25rem; height: 1.25rem; margin-top: 0.2rem; flex: none; }
-.cta { display: inline-block; margin-top: 1.5rem; padding: 0.625rem 1rem; background: var(--accent); color: #fff; border-radius: 6px; font-weight: 700; text-decoration: none; }
-@media (prefers-color-scheme: dark) { .cta { color: #0b0b0b; } }

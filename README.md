@@ -12,10 +12,10 @@ difference between those scores splits the cost into a dialect part and a spelli
 and in tokens, with confidence intervals. The short answer so far: mostly the dialect. The spelling
 result is under test with real texting from native speakers.
 
-| Results website | Dialäkt-Duell |
-|---|---|
-| ![Results website](docs/images/site.jpg) | ![Blind voting arena](docs/images/duel.jpg) |
-| Findings, every model's answer sentence by sentence, a token counter that runs in the browser, and the leaderboard. | Native speakers vote blind on two model answers. The votes give a human ranking and test the automatic metric. |
+![Results website](docs/images/site.jpg)
+
+The website in [`site/`](site/) shows the findings, every model's answer sentence by sentence, a
+token counter that runs in the browser, and the leaderboard.
 
 ## What is in this repository
 
@@ -24,7 +24,7 @@ result is under test with real texting from native speakers.
 | Benchmark | [`src/gsw_eval/`](src/gsw_eval/) | Data, input conditions, models, scoring, token tax, report tables |
 | Results | [`results/`](results/) | Every raw model output and every score, committed |
 | Website | [`site/`](site/) | Static results page, no build step |
-| Arena | [`arena/`](arena/), [`api/`](api/) | Backend of the blind voting tool |
+| Voting tool (optional) | [`arena/`](arena/), [`api/`](api/) | Blind votes between model answers, not used in the report |
 | Report | [`report/`](report/) | The paper, in ACL style |
 
 ```mermaid
@@ -35,10 +35,6 @@ flowchart LR
   K --> S[Scores and token tax]
   S --> R[Report tables]
   S --> W[Website]
-  K --> A[Dialäkt-Duell]
-  A --> V[(Votes)]
-  V --> H[Human ranking and chrF check]
-  H --> R
 ```
 
 ## Quick start
@@ -55,11 +51,10 @@ scripts/reproduce.sh
 You need SwissDial in `data/swissdial/` first, see [Data](#data). `scripts/reproduce.sh` downloads
 NTREX itself.
 
-Open the website and the arena locally:
+Open the website locally:
 
 ```bash
-npm install
-npm run dev
+python3 -m http.server --directory site
 ```
 
 ## How it works
@@ -103,22 +98,21 @@ model, see [CONTRIBUTING.md](CONTRIBUTING.md).
 Every output is stored in `results/cache/<model>.jsonl`, keyed by model, prompt and input, so a
 crashed run resumes and all scores can be recomputed for free.
 
-## The Dialäkt-Duell
+## Optional: the Dialäkt-Duell
 
-Inspired by [Chatbot Arena](https://arxiv.org/abs/2403.04132), a visitor sees a Swiss German
-sentence and two anonymous answers from different models. After the
-vote, the models and the reference appear. Votes feed a Bradley-Terry ranking with bootstrap
-intervals, and show how often chrF picks the same answer as people.
+The repository also holds a small voting tool, inspired by
+[Chatbot Arena](https://arxiv.org/abs/2403.04132). A visitor sees a Swiss German sentence and two
+anonymous model answers, votes, and only then sees the models. Votes feed a Bradley-Terry ranking.
+The tool works and is tested, but it needs hosting and many voters, so **the report does not use
+it**. Human evaluation in the report comes from two native-speaker raters. To try it locally:
 
-- Duel tokens are encrypted, so the models stay hidden and votes cannot be forged or repeated.
-- The duel shows no reference, so people judge the meaning, not string overlap.
-- Voters give their dialect and whether they grew up with Swiss German. There are no accounts, and
-  no IP addresses are stored.
-- Live mode asks two hosted models about a visitor's own sentence, with consent and a daily budget.
-  Live votes are kept apart, because hosted models are not the local 8-bit runs of the benchmark.
+```bash
+npm install
+npm run dev
+```
 
-Analyse the exported votes with `gsw-eval arena votes.csv`. To host it, see
-[docs/DEPLOY.md](docs/DEPLOY.md).
+Then open `http://localhost:8124/arena.html`. See [docs/DEPLOY.md](docs/DEPLOY.md) to host it, and
+analyse exported votes with `gsw-eval arena votes.csv`.
 
 ## Data
 
@@ -137,7 +131,7 @@ Request SwissDial from ETH Zurich and put the text files under `data/swissdial/`
 
 ```bash
 pytest && ruff check src tests   # Python
-npm test                         # arena
+npm test                         # voting tool
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). [`CLAUDE.md`](CLAUDE.md) holds the rules for AI coding agents.
