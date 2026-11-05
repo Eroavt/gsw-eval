@@ -1,4 +1,4 @@
-"""The fresh set: import writer sheets and measure what real texting costs. Owner: Simone.
+"""The fresh set: import writer sheets and measure what real texting costs.
 
 Each writer translates the same Standard German sentences twice: carefully and the way they
 would text. Comparing the two versions of one writer isolates spelling; comparing writers
@@ -134,7 +134,7 @@ def analyse_fresh(
             low, high = np.percentile([x[name] for x in samples], [2.5, 97.5])
             costs[name] = {"value": value, "low": float(low), "high": float(high)}
 
-    per_writer: dict[str, dict[str, float]] = {}
+    per_writer: dict[str, dict[str, Any]] = {}
     for name in ("careful", "texting"):
         by_writer: dict[str, list[dict[str, str]]] = {}
         for r in groups.get(name, []):

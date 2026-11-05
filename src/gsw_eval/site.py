@@ -1,4 +1,4 @@
-"""Data files for the results website in site/. Owner: Erik.
+"""Data files for the results website in site/.
 
 The page itself is static. Everything it shows comes from here, so no number is typed by hand:
 summary.json holds the scores and the token tax, sentences/<dialect>.json the sentences with
@@ -7,12 +7,12 @@ every model's output. NTREX appears only as scores, because its sentence licence
 
 import json
 from collections import defaultdict
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
 from gsw_eval.metrics import reference_of, sentence_chrf
-from gsw_eval.report import MODEL_LABEL
+from gsw_eval.report import MODEL_LABEL, dose_rows
 
 SITE_MODELS = ("apertus-8b", "llama-3.1-8b", "gemma-3-27b", "claude-sonnet-5.5")
 SWISS_FORMS = ("clean", "texting", "char_noise")
@@ -105,11 +105,14 @@ def build_summary(results: Path) -> dict[str, Any]:
         "test": _quality_rows(results, "test", models),
         "ntrex": _quality_rows(results, "ntrex", models),
         "tax": _tax_rows(tax),
+        "dose": [
+            {**row, "label": row["label"].replace("\\%", "%")} for row in dose_rows(results)
+        ],
     }
 
 
 def build_sentences(
-    outputs: dict[str, Sequence[dict[str, str]]],
+    outputs: Mapping[str, Sequence[dict[str, str]]],
 ) -> dict[str, list[dict[str, Any]]]:
     """Sentences per dialect with all outputs and sentence chrF; key "DE" holds Standard German.
 
@@ -139,7 +142,7 @@ def write_site_data(
 ) -> list[Path]:
     """Write summary.json and one compact JSON file per dialect under `out`."""
     (out / "sentences").mkdir(parents=True, exist_ok=True)
-    files = {out / "summary.json": summary}
+    files: dict[Path, Any] = {out / "summary.json": summary}
     files |= {out / "sentences" / f"{d}.json": rows for d, rows in sentences.items()}
     for path, content in files.items():
         text = json.dumps(content, ensure_ascii=False, separators=(",", ":"))

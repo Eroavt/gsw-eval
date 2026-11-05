@@ -38,3 +38,4 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 6. Local model runs take hours and heat the Mac: only start them when the user asks.
 7. No data and no API keys in git. Keys live in `.env`. The one exception is `site/data/`: SwissDial
    test sentences for the website (CC BY-NC 4.0, credited on the page). Never add NTREX sentences there.
+8. The rating key stays in `data/ratings/` until the ratings are in, then it moves to `ratings/`.

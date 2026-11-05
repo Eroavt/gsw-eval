@@ -1,4 +1,4 @@
-"""Token tax. Owner: Erik.
+"""Token tax.
 
 How many more subword tokens a model needs for Swiss German than for the same sentence in
 Standard German. Reported as the ratio of summed token counts (Petrov et al., 2023 call this

@@ -1,4 +1,4 @@
-"""Model adapters. Owner: Erik.
+"""Model adapters.
 
 Every adapter has the same interface: Swiss German sentences in, Standard German out.
 Decoding is greedy where the backend allows it. Prompts are read from prompts/, never inline.

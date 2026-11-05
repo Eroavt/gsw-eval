@@ -1,4 +1,4 @@
-"""Analyse the votes of the Dialäkt-Duell, the blind voting arena. Owner: Erik.
+"""Analyse the votes of the Dialäkt-Duell, the blind voting arena.
 
 The arena (arena/, site/arena.html) shows two anonymous model answers and asks which is better.
 This module turns the exported votes into what the report needs:

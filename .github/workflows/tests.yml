@@ -10,6 +10,7 @@ jobs:
       - run: uv run ruff check src tests
       - run: uv run pytest -q
       - run: uv run ruff format --check src tests
+      - run: uv run mypy src
   arena:
     runs-on: ubuntu-latest
     steps:

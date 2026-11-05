@@ -1,4 +1,4 @@
-"""Load SwissDial and the fresh test set, and make the fixed evaluation sample. Owner: Simone.
+"""Load SwissDial and the fresh test set, and make the fixed evaluation sample.
 
 SwissDial v1.1 (Dogan-Schoenberger et al., 2021): 11,213 Standard German sentences, each with
 transcriptions in up to 8 dialects (AG, BE, BS, GR, LU, SG, VS, ZH). 2,529 sentences exist in
