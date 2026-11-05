@@ -1,20 +1,24 @@
-"""Human ratings: build a blind rating sheet, then measure agreement and check chrF. Owner: Kelvin.
+"""Human ratings: build a blind rating sheet, then measure agreement and check chrF.
 
 Two native speakers rate the same outputs for adequacy on a 1 to 5 scale. Each input appears
-once per model, in random order and without model names. The key that maps items back to
-models is kept separately, so raters cannot tell which system they are rating.
+once per model, in random order and without model names. Some rows are model rewrites of
+Standard German input, which shows how much of the gap to a perfect score is harmless paraphrase.
+The key that maps items to models stays out of git until the ratings are in, so raters cannot
+tell which system they are rating.
 
-The analysis answers three questions:
+The analysis answers four questions:
 1. Do the raters agree? Cohen's kappa, unweighted and quadratic-weighted.
 2. Does chrF agree with people? Spearman correlation between sentence chrF and mean rating.
 3. Does chrF rank the models like people do? Mean rating per model, and how often the two
    rankings pick the same winner for the same input.
+4. How good are rewrites of Standard German? This is a human ceiling for the upper bound.
 """
 
 import csv
+import itertools
 import random
 from collections import defaultdict
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -45,7 +49,7 @@ class RatingSample:
 
 
 def error_sample(
-    outputs: dict[str, Sequence[dict[str, str]]],
+    outputs: Mapping[str, Sequence[dict[str, str]]],
     per_cell: int = 3,
     worst_share: float = 0.25,
     seed: int = 0,
@@ -94,15 +98,17 @@ def error_sample(
 
 
 def build_sample(
-    outputs: dict[str, Sequence[dict[str, str]]],
+    outputs: Mapping[str, Sequence[dict[str, str]]],
     per_dialect: dict[str, int],
     seed: int = 0,
+    rewrites_per_model: int = 0,
 ) -> RatingSample:
     """Pick inputs stratified by dialect and condition; one row per input and model.
 
-    `outputs` maps model name to its output rows (as written by `gsw-eval run`), all for the
-    same items. `per_dialect` gives how many inputs to draw per dialect for each condition,
-    for example {"clean": 4, "texting": 2}.
+    `outputs` maps model name to its output rows, all for the same items. `per_dialect` gives
+    how many inputs to draw per dialect for each condition, for example {"clean": 2, "texting": 1}.
+    `rewrites_per_model` adds that many outputs per model for Standard German input, taken
+    from outputs that differ from the input.
     """
     models = sorted(outputs)
     by_key = {m: {(r["key"], r["condition"]): r for r in outputs[m]} for m in models}
@@ -133,6 +139,17 @@ def build_sample(
     for k in chosen:
         for m in models:
             r = by_key[m][k]
+            rows.append((m, r))
+    for m in models:
+        rewrites = [
+            r
+            for r in outputs[m]
+            if r["condition"] == "de_input"
+            and r["output"].strip() != r["input"].strip()
+            and r["sentence_id"] not in used_sentences
+        ]
+        for r in rng.sample(rewrites, min(rewrites_per_model, len(rewrites))):
+            used_sentences.add(r["sentence_id"])
             rows.append((m, r))
     rng.shuffle(rows)
 
@@ -207,25 +224,26 @@ def analyse(
     mean = {i: (rater_a[i] + rater_b[i]) / 2 for i in items}
     chrf = {k["item"]: float(k["chrf"]) for k in key}
 
-    rho, p = spearmanr([chrf[i] for i in items], [mean[i] for i in items])
+    swiss = [k for k in key if k["condition"] != "de_input"]
+    rewrites = [k for k in key if k["condition"] == "de_input"]
+    rho, p = spearmanr([chrf[k["item"]] for k in swiss], [mean[k["item"]] for k in swiss])
     per_model: dict[str, list[float]] = defaultdict(list)
-    for k in key:
+    for k in swiss:
         per_model[k["model"]].append(mean[k["item"]])
 
-    # Same input, two models: does chrF pick the same winner as the raters?
+    # Same input, different models: does chrF pick the same winner as the raters?
     by_input: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
-    for k in key:
+    for k in swiss:
         by_input[(k["key"], k["condition"])].append(k)
     agree = decided = 0
-    for pair in by_input.values():
-        if len(pair) != 2:
-            continue
-        human = mean[pair[0]["item"]] - mean[pair[1]["item"]]
-        metric = chrf[pair[0]["item"]] - chrf[pair[1]["item"]]
-        if human == 0 or metric == 0:
-            continue
-        decided += 1
-        agree += (human > 0) == (metric > 0)
+    for group in by_input.values():
+        for first, second in itertools.combinations(group, 2):
+            human = mean[first["item"]] - mean[second["item"]]
+            metric = chrf[first["item"]] - chrf[second["item"]]
+            if human == 0 or metric == 0:
+                continue
+            decided += 1
+            agree += (human > 0) == (metric > 0)
 
     return {
         "n_items": len(items),
@@ -239,4 +257,14 @@ def analyse(
             "decided": decided,
             "rate": agree / decided if decided else float("nan"),
         },
+        "rewrites_of_standard_german": {
+            "n": len(rewrites),
+            "mean_rating": _mean([mean[k["item"]] for k in rewrites]),
+            "mean_chrf": _mean([chrf[k["item"]] for k in rewrites]),
+            "same_meaning": _mean([float(mean[k["item"]] >= 4.5) for k in rewrites]),
+        },
     }
+
+
+def _mean(values: Sequence[float]) -> float:
+    return sum(values) / len(values) if values else float("nan")

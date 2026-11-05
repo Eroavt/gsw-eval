@@ -1,6 +1,6 @@
-# Bewertungsanleitung (etwa 30 Minuten)
+# Bewertungsanleitung (etwa 40 Minuten)
 
-Du bewertest 96 automatische Übersetzungen von Schweizerdeutsch ins Hochdeutsche.
+Du bewertest 112 automatische Übersetzungen ins Hochdeutsche.
 Zwei Personen bewerten dieselben Zeilen unabhängig voneinander. **Sprich dich nicht ab.**
 
 ## Pro Zeile siehst du
@@ -10,6 +10,8 @@ Zwei Personen bewerten dieselben Zeilen unabhängig voneinander. **Sprich dich n
 - `output`: die Übersetzung des Modells
 
 Trag in `adequacy` eine Zahl von **1 bis 5** ein. `comment` ist freiwillig.
+
+Bei einigen Zeilen ist der Eingabesatz schon Hochdeutsch. Dort prüfst du genauso: Blieb die Bedeutung gleich?
 
 ## Die Frage
 

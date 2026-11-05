@@ -1,4 +1,4 @@
-"""Command line entry point. Owner: Erik.
+"""Command line entry point.
 
 gsw-eval tax                      token tax table for every tokenizer and condition
 gsw-eval run --model apertus-8b   run one model on the test split, all conditions
@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 
 from gsw_eval.data import load_fresh, load_ntrex, load_split, load_swissdial, select
 from gsw_eval.models import MODELS, REPO_ROOT, get_model
-from gsw_eval.noise import load_rules, strip_punct
+from gsw_eval.noise import changed_words, load_rules, strip_punct
 from gsw_eval.run import (
     CONDITIONS,
     build_items,
@@ -39,6 +39,7 @@ FRESH = REPO_ROOT / "fresh" / "data" / "fresh_v1.csv"
 NTREX = REPO_ROOT / "data" / "ntrex"
 NTREX_SPLIT = REPO_ROOT / "splits" / "ntrex_v1.json"
 RESULTS = REPO_ROOT / "results"
+RATINGS = REPO_ROOT / "data" / "ratings"
 SEED = 0
 NOISE_RATE = 0.1
 
@@ -60,6 +61,18 @@ def _examples(split: str, limit: int | None = None) -> list:
         ids = load_split(SPLIT)[split]
         examples = select(examples, ids[:limit] if limit else ids)
     return examples
+
+
+def _dose(items: list) -> dict[str, float]:
+    """Share of words each spelling condition changes, compared with careful spelling."""
+    clean = {it.key: it.input for it in items if it.condition == "clean"}
+    dose = {}
+    for condition in ("texting", "char_noise"):
+        pairs = [(clean[it.key], it.input) for it in items if it.condition == condition]
+        pairs = [p for p in pairs if p[0]]
+        if pairs:
+            dose[condition] = round(changed_words(*zip(*pairs)), 4)
+    return dose
 
 
 def _save(obj: object, path: Path) -> None:
@@ -91,7 +104,7 @@ def tax(
     # Comparing both with punctuation stripped isolates what the spelling changes cost.
     texts["clean_nopunct"] = [strip_punct(t) for t in texts["clean"]]
     texts["texting_nopunct"] = [strip_punct(t) for t in texts["texting"]]
-    rows = []
+    rows: list[dict] = []
     specs = [t for t in TOKENIZERS if (t.kind == "anthropic") == claude]
     if claude:
         # Only the conditions the report uses, to keep the number of API calls down.
@@ -134,6 +147,7 @@ def run(
     prompt: str = typer.Option("", help="prompt version in prompts/ (default: the model's own)"),
     cache_only: bool = typer.Option(False, help="score cached outputs only, never call a model"),
     n_boot: int = typer.Option(1000, help="bootstrap resamples"),
+    noise_rate: float = typer.Option(NOISE_RATE, help="share of words that get character noise"),
 ) -> None:
     """Run one model on a split under every condition, then score and save."""
     load_dotenv(REPO_ROOT / ".env")
@@ -141,7 +155,7 @@ def run(
     if split == "fresh":
         wanted = ["de_input", "clean", "texting"]
     examples = _examples(split, limit or None)
-    items = build_items(examples, wanted, load_rules(RULES), SEED, NOISE_RATE)
+    items = build_items(examples, wanted, load_rules(RULES), SEED, noise_rate)
     if split == "fresh":
         # Synthetic texting only for careful versions; texting versions are already real texting.
         items = [
@@ -171,6 +185,8 @@ def run(
     tag = (
         f"{model}_{split}" + (f"_first{limit}" if limit else "") + (f"_{prompt}" if prompt else "")
     )
+    if noise_rate != NOISE_RATE:
+        tag += f"_noise{round(noise_rate * 100)}"
     write_jsonl(rows, RESULTS / "outputs" / f"{tag}.jsonl")
     if split == "fresh":
         from gsw_eval.fresh import analyse_fresh
@@ -196,9 +212,10 @@ def run(
         "limit": limit,
         "n_items": len(items),
         "seed": SEED,
-        "noise_rate": NOISE_RATE,
+        "noise_rate": noise_rate,
         "rules": RULES.name,
         "prompt": getattr(normalizer.inner, "prompt_version", "none"),
+        "words_changed": _dose(items),
     }
     _save(
         {"meta": meta, "scores": scores, "decomposition": costs}, RESULTS / "scores" / f"{tag}.json"
@@ -225,7 +242,7 @@ PAIRS = "apertus-8b:llama-3.1-8b,gemma-3-27b:apertus-8b,claude-sonnet-5.5:apertu
 def compare(
     split: str = typer.Option("test", help="test or ntrex"),
     pairs: str = typer.Option(PAIRS, help="comma-separated model_a:model_b pairs"),
-    n_boot: int = typer.Option(1000, help="bootstrap resamples"),
+    n_boot: int = typer.Option(10000, help="bootstrap resamples"),
 ) -> None:
     """Paired bootstrap between models and copy rates on Standard German input (cache only)."""
 
@@ -275,27 +292,28 @@ def fresh_import(
 
 @app.command("rating-sheet")
 def rating_sheet(
-    models: str = typer.Option("apertus-8b,llama-3.1-8b", help="comma-separated models"),
-    clean: int = typer.Option(4, help="clean inputs per dialect"),
-    texting: int = typer.Option(2, help="texting inputs per dialect"),
+    models: str = typer.Option(
+        "apertus-8b,llama-3.1-8b,gemma-3-27b,claude-sonnet-5.5", help="comma-separated models"
+    ),
+    clean: int = typer.Option(2, help="clean inputs per dialect"),
+    texting: int = typer.Option(1, help="texting inputs per dialect"),
+    rewrites: int = typer.Option(4, help="rewrites of Standard German per model"),
     seed: int = typer.Option(0),
 ) -> None:
-    """Write a blind rating sheet (data/ratings/, not committed) and its key (ratings/)."""
+    """Write a blind rating sheet and its key to data/ratings/, which is not committed."""
     from gsw_eval.ratings import KEY_COLUMNS, SHEET_COLUMNS, build_sample, write_csv
 
-    outputs = {}
-    for name in [m.strip() for m in models.split(",")]:
-        path = RESULTS / "outputs" / f"{name}_test.jsonl"
-        if not path.exists():
-            raise typer.BadParameter(f"run `gsw-eval run --model {name}` first")
-        outputs[name] = [json.loads(line) for line in path.open(encoding="utf-8")]
-    sample = build_sample(outputs, {"clean": clean, "texting": texting}, seed=seed)
-    sheet_path = REPO_ROOT / "data" / "ratings" / "sheet_v1.csv"
-    key_path = REPO_ROOT / "ratings" / "key_v1.csv"
-    write_csv(sample.sheet, SHEET_COLUMNS, sheet_path)
-    write_csv(sample.key, KEY_COLUMNS, key_path)
-    typer.echo(f"{len(sample.sheet)} rows -> {sheet_path.relative_to(REPO_ROOT)}")
-    typer.echo(f"key -> {key_path.relative_to(REPO_ROOT)}")
+    items = build_items(_examples("test"), CONDITIONS, load_rules(RULES), SEED, NOISE_RATE)
+    outputs = {
+        name.strip(): run_items(get_model(name.strip()), items, generate=False)
+        for name in models.split(",")
+    }
+    sample = build_sample(
+        outputs, {"clean": clean, "texting": texting}, seed=seed, rewrites_per_model=rewrites
+    )
+    write_csv(sample.sheet, SHEET_COLUMNS, RATINGS / "sheet_v2.csv")
+    write_csv(sample.key, KEY_COLUMNS, RATINGS / "key_v2.csv")
+    typer.echo(f"{len(sample.sheet)} rows -> data/ratings/sheet_v2.csv and key_v2.csv")
 
 
 @app.command()
@@ -306,10 +324,13 @@ def ratings(
     """Agreement between the two raters and how well chrF matches them."""
     from gsw_eval.ratings import analyse, read_key, read_ratings
 
+    key = REPO_ROOT / "ratings" / "key_v2.csv"
     result = analyse(
-        read_key(REPO_ROOT / "ratings" / "key_v1.csv"), read_ratings(rater_a), read_ratings(rater_b)
+        read_key(key if key.exists() else RATINGS / "key_v2.csv"),
+        read_ratings(rater_a),
+        read_ratings(rater_b),
     )
-    _save(result, RESULTS / "ratings" / "ratings_v1.json")
+    _save(result, RESULTS / "ratings" / "ratings_v2.json")
     typer.echo(json.dumps(result, indent=1))
 
 

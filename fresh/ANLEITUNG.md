@@ -12,8 +12,9 @@ Dafür brauchen wir echte Sätze von Menschen, die Dialekt sprechen.
 Du bekommst **30 Sätze auf Hochdeutsch**. Schreib jeden Satz **zweimal** in deinem Dialekt:
 
 1. **Sorgfältig:** so, wie du den Satz schreiben würdest, wenn du dir Mühe gibst.
-2. **Wie im Chat:** so, wie du ihn schnell per WhatsApp schreiben würdest.
+2. **Wie im Chat:** derselbe Satz, so wie du ihn schnell per WhatsApp tippen würdest.
    Kleinschreibung, Abkürzungen, keine Satzzeichen: alles erlaubt, wenn du es sonst auch so machst.
+   **Bleib bei denselben Wörtern** wie in der sorgfältigen Version, und ändere nur, wie du sie schreibst.
 
 ## Wichtig
 
@@ -31,7 +32,7 @@ Kein Name. Die Sätze werden mit dem Projekt veröffentlicht (CC BY 4.0).
 
 | Hochdeutsch | Sorgfältig | Wie im Chat |
 |---|---|---|
-| Ich komme heute etwas später nach Hause. | Ich chume hüt es bitzeli spöter hei. | i chume hüt chli spöter hei |
+| Ich komme heute etwas später nach Hause. | Ich chume hüt es bitzeli spöter hei. | i chume hüt es bizli spöter hei |
 
 ## Danach
 

@@ -104,3 +104,44 @@ def test_error_sample_is_stratified_and_picks_low_scores() -> None:
     assert error_sample({"a": rows("xyz")}, per_cell=2, seed=1) == error_sample(
         {"a": rows("xyz")}, per_cell=2, seed=1
     )
+
+
+def test_rewrites_of_standard_german_are_rated_separately() -> None:
+    def row(i: int, model: str, condition: str, output: str) -> dict[str, str]:
+        return {
+            "key": f"k{i}",
+            "sentence_id": str(i),
+            "dialect": "DE" if condition == "de_input" else "BE",
+            "condition": condition,
+            "input": f"Satz {i}",
+            "reference": f"Satz {i}",
+            "reference_alt": "",
+            "output": output,
+        }
+
+    outputs = {
+        m: [row(i, m, "clean", f"Antwort {m} {i}") for i in range(4)]
+        + [
+            row(i, m, "de_input", f"Satz {i}" if i % 2 else f"Umschrieben {m} {i}")
+            for i in range(10, 22)
+        ]
+        for m in ("a", "b")
+    }
+    sample = build_sample(outputs, {"clean": 2}, seed=1, rewrites_per_model=2)
+    rewrites = [k for k in sample.key if k["condition"] == "de_input"]
+    assert len(rewrites) == 4
+    assert len({k["sentence_id"] for k in rewrites}) == 4
+    assert all(
+        "Umschrieben" in s["output"]
+        for s in sample.sheet
+        if s["swiss_german"] in {f"Satz {i}" for i in range(10, 22)}
+    )
+    good = {
+        k["item"]: 5 if k["condition"] == "de_input" else 3 + (k["model"] == "a")
+        for k in sample.key
+    }
+    result = analyse(sample.key, good, good)
+    assert result["rewrites_of_standard_german"]["n"] == 4
+    assert result["rewrites_of_standard_german"]["same_meaning"] == 1.0
+    assert result["n_items"] == 8
+    assert result["pairwise_winner_agreement"]["decided"] >= 0
