@@ -11,7 +11,8 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 - Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Gemma 3 27B,
   Claude Sonnet 5.5 on both; prompt and bf16 checks; token tax for 9 tokenizers; paired
   comparisons (`gsw-eval compare`); website; optional voting tool; report draft.
-- Open: five native speakers fill in `site/mitmachen.html` (needs the site live), then
+- Live: https://eroavt.github.io/gsw-eval/ (GitHub Pages from `main`; the repo is public).
+- Open: five native speakers fill in `site/mitmachen.html?p=1..5`, then
   `gsw-eval collect`, fresh-set runs, ratings; Discussion section; issue #24.
 - Out of scope: collecting crowd votes. The voting tool stays as an optional, unused extra.
 
