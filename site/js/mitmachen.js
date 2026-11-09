@@ -353,7 +353,7 @@ function render() {
     about: renderAbout,
     "chat-intro": () =>
       renderPartIntro("Teil 1: Wie im Chat", [
-        "Du siehst einen Satz auf Hochdeutsch. Tipp ihn so, wie du ihn einem Kollegen auf WhatsApp schicken würdest: in deinem Dialekt, schnell, ohne zu korrigieren.",
+        "Du siehst einen Satz auf Hochdeutsch. Tipp ihn so, wie du ihn einem Freund oder einer Freundin auf WhatsApp schicken würdest: in deinem Dialekt, schnell, ohne zu korrigieren.",
         "Bitte ohne Übersetzer und ohne KI. Es gibt kein Richtig oder Falsch.",
       ], "chat"),
     chat: () => renderWrite("chat"),
@@ -366,6 +366,7 @@ function render() {
       renderPartIntro("Teil 3: Bewerten", [
         "Ein Computer hat Sätze ins Hochdeutsche übersetzt. Sagt die Übersetzung dasselbe wie der Satz?",
         "Achte nur auf die Bedeutung. Andere, aber richtige Wörter sind gut. Kleine Grammatikfehler sind egal.",
+        "Manche Sätze sind schon Hochdeutsch. Dann prüfst du einfach, ob die Bedeutung gleich geblieben ist.",
         "Manche Sätze kommen in anderen Dialekten. Wenn du einen nicht verstehst, tipp auf «Verstehe den Satz nicht».",
       ], "rate"),
     rate: renderRate,
@@ -387,6 +388,18 @@ async function start() {
       el("p", { class: "lead", text: "Dieser Link ist unvollständig. Frag Erik nach deinem Link." }),
     );
     return;
+  }
+  const url = new URL(location.href);
+  if (url.searchParams.has("reset")) {
+    // For testing on your own phone: mitmachen.html?p=N&reset=1 starts this link from scratch.
+    try {
+      localStorage.removeItem(storageKey());
+    } catch {
+      // Nothing stored.
+    }
+    delete memory.state;
+    url.searchParams.delete("reset");
+    history.replaceState(null, "", url);
   }
   state = load() ?? { step: "intro", index: 0, write: {}, rate: {} };
   render();

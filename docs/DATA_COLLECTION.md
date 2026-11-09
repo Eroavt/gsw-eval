@@ -28,7 +28,9 @@ ratings are in.
 gsw-eval participation-page    # writes site/data/mitmachen.json
 ```
 
-Send each person their own link. Save the forwarded messages in one or more text files, then:
+Send each person their own link. To test a link on your own phone and start it again afterwards,
+open it with `&reset=1` at the end. Answers live on each phone, so testing never affects the
+helpers. Save the forwarded messages in one or more text files, then:
 
 ```bash
 gsw-eval collect messages.txt  # fresh/data/fresh_v1.csv, ratings/ratings_v2.csv, participants
