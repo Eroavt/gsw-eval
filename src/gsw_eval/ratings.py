@@ -25,7 +25,13 @@ from typing import Any
 
 from scipy.stats import spearmanr
 
-from gsw_eval.metrics import cohen_kappa, mean_estimate, reference_of, sentence_chrf
+from gsw_eval.metrics import (
+    cohen_kappa,
+    krippendorff_alpha,
+    mean_estimate,
+    reference_of,
+    sentence_chrf,
+)
 
 SHEET_COLUMNS = ["item", "swiss_german", "reference_de", "output", "adequacy", "comment"]
 KEY_COLUMNS = ["item", "model", "key", "condition", "dialect", "sentence_id", "chrf"]
@@ -190,19 +196,14 @@ def write_csv(rows: Sequence[dict[str, str]], columns: list[str], path: Path) ->
         writer.writerows(rows)
 
 
-def read_ratings(path: Path) -> dict[str, int]:
-    """Read a filled sheet; returns item -> adequacy (1 to 5). Blank ratings are an error."""
-    ratings: dict[str, int] = {}
+def read_ratings(path: Path) -> list[dict[str, str]]:
+    """Read the collected ratings: one row per item and rater (see participation.py)."""
     with path.open(encoding="utf-8", newline="") as f:
-        for row in csv.DictReader(f):
-            value = (row.get("adequacy") or "").strip()
-            if not value:
-                raise ValueError(f"{path}: item {row['item']} has no rating")
-            score = int(value)
-            if not 1 <= score <= 5:
-                raise ValueError(f"{path}: item {row['item']} rated {score}, expected 1 to 5")
-            ratings[row["item"]] = score
-    return ratings
+        rows = list(csv.DictReader(f))
+    for row in rows:
+        if not 1 <= int(row["adequacy"]) <= 5:
+            raise ValueError(f"{path}: item {row['item']} rated {row['adequacy']}")
+    return rows
 
 
 def read_key(path: Path) -> list[dict[str, str]]:
@@ -211,21 +212,23 @@ def read_key(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(f))
 
 
-def analyse(
-    key: Sequence[dict[str, str]], rater_a: dict[str, int], rater_b: dict[str, int]
-) -> dict[str, Any]:
-    """Agreement between raters, and how well chrF matches their judgement."""
-    items = [k["item"] for k in key]
-    missing = [i for i in items if i not in rater_a or i not in rater_b]
-    if missing:
-        raise ValueError(f"{len(missing)} items not rated by both raters, e.g. {missing[:3]}")
-    a = [rater_a[i] for i in items]
-    b = [rater_b[i] for i in items]
-    mean = {i: (rater_a[i] + rater_b[i]) / 2 for i in items}
-    chrf = {k["item"]: float(k["chrf"]) for k in key}
+def analyse(key: Sequence[dict[str, str]], ratings: Sequence[dict[str, str]]) -> dict[str, Any]:
+    """Agreement between raters, and how well chrF matches their judgement.
 
-    swiss = [k for k in key if k["condition"] != "de_input"]
-    rewrites = [k for k in key if k["condition"] == "de_input"]
+    Any number of raters may rate an item; Krippendorff's alpha handles that. Items nobody
+    rated are left out.
+    """
+    by_item: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in ratings:
+        by_item[row["item"]].append(row)
+    rated = [k for k in key if by_item.get(k["item"])]
+    scores = {k["item"]: [int(r["adequacy"]) for r in by_item[k["item"]]] for k in rated}
+    mean = {item: sum(v) / len(v) for item, v in scores.items()}
+    chrf = {k["item"]: float(k["chrf"]) for k in rated}
+    doubles = [v[:2] for v in scores.values() if len(v) >= 2]
+
+    swiss = [k for k in rated if k["condition"] != "de_input"]
+    rewrites = [k for k in rated if k["condition"] == "de_input"]
     rho, p = spearmanr([chrf[k["item"]] for k in swiss], [mean[k["item"]] for k in swiss])
     per_model: dict[str, list[float]] = defaultdict(list)
     for k in swiss:
@@ -245,11 +248,31 @@ def analyse(
             decided += 1
             agree += (human > 0) == (metric > 0)
 
+    # What went wrong, from ratings of 3 or lower, per model and per dialect.
+    keyed = {k["item"]: k for k in rated}
+    reason_by: dict[str, dict[str, dict[str, int]]] = {
+        "model": defaultdict(lambda: defaultdict(int)),
+        "dialect": defaultdict(lambda: defaultdict(int)),
+    }
+    for row in ratings:
+        entry = keyed.get(row["item"])
+        if entry is None or entry["condition"] == "de_input" or int(row["adequacy"]) > 3:
+            continue
+        reason = row.get("reason") or "unknown"
+        for field in ("model", "dialect"):
+            reason_by[field][entry[field]][reason] += 1
+
     return {
-        "n_items": len(items),
-        "exact_agreement": sum(x == y for x, y in zip(a, b)) / len(items),
-        "kappa": cohen_kappa(a, b),
-        "kappa_quadratic": cohen_kappa(a, b, weighted=True),
+        "n_items": len(rated),
+        "n_ratings": sum(len(v) for v in scores.values()),
+        "raters": len({r["rater"] for r in ratings}),
+        "alpha_interval": krippendorff_alpha(list(scores.values())),
+        "exact_agreement": _mean([float(a == b) for a, b in doubles]),
+        "kappa_quadratic": cohen_kappa(
+            [a for a, _ in doubles], [b for _, b in doubles], weighted=True
+        )
+        if doubles
+        else float("nan"),
         "spearman_chrf_vs_human": {"rho": float(rho), "p_value": float(p)},
         "mean_rating": {m: mean_estimate(v).as_dict() for m, v in sorted(per_model.items())},
         "pairwise_winner_agreement": {
@@ -262,6 +285,10 @@ def analyse(
             "mean_rating": _mean([mean[k["item"]] for k in rewrites]),
             "mean_chrf": _mean([chrf[k["item"]] for k in rewrites]),
             "same_meaning": _mean([float(mean[k["item"]] >= 4.5) for k in rewrites]),
+        },
+        "errors": {
+            field: {name: dict(counts) for name, counts in sorted(reason_by[field].items())}
+            for field in ("model", "dialect")
         },
     }
 

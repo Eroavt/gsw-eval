@@ -7,6 +7,7 @@ from gsw_eval.metrics import (
     bootstrap_ci,
     chrf,
     cohen_kappa,
+    krippendorff_alpha,
     mean_estimate,
     paired_bootstrap,
     ratio_estimate,
@@ -101,3 +102,24 @@ def test_cluster_bootstrap_is_wider_when_items_are_not_independent() -> None:
     assert clustered[2] - clustered[1] > 1.5 * (plain[2] - plain[1])
     with pytest.raises(ValueError):
         bootstrap_ci(hyps, refs, n=10, clusters=["1"])
+
+
+def test_krippendorff_alpha_matches_the_published_example() -> None:
+    # Krippendorff (2011), "Computing Krippendorff's alpha-reliability": 4 coders, 12 units.
+    units = [
+        [1, 1, 1],
+        [2, 2, 3, 2],
+        [3, 3, 3, 3],
+        [3, 3, 3, 3],
+        [2, 2, 2, 2],
+        [1, 2, 3, 4],
+        [4, 4, 4, 4],
+        [1, 1, 2, 1],
+        [2, 2, 2, 2],
+        [5, 5, 5],
+        [1, 1],
+        [3],
+    ]
+    assert krippendorff_alpha(units) == pytest.approx(0.849, abs=0.001)
+    assert krippendorff_alpha([[4, 4], [2, 2], [5, 5]]) == pytest.approx(1.0)
+    assert math.isnan(krippendorff_alpha([[3]]))

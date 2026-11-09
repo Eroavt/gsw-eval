@@ -219,3 +219,26 @@ def cohen_kappa(
         raise ValueError("both raters must rate the same non-empty set of items")
     weights = "quadratic" if weighted else None
     return float(cohen_kappa_score(ratings_a, ratings_b, weights=weights))
+
+
+def krippendorff_alpha(units: Sequence[Sequence[float]]) -> float:
+    """Krippendorff's alpha for interval data: agreement of any number of raters per item.
+
+    `units` holds the ratings each item received. Items with fewer than two ratings cannot be
+    compared and are ignored, so raters may skip items and the rater pairs may differ.
+    """
+    pairable = [list(u) for u in units if len(u) >= 2]
+    values = np.array([v for u in pairable for v in u], dtype=float)
+    n = len(values)
+    if n < 2:
+        return float("nan")
+    observed = (
+        sum(
+            sum((a - b) ** 2 for i, a in enumerate(u) for j, b in enumerate(u) if i != j)
+            / (len(u) - 1)
+            for u in pairable
+        )
+        / n
+    )
+    expected = ((values[:, None] - values[None, :]) ** 2).sum() / (n * (n - 1))
+    return 1.0 if expected == 0 else float(1 - observed / expected)

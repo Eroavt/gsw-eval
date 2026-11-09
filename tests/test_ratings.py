@@ -47,29 +47,51 @@ def test_sample_is_stratified_blind_and_deterministic() -> None:
     assert len({s for s, _ in sentences}) == len(sentences)  # no sentence used twice
 
 
+def _rows(scores: dict[str, int], rater: str, reason: str = "") -> list[dict[str, str]]:
+    return [
+        {"item": item, "rater": rater, "adequacy": str(score), "reason": reason}
+        for item, score in scores.items()
+    ]
+
+
 def test_roundtrip_and_analysis(tmp_path: Path) -> None:
     sample = build_sample(OUTPUTS, {"clean": 2, "texting": 1}, seed=0)
     write_csv(sample.key, KEY_COLUMNS, tmp_path / "key.csv")
     key = read_key(tmp_path / "key.csv")
     good = {k["item"]: 5 if k["model"] == "a" else 2 for k in key}
     near = {k["item"]: 4 if k["model"] == "a" else 2 for k in key}
-    for name, ratings in (("r1", good), ("r2", near)):
-        rows = [dict(s, adequacy=str(ratings[s["item"]])) for s in sample.sheet]
-        write_csv(rows, SHEET_COLUMNS, tmp_path / f"{name}.csv")
-    result = analyse(key, read_ratings(tmp_path / "r1.csv"), read_ratings(tmp_path / "r2.csv"))
+    rows = _rows(good, "w1", "misread") + _rows(near, "w2", "missing")
+    write_csv(rows, ["item", "rater", "adequacy", "reason"], tmp_path / "ratings.csv")
+    result = analyse(key, read_ratings(tmp_path / "ratings.csv"))
     assert result["n_items"] == 12
-    assert result["kappa_quadratic"] > result["kappa"]
+    assert result["n_ratings"] == 24
+    assert result["raters"] == 2
+    assert 0.5 < result["alpha_interval"] < 1
     assert result["mean_rating"]["a"]["value"] > result["mean_rating"]["b"]["value"]
     assert result["pairwise_winner_agreement"]["rate"] == pytest.approx(1.0)
     assert result["spearman_chrf_vs_human"]["rho"] > 0
+    assert result["errors"]["model"]["b"] == {"misread": 6, "missing": 6}
+    assert "a" not in result["errors"]["model"]
 
 
-def test_blank_or_bad_rating_rejected(tmp_path: Path) -> None:
+def test_unrated_items_are_left_out() -> None:
+    sample = build_sample(OUTPUTS, {"clean": 2, "texting": 1}, seed=0)
+    first = sample.key[0]["item"]
+    result = analyse(sample.key, _rows({first: 4}, "w1"))
+    assert result["n_items"] == 1
+    assert result["exact_agreement"] != result["exact_agreement"]  # nan: no item has two ratings
+
+
+def test_bad_rating_rejected(tmp_path: Path) -> None:
     path = tmp_path / "r.csv"
-    write_csv([{"item": "r001", "adequacy": ""}], ["item", "adequacy"], path)
+    write_csv(
+        [{"item": "r001", "rater": "w1", "adequacy": "7"}], ["item", "rater", "adequacy"], path
+    )
     with pytest.raises(ValueError):
         read_ratings(path)
-    write_csv([{"item": "r001", "adequacy": "7"}], ["item", "adequacy"], path)
+    write_csv(
+        [{"item": "r001", "rater": "w1", "adequacy": ""}], ["item", "rater", "adequacy"], path
+    )
     with pytest.raises(ValueError):
         read_ratings(path)
 
@@ -140,8 +162,8 @@ def test_rewrites_of_standard_german_are_rated_separately() -> None:
         k["item"]: 5 if k["condition"] == "de_input" else 3 + (k["model"] == "a")
         for k in sample.key
     }
-    result = analyse(sample.key, good, good)
+    result = analyse(sample.key, _rows(good, "w1") + _rows(good, "w2"))
     assert result["rewrites_of_standard_german"]["n"] == 4
     assert result["rewrites_of_standard_german"]["same_meaning"] == 1.0
     assert result["n_items"] == 8
-    assert result["pairwise_winner_agreement"]["decided"] >= 0
+    assert result["alpha_interval"] == pytest.approx(1.0)
