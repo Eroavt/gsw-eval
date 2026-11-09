@@ -33,5 +33,14 @@ for model in claude-sonnet-5.5; do
       --noise-rate "$rate" --cache-only
   done
 done
+# Human data, once it is collected (docs/DATA_COLLECTION.md).
+if [[ -f fresh/data/fresh_v1.csv ]]; then
+  for model in identity claude-sonnet-5.5; do
+    gsw-eval run --model "$model" --split fresh --cache-only
+  done
+fi
+if [[ -f ratings/ratings_v2.csv && -f ratings/key_v2.csv ]]; then
+  gsw-eval ratings > /dev/null
+fi
 gsw-eval report
 gsw-eval site

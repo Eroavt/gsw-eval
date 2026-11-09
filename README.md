@@ -120,7 +120,7 @@ analyse exported votes with `gsw-eval arena votes.csv`.
 |---|---|---|
 | [SwissDial](https://arxiv.org/abs/2103.11401) v1.1 | Main test set: 500 sentences in 8 dialects, one writer per dialect | CC BY-NC 4.0 |
 | [Swiss German NTREX](https://arxiv.org/abs/2311.16865) | Second test set: 500 news sentences, Bern and Zurich | See the source |
-| Fresh set | 30 sentences written twice by native speakers, carefully and as in a chat | CC BY 4.0 |
+| Fresh set | 24 sentences written twice by five native speakers, as in a chat and carefully ([how](docs/DATA_COLLECTION.md)) | CC BY 4.0 |
 
 Request SwissDial from ETH Zurich and put the text files under `data/swissdial/`
 (see [`data/README.md`](data/README.md)). Only sentences available in all eight dialects are used,

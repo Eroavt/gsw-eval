@@ -69,7 +69,7 @@ model loses less than half as much to the dialect.
 \item A token-tax analysis of nine tokenizers, showing that simulated chat spelling does not explain
 the extra tokens.
 \item A small fresh test set in which each native writer translates the same sentences twice,
-carefully and in texting style. \todo{size once collected}
+carefully and in texting style, from five native speakers.
 \end{enumerate}
 
 \section{Related Work}
@@ -118,10 +118,11 @@ which serves as the reference. 1,850 sentences can be aligned in both dialects, 
 of them as a second test split. Both the Swiss and the Standard German versions are translated from English,
 so the reference is looser and absolute scores are lower.
 
-\textbf{Fresh set.} \todo{Simone: who wrote it (number of writers, dialects), how long it took.}
-Each writer translated the same 30 Standard German sentences (20 everyday chat, 10 news-like)
-twice: once carefully and once ``the way you would text'', keeping the same words. Because the same
-person writes both versions, the difference between them is spelling and style, not dialect. The set was written after the models
+\textbf{Fresh set.} Five native speakers from \todo{cantons} each translated 24 Standard German
+sentences (20 everyday chat, 4 news-like) twice on their phone: first the way they would text a friend,
+then, in a separate round, carefully. The chat round comes first so it stays natural, and nothing is
+pre-filled, so neither version copies the other. Because the same person writes both versions, the
+difference between them is spelling and style, not dialect. The set was written after the models
 were trained, so it cannot be in their training data. It is released with the code (CC BY 4.0).
 
 \section{Method}
@@ -173,9 +174,12 @@ sentences divided by the tokens of the same sentences in Standard German, summed
 parallel sentences and eight dialects. Because the texting rules drop punctuation and punctuation
 marks are tokens, we compare all conditions with punctuation removed.
 
-\textbf{Human evaluation.} Two native speakers rate 112 outputs, blind and in random order, for
-adequacy on a 1--5 scale: all four models on 24 inputs, plus 16 model rewrites of Standard German
-input, which show how much of the gap to 100 is harmless paraphrase. \todo{report kappa here.}
+\textbf{Human evaluation.} The same five people rated 112 outputs for adequacy on a 1--5 scale: all
+four models on 24 inputs, plus 16 model rewrites of Standard German input, which show how much of the
+gap to 100 is harmless paraphrase. Each output was rated by two of them, blind to the model and without
+a reference, so they judged meaning, not word overlap, and for scores of 3 or lower they chose what
+went wrong. Rater pairs vary, so we report Krippendorff's $\alpha$ \citep{krippendorff2011alpha}.
+\todo{$\alpha$, Spearman chrF vs rating, and whether chrF picks the same better model.}
 
 \section{Results}
 

@@ -11,8 +11,8 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 - Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Gemma 3 27B,
   Claude Sonnet 5.5 on both; prompt and bf16 checks; token tax for 9 tokenizers; paired
   comparisons (`gsw-eval compare`); website; optional voting tool; report draft.
-- Open: fresh set and human ratings (a few native speakers), texting rules v1 and the rerun,
-  Discussion section, issue #24, going live on GitHub Pages.
+- Open: five native speakers fill in `site/mitmachen.html` (needs the site live), then
+  `gsw-eval collect`, fresh-set runs, ratings; Discussion section; issue #24.
 - Out of scope: collecting crowd votes. The voting tool stays as an optional, unused extra.
 
 ## Layout
@@ -22,7 +22,8 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 - `src/gsw_eval/run.py`      input conditions, scoring, dialect vs spelling decomposition
 - `src/gsw_eval/metrics.py`  chrF (multi-reference), bootstrap, paired bootstrap, kappa
 - `src/gsw_eval/tax.py`      token tax per tokenizer
-- `src/gsw_eval/fresh.py`, `ratings.py`  fresh set and human ratings
+- `src/gsw_eval/fresh.py`, `ratings.py`, `participation.py`  fresh set and human ratings, collected
+  with the phone page `site/mitmachen.html` (see `docs/DATA_COLLECTION.md`)
 - `src/gsw_eval/report.py`   tables (`results/tables/*.tex`) and figures for the report
 - `src/gsw_eval/site.py`     data for the results website; the page itself is `site/` (plain HTML, CSS, JS)
 - `src/gsw_eval/arena.py`    analysis of the votes; the voting tool itself is `arena/`, `api/`, `site/arena.html`
