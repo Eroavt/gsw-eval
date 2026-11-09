@@ -12,6 +12,8 @@ difference between those scores splits the cost into a dialect part and a spelli
 and in tokens, with confidence intervals. The short answer so far: mostly the dialect. The spelling
 result is under test with real texting from native speakers.
 
+**Website: [eroavt.github.io/gsw-eval](https://eroavt.github.io/gsw-eval/)**
+
 ![Results website](docs/images/site.jpg)
 
 The website in [`site/`](site/) shows the findings, every model's answer sentence by sentence, a
