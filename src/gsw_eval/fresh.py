@@ -20,6 +20,7 @@ from typing import Any
 import numpy as np
 
 from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats, reference_of
+from gsw_eval.noise import changed_words
 
 FRESH_COLUMNS = ["sentence_id", "writer", "dialect", "style", "gsw", "de"]
 
@@ -95,10 +96,25 @@ def analyse_fresh(
 
     scores = {
         name: chrf_estimate(
-            [r["output"] for r in g], [reference_of(r) for r in g], n=n_boot
+            [r["output"] for r in g],
+            [reference_of(r) for r in g],
+            n=n_boot,
+            clusters=[r["sentence_id"] for r in g],
         ).as_dict()
         for name, g in sorted(groups.items())
     }
+
+    # How many words each kind of texting changes, compared with the careful version.
+    careful_text = {(_parse(r)[0], r["sentence_id"]): r["input"] for r in groups.get("careful", [])}
+    dose = {}
+    for name in ("texting", "synthetic"):
+        pairs = [
+            (careful_text[key], r["input"])
+            for r in groups.get(name, [])
+            if (key := (_parse(r)[0], r["sentence_id"])) in careful_text
+        ]
+        if pairs:
+            dose[name] = changed_words(*zip(*pairs))
 
     # Spelling cost with a cluster bootstrap over sentences (all writers of a sentence together).
     def per_sentence(name: str) -> dict[str, np.ndarray]:
@@ -143,4 +159,10 @@ def analyse_fresh(
             est = chrf_estimate([r["output"] for r in g], [reference_of(r) for r in g], n=n_boot)
             per_writer.setdefault(writer, {"dialect": g[0]["dialect"]})[name] = est.value
 
-    return {"n_sentences": len(ids), "scores": scores, "costs": costs, "per_writer": per_writer}
+    return {
+        "n_sentences": len(ids),
+        "scores": scores,
+        "costs": costs,
+        "words_changed": dose,
+        "per_writer": per_writer,
+    }

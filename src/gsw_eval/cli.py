@@ -8,6 +8,7 @@ gsw-eval site                     data files for the results website in site/
 gsw-eval arena votes.csv          ranking and chrF check from the votes of the Dialäkt-Duell
 """
 
+import csv
 import json
 import time
 from pathlib import Path
@@ -318,20 +319,81 @@ def rating_sheet(
 
 @app.command()
 def ratings(
-    rater_a: Annotated[Path, typer.Argument(help="filled sheet of rater A")],
-    rater_b: Annotated[Path, typer.Argument(help="filled sheet of rater B")],
+    collected: Annotated[Path, typer.Argument(help="ratings from `gsw-eval collect`")] = Path(
+        "ratings/ratings_v2.csv"
+    ),
 ) -> None:
-    """Agreement between the two raters and how well chrF matches them."""
+    """Agreement between the raters and how well chrF matches them."""
     from gsw_eval.ratings import analyse, read_key, read_ratings
 
     key = REPO_ROOT / "ratings" / "key_v2.csv"
     result = analyse(
-        read_key(key if key.exists() else RATINGS / "key_v2.csv"),
-        read_ratings(rater_a),
-        read_ratings(rater_b),
+        read_key(key if key.exists() else RATINGS / "key_v2.csv"), read_ratings(collected)
     )
     _save(result, RESULTS / "ratings" / "ratings_v2.json")
     typer.echo(json.dumps(result, indent=1))
+
+
+@app.command("participation-page")
+def participation_page() -> None:
+    """Write the data of the phone page that collects the fresh set and the ratings."""
+    from gsw_eval.participation import build_page_data
+
+    def rows(path: Path) -> list[dict[str, str]]:
+        with path.open(encoding="utf-8", newline="") as f:
+            return list(csv.DictReader(f))
+
+    data = build_page_data(
+        rows(REPO_ROOT / "fresh" / "sentences_v1.csv"),
+        rows(RATINGS / "sheet_v2.csv"),
+        rows(RATINGS / "key_v2.csv"),
+    )
+    _save(data, REPO_ROOT / "site" / "data" / "mitmachen.json")
+    typer.echo(
+        f"{len(data['sentences'])} sentences, {len(data['items'])} items -> site/data/mitmachen.json"
+    )
+
+
+@app.command()
+def collect(
+    messages: Annotated[list[Path], typer.Argument(help="text files with the forwarded messages")],
+) -> None:
+    """Turn the messages from the phone page into the fresh set and the ratings."""
+    from gsw_eval.fresh import FRESH_COLUMNS
+    from gsw_eval.participation import (
+        PARTICIPANT_COLUMNS,
+        RATING_COLUMNS,
+        fresh_rows,
+        parse_submissions,
+        participant_rows,
+        rating_rows,
+        write_rows,
+    )
+
+    submissions = parse_submissions("\n".join(p.read_text(encoding="utf-8") for p in messages))
+    with (REPO_ROOT / "fresh" / "sentences_v1.csv").open(encoding="utf-8", newline="") as f:
+        sentences = list(csv.DictReader(f))
+    page = json.loads((REPO_ROOT / "site" / "data" / "mitmachen.json").read_text(encoding="utf-8"))
+    write_rows(fresh_rows(submissions, sentences), FRESH_COLUMNS, FRESH)
+    write_rows(rating_rows(submissions), RATING_COLUMNS, REPO_ROOT / "ratings" / "ratings_v2.csv")
+    write_rows(
+        participant_rows(submissions), PARTICIPANT_COLUMNS, FRESH.parent / "participants.csv"
+    )
+    for sub in submissions:
+        written = sum(
+            bool(v.get("chat", "").strip()) and bool(v.get("careful", "").strip())
+            for v in sub.get("write", {}).values()
+        )
+        mine = sum(sub["p"] in item["raters"] for item in page["items"])
+        scored = sum(a.get("score") is not None for a in sub.get("rate", {}).values())
+        skipped = sum(bool(a.get("skip")) for a in sub.get("rate", {}).values())
+        typer.echo(
+            f"w{sub['p']} ({sub['canton']}): {written}/{len(page['sentences'])} written, "
+            f"{scored}/{mine} rated, {skipped} not understood"
+        )
+    missing = sorted(set(range(1, page["people"] + 1)) - {s["p"] for s in submissions})
+    if missing:
+        typer.echo(f"still missing: {', '.join(f'person {p}' for p in missing)}")
 
 
 @app.command("error-sheet")

@@ -54,3 +54,5 @@ def test_analysis_of_identity_outputs(tmp_path: Path) -> None:
     assert "real_spelling_cost" in result["costs"]
     assert "synthetic_spelling_cost" in result["costs"]
     assert result["per_writer"]["w1"]["dialect"] == "ZH"
+    assert set(result["words_changed"]) == {"texting", "synthetic"}
+    assert 0 <= result["words_changed"]["texting"] <= 1
