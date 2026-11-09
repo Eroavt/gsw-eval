@@ -211,3 +211,33 @@ code { font: 0.9375rem/1.5 ui-monospace, Menlo, Consolas, monospace; }
 .notice p:last-child { margin-bottom: 0; }
 .consent { display: flex; gap: 0.625rem; align-items: flex-start; }
 .consent input { width: 1.25rem; min-height: 1.25rem; height: 1.25rem; margin-top: 0.2rem; flex: none; }
+
+/* Participation page */
+body.task { font-size: 1.125rem; }
+.task-main { max-width: 36rem; padding-block: 0.75rem 3rem; padding-bottom: max(3rem, env(safe-area-inset-bottom)); }
+.task-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.task-progress { color: var(--muted); font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
+.bar { height: 4px; background: var(--line); border-radius: 2px; margin: 0.5rem 0 1.5rem; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--accent); }
+.task h1 { font-size: clamp(1.75rem, 7vw, 2.25rem); margin-bottom: 0.75rem; }
+.task .lead { font-size: 1.125rem; margin: 0 0 1rem; }
+.task-steps { padding-left: 1.25rem; margin: 0 0 1rem; }
+.task-steps li { margin-bottom: 0.5rem; }
+.task .control { margin-bottom: 1.25rem; }
+.task-label { font-size: 0.9375rem; font-weight: 700; color: var(--muted); margin: 0 0 0.25rem; }
+.task-german { font-size: 1.375rem; line-height: 1.35; margin: 0 0 1rem; }
+.task-output { font-size: 1.25rem; line-height: 1.35; margin: 0 0 1rem; padding: 0.75rem 1rem; background: var(--panel); border-radius: 8px; }
+.task-question { font-weight: 700; margin: 0.5rem 0; }
+.task textarea { font-size: 1.25rem; min-height: 6rem; }
+.task-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.task-actions button { flex: 1; min-height: 3rem; }
+.scores { display: grid; gap: 0.5rem; }
+.scores .score { text-align: left; min-height: 3rem; padding-inline: 1rem; }
+.scores .score strong { display: inline-block; width: 1.25rem; }
+.reasons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.reasons[hidden] { display: none; }
+.reasons .task-label { width: 100%; }
+.reasons button { min-height: 2.75rem; }
+.task-foot { margin-top: 2rem; text-align: center; }
+button.link { all: unset; color: var(--accent); text-decoration: underline; cursor: pointer; font-size: 0.9375rem; }
+button.link:focus-visible { outline: 2px solid var(--accent); }
