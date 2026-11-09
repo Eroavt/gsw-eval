@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": "site",
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30,
+      "includeFiles": "{site/data/sentences/**,prompts/normalize_v1.txt}"
+    }
+  }
+}

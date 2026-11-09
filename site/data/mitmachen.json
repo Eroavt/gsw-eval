@@ -1,0 +1,1224 @@
+{
+ "version": 1,
+ "people": 5,
+ "sentences": [
+  {
+   "id": "f01",
+   "de": "Ich komme heute etwas später nach Hause."
+  },
+  {
+   "id": "f02",
+   "de": "Hast du schon gegessen oder sollen wir zusammen kochen?"
+  },
+  {
+   "id": "f03",
+   "de": "Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+  },
+  {
+   "id": "f04",
+   "de": "Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+  },
+  {
+   "id": "f05",
+   "de": "Wir treffen uns um sieben Uhr vor dem Bahnhof."
+  },
+  {
+   "id": "f06",
+   "de": "Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+  },
+  {
+   "id": "f07",
+   "de": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+  },
+  {
+   "id": "f08",
+   "de": "Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+  },
+  {
+   "id": "f09",
+   "de": "Mein Bruder hat sich ein neues Velo gekauft."
+  },
+  {
+   "id": "f10",
+   "de": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+  },
+  {
+   "id": "f11",
+   "de": "Weisst du, ob der Laden am Sonntag offen hat?"
+  },
+  {
+   "id": "f12",
+   "de": "Die Kinder spielen draussen im Garten."
+  },
+  {
+   "id": "f13",
+   "de": "Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+  },
+  {
+   "id": "f14",
+   "de": "Sag mir einfach Bescheid, wenn du angekommen bist."
+  },
+  {
+   "id": "f15",
+   "de": "Das Essen in diesem Restaurant ist nicht besonders gut."
+  },
+  {
+   "id": "f16",
+   "de": "Morgen soll es den ganzen Tag regnen."
+  },
+  {
+   "id": "f17",
+   "de": "Ich habe überhaupt nicht gut geschlafen letzte Nacht."
+  },
+  {
+   "id": "f18",
+   "de": "Kommst du nachher noch auf ein Bier vorbei?"
+  },
+  {
+   "id": "f19",
+   "de": "Meine Grossmutter wird nächste Woche achtzig Jahre alt."
+  },
+  {
+   "id": "f20",
+   "de": "Wir haben den letzten Bus verpasst und mussten zu Fuss gehen."
+  },
+  {
+   "id": "f21",
+   "de": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+  },
+  {
+   "id": "f22",
+   "de": "Im Herbst steigen die Krankenkassenprämien erneut an."
+  },
+  {
+   "id": "f24",
+   "de": "In den Alpen ist in der Nacht viel Schnee gefallen."
+  },
+  {
+   "id": "f26",
+   "de": "Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus."
+  }
+ ],
+ "items": [
+  {
+   "id": "r001",
+   "input": "Ihre rächti Arm isch über e scharfi Glaskante gschürft.",
+   "output": "Ihre rechte Hand ist über eine scharfe Glasschneidekante geschürft.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r002",
+   "input": "Nur vereinzelt Blitz und Donner?",
+   "output": "Nur vereinzelte Blitze und Donner?",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r003",
+   "input": "Es het nur ä bitzli gschneit kah aber d Piste sind scho offe gseh.",
+   "output": "Es hat nur ein bisschen geschneit, aber die Piste sind schon offen gesehen.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r004",
+   "input": "Paris isch dHauptstadt vo Frankriich.",
+   "output": "Paris ist die Hauptstadt von Frankreich.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r005",
+   "input": "Ufem Badener Husbaerg Baldegg het dr Christian Rocha dr Süpercross organisiert es einzels Radquerrennae",
+   "output": "Auf dem Badener Hausberg Baldegg hat Christian Rocha das Supercross Einzel-Radquerrennen organisiert.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r006",
+   "input": "Auf dem Dach der alten Dorfschule gleich neben seinem Hof will die Swisscom eine fünf G Antenne installieren.",
+   "output": "Auf dem Dach der alten Dorfschule direkt neben seinem Hof will die Swisscom eine 5G-Antenne installieren.",
+   "german": true,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r007",
+   "input": "Da goht aber nur guet, wenn me di eigete Date ohni Problem us de Hand cha geh.",
+   "output": "Das funktioniert aber nur gut, wenn man seine eigenen Dateien ohne Probleme aus der Hand geben kann.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r008",
+   "input": "letztlich esch dsituation eskalirt ond de pollock het sech em alkoholrusch zu tode gfahre",
+   "output": "Letztendlich ist die Situation eskaliert und der Pollock ist dem Alkoholvergiftungstod zum Opfer gefallen.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r009",
+   "input": "Der Berset het voremu Automatismus gwarnt.",
+   "output": "Der Berset hat vor dem Automatismus gewarnt.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r010",
+   "input": "d nachttemperature sind durchgängig ahgnähm",
+   "output": "Die Nachttemperaturen sind durchgehend angenehm.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r011",
+   "input": "Es ist der Einstieg in eine Ausstellung, die sich vielschichtig und breit mit dem Thema Jagd in der Kunst auseinandersetzt.",
+   "output": "Es ist der Beginn einer Ausstellung, die sich vielschichtig und umfassend mit dem Thema Jagd in der Kunst befasst.",
+   "german": true,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r012",
+   "input": "Das ganze Gerede über ihre Mutter wühlt dich vermutlich auf, formulierte Vicki wohlwollend.",
+   "output": "Das ganze Gerede über ihre Mutter wird dich vermutlich aufwühlen.",
+   "german": true,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r013",
+   "input": "En Lozärn hemmer am Zistig Morge Hochnäbel.",
+   "output": "In Luzern haben wir am Samstag Morgen Hochnebel.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r014",
+   "input": "Der Berset het voremu Automatismus gwarnt.",
+   "output": "Der Berset hat vor dem Automatismus gewarnt.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r015",
+   "input": "Ihre rächti Arm isch über e scharfi Glaskante gschürft.",
+   "output": "Ihr rechter Arm wurde an einer scharfen Glaskante aufgeschürft.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r016",
+   "input": "Da goht aber nur guet, wenn me di eigete Date ohni Problem us de Hand cha geh.",
+   "output": "Das geht aber nur gut, wenn wir die eigene Datei ohne Problem aus der Hand geben können.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r017",
+   "input": "Angestrebt ist auch eine Fusion zwischen der Schule für Gestaltung in Aarau und der Berufsschule Aarau.",
+   "output": "Angestrebt wird auch ein Zusammenschluss der Schule für Gestaltung Aarau und der Berufsschule Aarau.",
+   "german": true,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r018",
+   "input": "Mer händ vell met vertrauleche Dokumänt z'tue.",
+   "output": "Wir haben viel mit vertraulichen Dokumenten zu tun.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r019",
+   "input": "Ufem Badener Husbaerg Baldegg het dr Christian Rocha dr Süpercross organisiert es einzels Radquerrennae",
+   "output": "Auf dem Badener Hausberg Baldegg hat der Christian Rocha das Süpercross organisiert, ein Einzel-Radquerrennen.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r020",
+   "input": "va schneerägu redut mu wenns glichzitig rägnut u schnit",
+   "output": "Wenn es gleichzeitig regnet und schneit, reduziert sich die Schneeräumung.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r021",
+   "input": "ma het dia sterblicha überrest vu sieba junga männer uusgraba",
+   "output": "Man hat die sterblichen Überreste von sieben jungen Männern ausgegraben.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r022",
+   "input": "d nachttemperature sind durchgängig ahgnähm",
+   "output": "Die Nachttemperaturen sind durchgängig abnahm.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r023",
+   "input": "Ufem Badener Husbaerg Baldegg het dr Christian Rocha dr Süpercross organisiert es einzels Radquerrennae",
+   "output": "Auf dem Badener Hausberg Baldegg hat Christian Rocha den Supercross organisiert, es Einzel Radquerrennen.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r024",
+   "input": "i ha dir dtüre afach vor de nase zuegschletzt",
+   "output": "Ich habe dir die Tür gerade vor der Nase zugeschlagen.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r025",
+   "input": "Am Mentig meistens grau mit Räge.",
+   "output": "Am Mittag meistens grau mit Regen.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r026",
+   "input": "Der Berset het voremu Automatismus gwarnt.",
+   "output": "Berset hat vor einem Automatismus gewarnt.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r027",
+   "input": "i ha dir dtüre afach vor de nase zuegschletzt",
+   "output": "Ich habe dir die Tür immer wieder vor die Nase geschlagen.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r028",
+   "input": "Miar erwarten an kalta Winter.",
+   "output": "Wir erwarten einen kalten Winter.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r029",
+   "input": "Der Bricht seit aber öi, dass wer iner Schwiz hervorragends Trichwasser hei.",
+   "output": "Der bricht aber schon seit einiger Zeit, dass es in der Schweiz hervorragendes Trinkwasser gibt.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r030",
+   "input": "Bei der Bildungspolitik habe die Partei Mandelas, der ANC, ebenso versagt wie auf dem Arbeitsmarkt.",
+   "output": "Bei der Bildungspolitik hat die Partei Mandelas, der ANC, ebenso versagt wie auf dem Arbeitsmarkt.",
+   "german": true,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r031",
+   "input": "Au d Zälle wärded met emene Schredder zerquetscht.",
+   "output": "Die Autos wurden mit einem Schredder zerquetscht.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r032",
+   "input": "Ufem Badener Husbaerg Baldegg het dr Christian Rocha dr Süpercross organisiert es einzels Radquerrennae",
+   "output": "Auf dem Badener Hausberg Baldegg hat Christian Rocha den Supercross organisiert, ein einzelnes Radquerrennen.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r033",
+   "input": "Si schpicheret o wiissi Bluetkörperli und Bluetplättli, wosi cha usschüttä.",
+   "output": "Sie speichert auch weiße Blutkörperchen und Blutplättchen, die sie ausschütten kann.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r034",
+   "input": "ma het dia sterblicha überrest vu sieba junga männer uusgraba",
+   "output": "Sieben junge Männer haben ihre sterblichen Überreste ausgegraben.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r035",
+   "input": "Schokoladen hingegen werden vornehmlich von der Dame des Hauses genascht.",
+   "output": "Schokolade hingegen wird hauptsächlich von der Dame des Hauses genascht.",
+   "german": true,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r036",
+   "input": "Si schpicheret o wiissi Bluetkörperli und Bluetplättli, wosi cha usschüttä.",
+   "output": "Sie erkennen weiße Blutkörperchen und Blutplättchen, was ausgeschüttet werden kann.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r037",
+   "input": "Da goht aber nur guet, wenn me di eigete Date ohni Problem us de Hand cha geh.",
+   "output": "Das geht aber nur gut, wenn man die eigene Date ohne Probleme aus der Hand gehen kann.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r038",
+   "input": "D'Onternähme müend d'Leferchetti zruggverfolge chönne ond es Risikomanagement ha.",
+   "output": "Die Übernahme muss die Lieferketten zurückverfolgen können und ein Risikomanagement haben.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r039",
+   "input": "D'Onternähme müend d'Leferchetti zruggverfolge chönne ond es Risikomanagement ha.",
+   "output": "Die Onternähme müsste die Leferchetti zurückverfolgen können und es müsste ein Risikomanagement haben.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r040",
+   "input": "ma het dia sterblicha überrest vu sieba junga männer uusgraba",
+   "output": "Man hat dort sterbliche Überreste von sieben jungen Männern ausgegraben.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r041",
+   "input": "d hönd hend omd läckerli gstrette.",
+   "output": "Die Hunde haben ein leckeres Streichholz gefunden.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r042",
+   "input": "Mer händ vell met vertrauleche Dokumänt z'tue.",
+   "output": "Wir haben viel mit vertraulichen Dokumenten zu tun.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r043",
+   "input": "Ich habe einfach keine lust das zu tun.",
+   "output": "Ich habe einfach keine Lust, das zu tun.",
+   "german": true,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r044",
+   "input": "D'Onternähme müend d'Leferchetti zruggverfolge chönne ond es Risikomanagement ha.",
+   "output": "Die Unternehmung muss die Lieferketten zurückverfolgen können und ein Risikomanagement haben.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r045",
+   "input": "Si schpicheret o wiissi Bluetkörperli und Bluetplättli, wosi cha usschüttä.",
+   "output": "Sie sammelt weiße Blutkörperchen und Blutplättchen, die sie ausschütten kann.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r046",
+   "input": "Mer händ vell met vertrauleche Dokumänt z'tue.",
+   "output": "Wir haben vertrauliche Dokumente erhalten.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r047",
+   "input": "es isch mer us de hand grutscht",
+   "output": "Es ist mir aus der Hand gerutscht.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r048",
+   "input": "i ha dir dtüre afach vor de nase zuegschletzt",
+   "output": "Ich habe dir die Tür einfach vor der Nase zugemacht.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r049",
+   "input": "letztlich esch dsituation eskalirt ond de pollock het sech em alkoholrusch zu tode gfahre",
+   "output": "Letztlich eskalierte die Situation und der Polizist hat sich alkoholisiert zu tödlich gefährdet.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r050",
+   "input": "Gleichzeitig spricht der Bericht über zu viel Nitrat im Boden.",
+   "output": "Gleichzeitig spricht der Bericht von zu viel Nitrat im Boden.",
+   "german": true,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r051",
+   "input": "d nachttemperature sind durchgängig ahgnähm",
+   "output": "Die Nachttemperaturen sind durchgehend angenehm.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r052",
+   "input": "Miar erwarten an kalta Winter.",
+   "output": "Wir erwarten einen kalten Winter.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r053",
+   "input": "Am Mentig meistens grau mit Räge.",
+   "output": "Montag meistens grau mit Regen.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r054",
+   "input": "Ihre rächti Arm isch über e scharfi Glaskante gschürft.",
+   "output": "Ihr rechter Arm ist über eine scharfe Glasfläche geritzt.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r055",
+   "input": "Au d Zälle wärded met emene Schredder zerquetscht.",
+   "output": "Die Zähle werden mit einem Schredder zerkleinert.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r056",
+   "input": "Paris isch dHauptstadt vo Frankriich.",
+   "output": "Paris ist die Hauptstadt von Frankreich.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r057",
+   "input": "d hönd hend omd läckerli gstrette.",
+   "output": "Die Hunde haben um das Läckerli gestritten.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r058",
+   "input": "Si schpicheret o wiissi Bluetkörperli und Bluetplättli, wosi cha usschüttä.",
+   "output": "Sie speichern eine weiße Blutkörperchen und Blutplättchen, wobei es bluten kann.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r059",
+   "input": "Lided Chüe und Chälber würkli so fest, wenns vonenand trännt werded?",
+   "output": "Leiden Kühe und Kälber wirklich so sehr, wenn sie voneinander getrennt werden?",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r060",
+   "input": "ma het dia sterblicha überrest vu sieba junga männer uusgraba",
+   "output": "Man hat die sterblichen Überreste von sieben jungen Männern ausgegraben.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r061",
+   "input": "Am Mentig meistens grau mit Räge.",
+   "output": "Am Montag meistens grau mit Regen.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r062",
+   "input": "Der Bricht seit aber öi, dass wer iner Schwiz hervorragends Trichwasser hei.",
+   "output": "Der Bricht sagt aber oft, dass man in der Schweiz hervorragend Trinkwasser hat.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r063",
+   "input": "Auerdings ischsi nid säubschtverschtändlech.",
+   "output": "Allerdings ist sie nicht selbstverständlich.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r064",
+   "input": "Aktuell gibt es Bonbons zwölf verschiedener Geschmacksrichtungen.",
+   "output": "Aktuell gibt es Bonbons in zwölf verschiedenen Geschmacksrichtungen.",
+   "german": true,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r065",
+   "input": "Der Bricht seit aber öi, dass wer iner Schwiz hervorragends Trichwasser hei.",
+   "output": "Der Bericht sagt aber auch, dass wir in der Schweiz hervorragendes Trinkwasser haben.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r066",
+   "input": "Es het nur ä bitzli gschneit kah aber d Piste sind scho offe gseh.",
+   "output": "Es hat nur ein bisschen geschneit, aber die Piste sind schon offen.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r067",
+   "input": "Eine alte Frau schrie auf.",
+   "output": "Der angegebene Satz ist bereits Standarddeutsch und kein Schweizerdeutsch. Falls du einen schweizerdeutschen Satz übersetzt haben möchtest, schick ihn mir gerne.",
+   "german": true,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r068",
+   "input": "En Lozärn hemmer am Zistig Morge Hochnäbel.",
+   "output": "In Luzern haben wir am Dienstagmorgen Hochnebel.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r069",
+   "input": "d hönd hend omd läckerli gstrette.",
+   "output": "Die Hände haben etwas Leckeres gestreckt.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r070",
+   "input": "Es het nur ä bitzli gschneit kah aber d Piste sind scho offe gseh.",
+   "output": "Es hat nur ein bisschen geschneit, aber die Pisten sind schon offen.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r071",
+   "input": "Wissen über geeignete Techniken und den richtigen Umgang mit Seil und Pickel.",
+   "output": "Wissen über geeignete Techniken und den richtigen Umgang mit Seil und Eispickel.",
+   "german": true,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r072",
+   "input": "Au d Zälle wärded met emene Schredder zerquetscht.",
+   "output": "Auch die Zellen werden mit einem Schredder zerquetscht.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r073",
+   "input": "Paris isch dHauptstadt vo Frankriich.",
+   "output": "Paris ist die Hauptstadt von Frankreich.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r074",
+   "input": "Lided Chüe und Chälber würkli so fest, wenns vonenand trännt werded?",
+   "output": "Liedchen und Kälber würden sich wahrscheinlich so fest umklammern, wenn sie voneinander getrennt würden.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r075",
+   "input": "i ha dir dtüre afach vor de nase zuegschletzt",
+   "output": "Ich habe dir die Tür einfach vor der Nase zugeschlagen.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r076",
+   "input": "Der Bricht seit aber öi, dass wer iner Schwiz hervorragends Trichwasser hei.",
+   "output": "Der Bericht erwähnt auch, dass es in der Schweiz hervorragendes Trinkwasser gibt.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r077",
+   "input": "d hönd hend omd läckerli gstrette.",
+   "output": "Die Hände haben um Lutscher gestritten.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r078",
+   "input": "D'Onternähme müend d'Leferchetti zruggverfolge chönne ond es Risikomanagement ha.",
+   "output": "Die Unternehmen müssen die Lieferkette zurückverfolgen können und ein Risikomanagement haben.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r079",
+   "input": "Der Berset het voremu Automatismus gwarnt.",
+   "output": "Der Berset hat vor Automatismus gewarnt.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r080",
+   "input": "Miar erwarten an kalta Winter.",
+   "output": "Wir erwarten einen kalten Winter.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r081",
+   "input": "Da goht aber nur guet, wenn me di eigete Date ohni Problem us de Hand cha geh.",
+   "output": "Das geht aber nur gut, wenn man die eigenen Daten ohne Probleme aus der Hand geben kann.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r082",
+   "input": "Lided Chüe und Chälber würkli so fest, wenns vonenand trännt werded?",
+   "output": "Würden Kühe und Kälber wirklich so fest, wenn sie voneinander getrennt würden?",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r083",
+   "input": "Paris isch dHauptstadt vo Frankriich.",
+   "output": "Paris ist die Hauptstadt von Frankreich.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r084",
+   "input": "Es het nur ä bitzli gschneit kah aber d Piste sind scho offe gseh.",
+   "output": "Es hat nur ein bisschen geschneit, aber die Pisten waren schon offen.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r085",
+   "input": "Auerdings ischsi nid säubschtverschtändlech.",
+   "output": "Im Übrigen ist es nicht ganz verständlich.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r086",
+   "input": "letztlich esch dsituation eskalirt ond de pollock het sech em alkoholrusch zu tode gfahre",
+   "output": "Letztlich ist die Situation eskaliert und Pollock hat sich im Alkoholrausch zu Tode gefahren.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r087",
+   "input": "Nur vereinzelt Blitz und Donner?",
+   "output": "Nur vereinzelt Blitz und Donner?",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r088",
+   "input": "Auerdings ischsi nid säubschtverschtändlech.",
+   "output": "Allerdings ist es nicht selbstverständlich.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r089",
+   "input": "En Lozärn hemmer am Zistig Morge Hochnäbel.",
+   "output": "In Luzern haben wir am Dienstag Morgen Fasnacht.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r090",
+   "input": "es isch mer us de hand grutscht",
+   "output": "Es ist mir aus der Hand gerutscht.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r091",
+   "input": "Mer händ vell met vertrauleche Dokumänt z'tue.",
+   "output": "Wir haben viel mit vertraulichen Dokumenten zu tun.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r092",
+   "input": "va schneerägu redut mu wenns glichzitig rägnut u schnit",
+   "output": "Wenn es gleichzeitig regnet und schneit, ist es sehr unangenehm.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r093",
+   "input": "Am Mentig meistens grau mit Räge.",
+   "output": "Am Montag meistens grau mit Regen.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r094",
+   "input": "va schneerägu redut mu wenns glichzitig rägnut u schnit",
+   "output": "Ich habe Angst vor Schneeregen, wenn es gleichzeitig regnet und schneit.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r095",
+   "input": "Südwestlich von uns, da wirkt noch ein schwaches Hochdruckgebiet.",
+   "output": "Südwestlich von uns wirkt noch ein schwaches Hochdruckgebiet.",
+   "german": true,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r096",
+   "input": "En Lozärn hemmer am Zistig Morge Hochnäbel.",
+   "output": "Am Zisterntagmorgen ist Hochnebel in Luzern.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r097",
+   "input": "va schneerägu redut mu wenns glichzitig rägnut u schnit",
+   "output": "Von Schneeregen spricht man, wenn es gleichzeitig regnet und schneit.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r098",
+   "input": "Miar erwarten an kalta Winter.",
+   "output": "Wir erwarten einen kalten Winter.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r099",
+   "input": "Nur vereinzelt Blitz und Donner?",
+   "output": "Nur vereinzelt Blitz und Donner?",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r100",
+   "input": "Lided Chüe und Chälber würkli so fest, wenns vonenand trännt werded?",
+   "output": "Werden Kühe und Kälber wirklich so traurig, wenn sie voneinander getrennt werden?",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r101",
+   "input": "Nur vereinzelt Blitz und Donner?",
+   "output": "Nur vereinzelt Blitz und Donner?",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r102",
+   "input": "Dann rufst du einfach laut nach mir.",
+   "output": "Dann rufst du einfach laut nach mir. (Übersetzung ist gleich, da es sich um Standarddeutsch handelt.)",
+   "german": true,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r103",
+   "input": "Noch einen Schritt näher und ich zerreisse das Pergament.",
+   "output": "Noch einen Schritt näher und ich zerreiße das Pergament.",
+   "german": true,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r104",
+   "input": "es isch mer us de hand grutscht",
+   "output": "Es ist mir aus der Hand geglitten.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r105",
+   "input": "es isch mer us de hand grutscht",
+   "output": "Er ist uns aus der Hand gerutscht.",
+   "german": false,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r106",
+   "input": "d nachttemperature sind durchgängig ahgnähm",
+   "output": "Die Nachttemperaturen sind durchgehend angenehm.",
+   "german": false,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r107",
+   "input": "letztlich esch dsituation eskalirt ond de pollock het sech em alkoholrusch zu tode gfahre",
+   "output": "Letztendlich hat sich die Situation eskaliert und der Polizist hat sich im Alkoholrausch zu Tode getrunken.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  },
+  {
+   "id": "r108",
+   "input": "Auerdings ischsi nid säubschtverschtändlech.",
+   "output": "Andererseits ist es nicht so leicht zu verstehen.",
+   "german": false,
+   "raters": [
+    3,
+    5
+   ]
+  },
+  {
+   "id": "r109",
+   "input": "Ihre rächti Arm isch über e scharfi Glaskante gschürft.",
+   "output": "Ihre rechte Hand ist über eine scharfe Glaskante geschürft.",
+   "german": false,
+   "raters": [
+    4,
+    1
+   ]
+  },
+  {
+   "id": "r110",
+   "input": "Als Kind habe ich die « Kummerbuben-Serie » gesehen bei den Nachbarn.",
+   "output": "Als Kind habe ich die \"Kummerbuben-Serie\" bei den Nachbarn gesehen.",
+   "german": true,
+   "raters": [
+    5,
+    2
+   ]
+  },
+  {
+   "id": "r111",
+   "input": "Vor allem Westeuropa und Nordeuropa ist davon betroffen.",
+   "output": "Vor allem Westeuropa und Nordeuropa sind davon betroffen.",
+   "german": true,
+   "raters": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "r112",
+   "input": "Au d Zälle wärded met emene Schredder zerquetscht.",
+   "output": "Die Zellen werden mit einem Schredder zerkleinert.",
+   "german": false,
+   "raters": [
+    2,
+    4
+   ]
+  }
+ ]
+}

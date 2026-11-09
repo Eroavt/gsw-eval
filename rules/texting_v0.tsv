@@ -1,0 +1,28 @@
+# DRAFT texting rules, written by Claude as a starting point. Simone: please correct, delete
+# or add rules, adjust probabilities, and save as texting_v1.tsv. Applied top to bottom.
+# Regex rules are case-insensitive and fire per match with the given probability.
+# @operations fire once per sentence.
+pattern	replacement	probability	note
+@lower		0.85	most people text in lower case
+["«»„“”]		1.0	quotes dropped
+'		1.0	apostrophes dropped (z'gseh -> zgseh)
+@strip_final_punct		0.8	no full stop at the end
+,		0.7	commas dropped
+\b(zum)\s+b(ii|i)spiel\b	zb	1.0	common short form
+\b(vilicht|viilicht|vilech|villicht|vielleicht)\b	vlt	0.6	short form
+\b(eigentlich|eigetlich|eigentli|eigetli)\b	eig	0.6	short form
+\b(jetzt|jetz|jez)\b	jz	0.4	short form
+\b(isch)\s+(es|äs)\b	ischs	0.6	clitic merge
+\b(hesch)\s+(du)\b	hesch	0.5	pronoun dropped
+\b(bisch)\s+(du)\b	bisch	0.5	pronoun dropped
+\bich\b	i	0.4	short pronoun
+\bund\b	u	0.2	short conjunction
+\bdass\b	das	0.5	common misspelling
+ii	i	0.5	double vowel collapsed (Ziit -> Zit)
+uu	u	0.5	double vowel collapsed
+ee	e	0.3	double vowel collapsed
+aa	a	0.3	double vowel collapsed
+ie	i	0.15	vowel spelling varies (Siegerfilm -> Sigerfilm)
+ä	ae	0.1	umlaut typed without the key
+ö	oe	0.1	umlaut typed without the key
+ü	ue	0.1	umlaut typed without the key

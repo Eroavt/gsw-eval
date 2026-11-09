@@ -1,0 +1,110 @@
+{
+ "meta": {
+  "split": "test",
+  "n_boot": 10000
+ },
+ "pairs": {
+  "apertus-8b_vs_llama-3.1-8b_de_input": {
+   "delta": 2.483292366284701,
+   "low": 1.3376896540105654,
+   "high": 3.62391698348608,
+   "p_value": 0.0002
+  },
+  "apertus-8b_vs_llama-3.1-8b_clean": {
+   "delta": 6.362637935069458,
+   "low": 5.514314054209369,
+   "high": 7.225157536004236,
+   "p_value": 0.0
+  },
+  "apertus-8b_vs_llama-3.1-8b_texting": {
+   "delta": 7.874147387601624,
+   "low": 7.01682203120188,
+   "high": 8.724679820071259,
+   "p_value": 0.0
+  },
+  "apertus-8b_vs_llama-3.1-8b_char_noise": {
+   "delta": 6.461172096095552,
+   "low": 5.664206434453592,
+   "high": 7.273194466757824,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_de_input": {
+   "delta": -9.342405764905422,
+   "low": -10.561345137015634,
+   "high": -8.147646663678929,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_clean": {
+   "delta": 1.120880124979152,
+   "low": 0.3575446454318538,
+   "high": 1.8770352449096948,
+   "p_value": 0.0048
+  },
+  "gemma-3-27b_vs_apertus-8b_texting": {
+   "delta": 2.0467445722679827,
+   "low": 1.2948081370680449,
+   "high": 2.7830532849045855,
+   "p_value": 0.0
+  },
+  "gemma-3-27b_vs_apertus-8b_char_noise": {
+   "delta": 2.0888420052452545,
+   "low": 1.367409229095745,
+   "high": 2.832180212733733,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_de_input": {
+   "delta": 0.24203134134977233,
+   "low": -1.0173371180691753,
+   "high": 1.4675602621004395,
+   "p_value": 0.6918
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_clean": {
+   "delta": 11.544145949331337,
+   "low": 10.674307863241175,
+   "high": 12.422839425960207,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_texting": {
+   "delta": 13.92747412875788,
+   "low": 13.072470345245213,
+   "high": 14.764163303541059,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_apertus-8b_char_noise": {
+   "delta": 12.979098054063684,
+   "low": 12.122796149876923,
+   "high": 13.8119875981606,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_de_input": {
+   "delta": 9.584437106255194,
+   "low": 8.201624002398303,
+   "high": 10.937098962009012,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_clean": {
+   "delta": 10.423265824352185,
+   "low": 9.66381928715843,
+   "high": 11.204985351620822,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_texting": {
+   "delta": 11.880729556489896,
+   "low": 11.088851923247637,
+   "high": 12.699146286366789,
+   "p_value": 0.0
+  },
+  "claude-sonnet-5.5_vs_gemma-3-27b_char_noise": {
+   "delta": 10.89025604881843,
+   "low": 10.16575746138991,
+   "high": 11.64797215546235,
+   "p_value": 0.0
+  }
+ },
+ "copy_rate": {
+  "apertus-8b": 0.64,
+  "claude-sonnet-5.5": 0.588,
+  "gemma-3-27b": 0.23,
+  "llama-3.1-8b": 0.448
+ }
+}

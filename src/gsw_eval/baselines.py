@@ -1,4 +1,4 @@
-"""Fixed reference points. Owner: Kelvin.
+"""Fixed reference points.
 
 Lower bound: identity, the dialect text copied unchanged.
 Upper bound: the model receives the Standard German sentence as input.

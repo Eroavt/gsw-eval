@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dialäkt-Duell: which AI understands Swiss German?</title>
+<meta name="description" content="Two AI models translate the same Swiss German sentence. You pick the better answer, without knowing who wrote it. Your votes build an open ranking.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip"></a>
+
+<header class="top">
+  <div class="wrap top-row">
+    <a class="brand" href="index.html">gsw-eval</a>
+    <nav aria-label="Sections">
+      <a href="#duel" data-i18n="navDuel"></a>
+      <a href="#ranking" data-i18n="navRanking"></a>
+      <a href="index.html" data-i18n="navResults"></a>
+      <button type="button" class="lang" id="lang"></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap arena">
+  <section class="arena-head">
+    <h1>Dialäkt-Duell</h1>
+    <p class="lead" data-i18n="lead"></p>
+  </section>
+
+  <section id="duel">
+    <div class="modes segments" id="modes" role="group"></div>
+    <div id="stage" aria-live="polite"></div>
+  </section>
+
+  <section id="ranking">
+    <h2 data-i18n="rankingTitle"></h2>
+    <p class="intro" id="ranking-intro"></p>
+    <div class="scroll"><table class="data" id="ranking-table"></table></div>
+    <p class="hint" id="ranking-note"></p>
+    <p class="hint"><a href="/api/export" data-i18n="download"></a></p>
+  </section>
+
+  <section id="about">
+    <h2 data-i18n="aboutTitle"></h2>
+    <p class="intro" data-i18n="aboutText"></p>
+    <p class="intro" data-i18n="privacyText"></p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p data-i18n="foot"></p>
+</footer>
+<script type="module" src="js/arena.js"></script>
+</body>
+</html>

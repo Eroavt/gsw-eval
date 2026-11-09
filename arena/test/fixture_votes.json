@@ -1,0 +1,16 @@
+{
+  "models": ["alpha", "beta", "gamma"],
+  "votes": [
+    {"model_a": "alpha", "model_b": "beta", "choice": "a"},
+    {"model_a": "alpha", "model_b": "beta", "choice": "a"},
+    {"model_a": "beta", "model_b": "alpha", "choice": "b"},
+    {"model_a": "alpha", "model_b": "beta", "choice": "b"},
+    {"model_a": "beta", "model_b": "gamma", "choice": "a"},
+    {"model_a": "beta", "model_b": "gamma", "choice": "a"},
+    {"model_a": "gamma", "model_b": "beta", "choice": "tie"},
+    {"model_a": "alpha", "model_b": "gamma", "choice": "a"},
+    {"model_a": "gamma", "model_b": "alpha", "choice": "b"},
+    {"model_a": "alpha", "model_b": "gamma", "choice": "bad"},
+    {"model_a": "gamma", "model_b": "alpha", "choice": "a"}
+  ]
+}

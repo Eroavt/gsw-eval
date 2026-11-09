@@ -1,0 +1,336 @@
+{
+ "meta": {
+  "model": "llama-3.1-8b",
+  "split": "dev",
+  "limit": 20,
+  "n_items": 500,
+  "seed": 0,
+  "noise_rate": 0.1,
+  "rules": "texting_v0.tsv",
+  "prompt": "normalize_v1"
+ },
+ "scores": [
+  {
+   "condition": "char_noise",
+   "dialect": "AG",
+   "n": 20,
+   "chrf": {
+    "value": 60.804645379924224,
+    "low": 51.89325000743565,
+    "high": 69.5851909339127
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "ALL",
+   "n": 160,
+   "chrf": {
+    "value": 62.909684033257086,
+    "low": 59.863248247356225,
+    "high": 65.76191081076858
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "BE",
+   "n": 20,
+   "chrf": {
+    "value": 59.89916934291026,
+    "low": 51.39484146944786,
+    "high": 67.7267801981327
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "BS",
+   "n": 20,
+   "chrf": {
+    "value": 66.04852573720663,
+    "low": 58.9941314047988,
+    "high": 72.27195085243439
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "GR",
+   "n": 20,
+   "chrf": {
+    "value": 67.77573697080874,
+    "low": 61.79782938963419,
+    "high": 73.0836133011911
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "LU",
+   "n": 20,
+   "chrf": {
+    "value": 57.79367081269581,
+    "low": 48.0548876885703,
+    "high": 67.04150927790418
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "SG",
+   "n": 20,
+   "chrf": {
+    "value": 66.9700642892264,
+    "low": 59.77321939379077,
+    "high": 73.10234775203688
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "VS",
+   "n": 20,
+   "chrf": {
+    "value": 61.931175674135964,
+    "low": 50.80754603528103,
+    "high": 70.59547540683391
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "ZH",
+   "n": 20,
+   "chrf": {
+    "value": 61.97232116833513,
+    "low": 54.660297905676636,
+    "high": 68.3860845415236
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "AG",
+   "n": 20,
+   "chrf": {
+    "value": 61.486224769972196,
+    "low": 53.16688610294451,
+    "high": 69.96152764154046
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "ALL",
+   "n": 160,
+   "chrf": {
+    "value": 64.900659776601,
+    "low": 61.9553213385226,
+    "high": 67.40979404858436
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "BE",
+   "n": 20,
+   "chrf": {
+    "value": 61.81673638512546,
+    "low": 53.15381467780392,
+    "high": 69.1305552977717
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "BS",
+   "n": 20,
+   "chrf": {
+    "value": 66.45271774220159,
+    "low": 60.099349408880656,
+    "high": 72.24704319394458
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "GR",
+   "n": 20,
+   "chrf": {
+    "value": 71.73916484916678,
+    "low": 65.11409868463444,
+    "high": 77.38452888673712
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "LU",
+   "n": 20,
+   "chrf": {
+    "value": 58.496266245868945,
+    "low": 49.18640116479201,
+    "high": 66.58717195011275
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "SG",
+   "n": 20,
+   "chrf": {
+    "value": 69.0771839841124,
+    "low": 62.129664448045006,
+    "high": 75.67015920899142
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "VS",
+   "n": 20,
+   "chrf": {
+    "value": 64.18495852404307,
+    "low": 55.43289478517387,
+    "high": 71.5002608793353
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "ZH",
+   "n": 20,
+   "chrf": {
+    "value": 65.89746898958538,
+    "low": 58.30559553063528,
+    "high": 71.79565376902694
+   }
+  },
+  {
+   "condition": "de_input",
+   "dialect": "DE",
+   "n": 20,
+   "chrf": {
+    "value": 91.14671552509236,
+    "low": 85.13925210102319,
+    "high": 96.02905105867166
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "AG",
+   "n": 20,
+   "chrf": {
+    "value": 55.124874932607426,
+    "low": 46.37957593839655,
+    "high": 64.27941134962298
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "ALL",
+   "n": 160,
+   "chrf": {
+    "value": 59.592524523061606,
+    "low": 56.12730374253583,
+    "high": 62.76678462472993
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "BE",
+   "n": 20,
+   "chrf": {
+    "value": 56.679784916154006,
+    "low": 44.969372097302205,
+    "high": 66.88926936045021
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "BS",
+   "n": 20,
+   "chrf": {
+    "value": 66.60698842830995,
+    "low": 59.91981161105679,
+    "high": 72.94663916298617
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "GR",
+   "n": 20,
+   "chrf": {
+    "value": 68.60780492766197,
+    "low": 61.10992724977526,
+    "high": 75.46054363356045
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "LU",
+   "n": 20,
+   "chrf": {
+    "value": 52.92278940483778,
+    "low": 41.44870135689162,
+    "high": 63.21312628170412
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "SG",
+   "n": 20,
+   "chrf": {
+    "value": 59.46873300890573,
+    "low": 48.09045582911256,
+    "high": 68.84161901061336
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "VS",
+   "n": 20,
+   "chrf": {
+    "value": 58.665118420834084,
+    "low": 49.32885098840987,
+    "high": 66.78147213387086
+   }
+  },
+  {
+   "condition": "texting",
+   "dialect": "ZH",
+   "n": 20,
+   "chrf": {
+    "value": 58.54234743782801,
+    "low": 47.859216525413245,
+    "high": 67.10602030975807
+   }
+  }
+ ],
+ "decomposition": {
+  "chrf_de_input": {
+   "value": 91.14671552509236,
+   "low": 85.52337351561233,
+   "high": 95.91678869042471
+  },
+  "chrf_clean": {
+   "value": 64.900659776601,
+   "low": 58.39043979285033,
+   "high": 71.19360032351106
+  },
+  "chrf_texting": {
+   "value": 59.592524523061606,
+   "low": 52.61607911507108,
+   "high": 66.31271694495695
+  },
+  "chrf_char_noise": {
+   "value": 62.909684033257086,
+   "low": 55.92886922770388,
+   "high": 69.36738160297239
+  },
+  "dialect_cost": {
+   "value": 26.246055748491358,
+   "low": 17.73543675566209,
+   "high": 33.99099419549392
+  },
+  "spelling_cost_texting": {
+   "value": 5.3081352535393975,
+   "low": 1.769953997591435,
+   "high": 9.069902462856831
+  },
+  "spelling_cost_char_noise": {
+   "value": 1.9909757433439168,
+   "low": 0.9909909322719868,
+   "high": 2.9954817955960085
+  },
+  "n_sentences": {
+   "value": 20.0,
+   "low": 20.0,
+   "high": 20.0
+  }
+ }
+}
