@@ -399,6 +399,9 @@ def collect(
         text = "\n".join(p.read_text(encoding="utf-8") for p in messages)
         by_person |= {s["p"]: s for s in parse_submissions(text)}
     if not by_person:
+        if server:
+            typer.echo("no answers on the server yet")
+            return
         raise typer.BadParameter("give message files, or --server")
     submissions = [by_person[p] for p in sorted(by_person)]
     with (REPO_ROOT / "fresh" / "sentences_v1.csv").open(encoding="utf-8", newline="") as f:

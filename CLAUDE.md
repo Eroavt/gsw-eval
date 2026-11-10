@@ -12,6 +12,8 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
   Claude Sonnet 5.5 on both; prompt and bf16 checks; token tax for 9 tokenizers; paired
   comparisons (`gsw-eval compare`); website; optional voting tool; report draft.
 - Live: https://eroavt.github.io/gsw-eval/ (GitHub Pages from `main`; the repo is public).
+- Answers from the phone page go to https://gsw-eval.vercel.app/api/submit (Vercel project gsw-eval,
+  Neon database gsw-eval-db, account user-zurichs-projects). Read them with `gsw-eval collect --server`.
 - Open: five native speakers fill in `site/mitmachen.html?p=1..5`, then
   `gsw-eval collect`, fresh-set runs, ratings; Discussion section; issue #24.
 - Out of scope: collecting crowd votes. The voting tool stays as an optional, unused extra.
