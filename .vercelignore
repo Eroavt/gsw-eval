@@ -11,3 +11,8 @@ ratings
 rules
 .venv
 .arena-db
+.env
+.env.local
+.env*
+node_modules
+.vercel

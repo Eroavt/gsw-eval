@@ -22,3 +22,5 @@ report/*.out
 
 node_modules/
 .arena-db/
+.vercel
+.env*

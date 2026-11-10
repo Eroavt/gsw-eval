@@ -1,7 +1,7 @@
 {
  "version": 1,
  "people": 5,
- "submit_url": "",
+ "submit_url": "https://gsw-eval.vercel.app/api/submit",
  "sentences": [
   {
    "id": "f01",
