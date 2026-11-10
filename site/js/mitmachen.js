@@ -4,6 +4,7 @@
 // Everything stays on the device until the person sends it as one message.
 
 import { el, segments } from "./format.js";
+import { compact, encodeMessages } from "./message.js";
 
 const CANTONS = {
   AG: "Aargau", AI: "Appenzell Innerrhoden", AR: "Appenzell Ausserrhoden", BE: "Bern",
@@ -284,58 +285,60 @@ function renderRate() {
   );
 }
 
-async function message() {
-  const data = {
-    v: 1,
-    p: person,
-    canton: state.canton,
-    chat: state.chat,
-    consent: state.consent,
-    write: state.write,
-    rate: state.rate,
-  };
-  const bytes = new TextEncoder().encode(JSON.stringify(data));
-  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes));
-  const hex = [...digest.slice(0, 4)].map((b) => b.toString(16).padStart(2, "0")).join("");
-  let binary = "";
-  for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-  return `Hoi Erik, hier meine Antworten für gsw-eval:\n\nGSW1.${btoa(binary)}.${hex}`;
+async function messages() {
+  const parts = await encodeMessages(compact(state, person));
+  const label = (i) => (parts.length > 1 ? ` (Teil ${i + 1} von ${parts.length})` : "");
+  return parts.map((part, i) => `Hoi Erik, hier meine Antworten für gsw-eval${label(i)}:\n\n${part}`);
 }
 
 async function renderSend() {
   const { done, total } = overall();
   setProgress(done, total, "Senden");
   const complete = done === total;
-  const text = await message();
+  const texts = await messages();
+  const several = texts.length > 1;
   const status = el("p", { class: "hint", role: "status" });
-  const copy = async () => {
+  const preview = el("textarea", { rows: 4, readonly: true, hidden: true, "aria-label": "Deine Antworten als Text" });
+  const copy = async (text, name) => {
     try {
       await navigator.clipboard.writeText(text);
-      status.textContent = "Kopiert. Füge es jetzt in WhatsApp in den Chat mit Erik ein.";
+      status.textContent = `${name} kopiert. Füge es jetzt in WhatsApp in den Chat mit Erik ein.`;
     } catch {
+      preview.value = text;
       preview.hidden = false;
       preview.select();
       status.textContent = "Bitte markiere den Text unten und kopiere ihn.";
     }
   };
-  const share = async () => {
+  const share = async (text, name) => {
     if (navigator.share) {
       try {
         await navigator.share({ text });
-        status.textContent = "Danke! Falls es nicht geklappt hat, tipp nochmals oder kopiere den Text.";
+        status.textContent = several
+          ? `${name} weitergegeben. Bitte schick auch die anderen Teile.`
+          : "Danke! Falls es nicht geklappt hat, tipp nochmals oder kopiere den Text.";
         return;
       } catch (error) {
         if (error.name === "AbortError") return;
       }
     }
-    copy();
+    copy(text, name);
   };
-  const preview = el("textarea", { rows: 4, readonly: true, hidden: true, "aria-label": "Deine Antworten als Text" });
-  preview.value = text;
+  const rows = texts.map((text, i) => {
+    const name = several ? `Teil ${i + 1}` : "Text";
+    return actions(
+      button(several ? `Teil ${i + 1} von ${texts.length} an Erik senden` : "An Erik senden", () => share(text, name), "primary"),
+      button(several ? `Teil ${i + 1} kopieren` : "Text kopieren", () => copy(text, name)),
+    );
+  });
+  const lead = complete
+    ? "Jetzt nur noch an Erik schicken: Tipp auf den Knopf und wähl WhatsApp und den Chat mit Erik."
+    : `Du hast ${done} von ${total} Schritten gemacht. Du kannst später weitermachen und dann nochmals senden.`;
   const parts = [
     el("h1", { text: complete ? "Fertig! Merci vielmal." : "Bisherige Antworten senden" }),
-    el("p", { class: "lead", text: complete ? "Jetzt nur noch an Erik schicken: Tipp auf den Knopf und wähl WhatsApp und Erik." : `Du hast ${done} von ${total} Schritten gemacht. Du kannst später weitermachen und dann nochmals senden.` }),
-    actions(button("An Erik senden", share, "primary"), button("Text kopieren", copy)),
+    el("p", { class: "lead", text: lead }),
+    several ? el("p", { class: "lead", text: `Deine Antworten sind lang und kommen in ${texts.length} Nachrichten. Bitte schick alle.` }) : null,
+    ...rows,
     status,
     preview,
     complete ? null : actions(button("Weitermachen", () => go(state.resume ?? "intro", state.resumeIndex ?? 0))),

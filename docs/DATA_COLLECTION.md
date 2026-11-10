@@ -39,5 +39,10 @@ gsw-eval ratings
 ```
 
 `collect` reports who is complete and who is missing. A message that was cut or changed fails its
-checksum and is refused, so nothing is lost silently. A later message from the same person replaces
-the earlier one.
+checksum and is refused, naming the person where possible, so nothing is lost silently. A later
+message from the same person replaces the earlier one.
+
+Phones cut shared text at about 4,096 characters. The page therefore sends the answers compactly and
+gzipped (format `GSW2`, about 1,500 characters for a full set) and splits them into numbered parts
+if they are still too long. The first format, `GSW1`, still imports. A person whose message arrived
+cut only needs to open their link again and tap send: the answers stay on their phone.
