@@ -8,6 +8,7 @@ from gsw_eval.participation import (
     encode_messages,
     encode_submission,
     fresh_rows,
+    parse_export,
     parse_submissions,
     participant_rows,
     rating_rows,
@@ -178,3 +179,19 @@ def test_messages_from_the_phone_page_import_and_stay_short() -> None:
     assert submission["p"] == 3 and len(submission["write"]) == 24 and len(submission["rate"]) == 45
     assert submission["write"]["f01"]["careful"].startswith("Vieli Lüüt")
     assert submission["rate"]["r002"] == {"score": 3, "reason": "dialect"}
+
+
+def test_the_server_export_reads_like_the_messages() -> None:
+    export = json.dumps(
+        {
+            "people": 5,
+            "submissions": [
+                {"person": 4, "final": True, "data": COMPACT},
+                {"person": 2, "final": False, "data": {**COMPACT, "p": 2, "c": "BE"}},
+            ],
+        }
+    )
+    submissions = parse_export(export)
+    assert [s["p"] for s in submissions] == [2, 4]
+    assert submissions[1]["write"]["f01"]["chat"] == "chume hüt chli spöter hei"
+    assert submissions[1]["rate"]["r002"] == {"score": 2, "reason": "misread"}

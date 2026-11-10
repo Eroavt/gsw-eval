@@ -1,8 +1,10 @@
 # Data collection
 
 Five native speakers give two kinds of data on one phone page, `site/mitmachen.html?p=N`
-(N = 1 to 5, one link per person). It takes about 35 minutes. Nothing is stored on a server:
-the answers stay on the phone until the person sends them as one WhatsApp message.
+(N = 1 to 5, one link per person). It takes about 35 minutes. One tap on «Absenden» stores the
+answers on our server (`/api/submit`, Vercel and Postgres). The page also saves a backup there after
+each part, and keeps everything on the phone, so nothing is lost. WhatsApp stays as a backup way to
+send.
 
 ## What each person does
 
@@ -33,7 +35,8 @@ open it with `&reset=1` at the end. Answers live on each phone, so testing never
 helpers. Save the forwarded messages in one or more text files, then:
 
 ```bash
-gsw-eval collect messages.txt  # fresh/data/fresh_v1.csv, ratings/ratings_v2.csv, participants
+gsw-eval collect --server        # reads SUBMISSIONS_URL with EXPORT_KEY from .env
+gsw-eval collect messages.txt  # or WhatsApp messages; both together also work
 gsw-eval run --model claude-sonnet-5.5 --split fresh
 gsw-eval ratings
 ```

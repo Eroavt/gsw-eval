@@ -47,14 +47,20 @@ def build_page_data(
     sheet: Sequence[dict[str, str]],
     key: Sequence[dict[str, str]],
     sentence_ids: Sequence[str] = SENTENCE_IDS,
+    submit_url: str = "",
 ) -> dict[str, Any]:
-    """Sentences to translate and items to rate, without model names or references."""
+    """Sentences to translate and items to rate, without model names or references.
+
+    With `submit_url`, the page sends answers to that server with one tap and keeps WhatsApp as
+    a backup; without it, WhatsApp is the only way.
+    """
     by_id = {s["sentence_id"]: s for s in sentences}
     german = {k["item"] for k in key if k["condition"] == "de_input"}
     raters = assign_raters(len(sheet))
     return {
         "version": 1,
         "people": PEOPLE,
+        "submit_url": submit_url,
         "sentences": [{"id": i, "de": by_id[i]["de"]} for i in sentence_ids],
         "items": [
             {
@@ -161,6 +167,12 @@ def parse_submissions(text: str) -> list[dict[str, Any]]:
         expanded = _expand(data)
         latest[int(expanded["p"])] = expanded
     return [latest[p] for p in sorted(latest)]
+
+
+def parse_export(text: str) -> list[dict[str, Any]]:
+    """Submissions from the server export (/api/submissions), in the same shape as messages."""
+    rows = json.loads(text)["submissions"]
+    return [_expand(row["data"]) for row in sorted(rows, key=lambda r: r["person"])]
 
 
 def fresh_rows(

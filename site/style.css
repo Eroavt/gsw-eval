@@ -241,3 +241,5 @@ body.task { font-size: 1.125rem; }
 .task-foot { margin-top: 2rem; text-align: center; }
 button.link { all: unset; color: var(--accent); text-decoration: underline; cursor: pointer; font-size: 0.9375rem; }
 button.link:focus-visible { outline: 2px solid var(--accent); }
+.backup { margin-top: 1.5rem; }
+.backup[hidden] { display: none; }
