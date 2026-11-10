@@ -10,6 +10,20 @@ This is all the project needs. No account, no database, no cost.
 
 The address is `https://eroavt.github.io/gsw-eval/`.
 
+## The server for the phone page: Vercel
+
+The phone page sends answers to `/api/submit`, which stores them in Postgres. The export
+`/api/submissions?key=...` returns the latest answers per person and who is done. It needs:
+
+| Variable | What |
+|---|---|
+| `DATABASE_URL` | Set by the Neon integration |
+| `EXPORT_KEY` | A long random key; only with it can anyone read the answers |
+| `SUBMIT_ORIGINS` | Optional, more sites allowed to post besides `https://eroavt.github.io` |
+
+Then `gsw-eval participation-page --submit-url https://YOUR-PROJECT.vercel.app/api/submit` points the
+page at the server.
+
 ## Optional: the voting tool on Vercel
 
 The report does not use the voting tool. Host it only if you want to collect votes. It needs Vercel

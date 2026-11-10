@@ -204,7 +204,10 @@ function renderWrite(field) {
     store();
     if (!box.value.trim()) return;
     if (index + 1 < order.length) go(field, index + 1);
-    else go(field === "chat" ? "careful-intro" : "rate-intro");
+    else {
+      upload(false); // a backup on the server after each part; the person does not wait for it
+      go(field === "chat" ? "careful-intro" : "rate-intro");
+    }
   }
   box.addEventListener("input", store);
   box.addEventListener("keydown", (event) => {
@@ -285,6 +288,22 @@ function renderRate() {
   );
 }
 
+// Sends the answers to the server. True when they arrived. Without a server, false.
+async function upload(final) {
+  if (!page.submit_url) return false;
+  try {
+    const response = await fetch(page.submit_url, {
+      method: "POST",
+      headers: { "content-type": "text/plain" },
+      body: JSON.stringify({ final, data: compact(state, person) }),
+      keepalive: true,
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 async function messages() {
   const parts = await encodeMessages(compact(state, person));
   const label = (i) => (parts.length > 1 ? ` (Teil ${i + 1} von ${parts.length})` : "");
@@ -295,26 +314,59 @@ async function renderSend() {
   const { done, total } = overall();
   setProgress(done, total, "Senden");
   const complete = done === total;
+  const status = el("p", { class: "hint", role: "status" });
+  const backup = el("div", { class: "backup", hidden: Boolean(page.submit_url) });
+  const parts = [el("h1", { text: complete ? "Fertig! Merci vielmal." : "Bisherige Antworten senden" })];
+
+  if (page.submit_url) {
+    const lead = el("p", {
+      class: "lead",
+      text: state.sent && complete
+        ? "Deine Antworten sind angekommen. Merci vielmal! Du kannst die Seite jetzt schliessen."
+        : complete
+          ? "Tipp auf «Absenden», und deine Antworten sind bei uns."
+          : `Du hast ${done} von ${total} Schritten gemacht. Du kannst später weitermachen und dann nochmals senden.`,
+    });
+    const send = button(state.sent && complete ? "Nochmals senden" : "Absenden", async () => {
+      send.disabled = true;
+      status.textContent = "Wird gesendet…";
+      if (await upload(complete)) {
+        if (complete) state.sent = true;
+        save();
+        lead.textContent = complete
+          ? "Deine Antworten sind angekommen. Merci vielmal! Du kannst die Seite jetzt schliessen."
+          : "Dein Zwischenstand ist angekommen. Du kannst später weitermachen und dann nochmals senden.";
+        status.textContent = "";
+        send.textContent = "Nochmals senden";
+      } else {
+        status.textContent = "Das hat nicht geklappt. Prüf die Internetverbindung und versuch es nochmals, oder schick es per WhatsApp.";
+        backup.hidden = false;
+      }
+      send.disabled = false;
+    }, "primary");
+    parts.push(lead, actions(send), status);
+  }
+
   const texts = await messages();
   const several = texts.length > 1;
-  const status = el("p", { class: "hint", role: "status" });
   const preview = el("textarea", { rows: 4, readonly: true, hidden: true, "aria-label": "Deine Antworten als Text" });
+  const note = el("p", { class: "hint", role: "status" });
   const copy = async (text, name) => {
     try {
       await navigator.clipboard.writeText(text);
-      status.textContent = `${name} kopiert. Füge es jetzt in WhatsApp in den Chat mit Erik ein.`;
+      note.textContent = `${name} kopiert. Füge es jetzt in WhatsApp in den Chat mit Erik ein.`;
     } catch {
       preview.value = text;
       preview.hidden = false;
       preview.select();
-      status.textContent = "Bitte markiere den Text unten und kopiere ihn.";
+      note.textContent = "Bitte markiere den Text unten und kopiere ihn.";
     }
   };
   const share = async (text, name) => {
     if (navigator.share) {
       try {
         await navigator.share({ text });
-        status.textContent = several
+        note.textContent = several
           ? `${name} weitergegeben. Bitte schick auch die anderen Teile.`
           : "Danke! Falls es nicht geklappt hat, tipp nochmals oder kopiere den Text.";
         return;
@@ -324,26 +376,36 @@ async function renderSend() {
     }
     copy(text, name);
   };
-  const rows = texts.map((text, i) => {
-    const name = several ? `Teil ${i + 1}` : "Text";
-    return actions(
-      button(several ? `Teil ${i + 1} von ${texts.length} an Erik senden` : "An Erik senden", () => share(text, name), "primary"),
-      button(several ? `Teil ${i + 1} kopieren` : "Text kopieren", () => copy(text, name)),
-    );
-  });
-  const lead = complete
-    ? "Jetzt nur noch an Erik schicken: Tipp auf den Knopf und wähl WhatsApp und den Chat mit Erik."
-    : `Du hast ${done} von ${total} Schritten gemacht. Du kannst später weitermachen und dann nochmals senden.`;
-  const parts = [
-    el("h1", { text: complete ? "Fertig! Merci vielmal." : "Bisherige Antworten senden" }),
-    el("p", { class: "lead", text: lead }),
-    several ? el("p", { class: "lead", text: `Deine Antworten sind lang und kommen in ${texts.length} Nachrichten. Bitte schick alle.` }) : null,
-    ...rows,
-    status,
+  const backupParts = [
+    page.submit_url ? el("p", { class: "task-label", text: "Per WhatsApp schicken" }) : null,
+    el("p", {
+      class: "lead",
+      text: page.submit_url
+        ? "Tipp auf den Knopf und wähl WhatsApp und den Chat mit Erik."
+        : complete
+          ? "Jetzt nur noch an Erik schicken: Tipp auf den Knopf und wähl WhatsApp und den Chat mit Erik."
+          : `Du hast ${done} von ${total} Schritten gemacht. Du kannst später weitermachen und dann nochmals senden.`,
+    }),
+    several ? el("p", { class: "lead", text: `Deine Antworten kommen in ${texts.length} Nachrichten. Bitte schick alle.` }) : null,
+    ...texts.map((text, i) => {
+      const name = several ? `Teil ${i + 1}` : "Text";
+      return actions(
+        button(several ? `Teil ${i + 1} von ${texts.length} an Erik senden` : "An Erik senden", () => share(text, name), page.submit_url ? null : "primary"),
+        button(several ? `Teil ${i + 1} kopieren` : "Text kopieren", () => copy(text, name)),
+      );
+    }),
+    note,
     preview,
-    complete ? null : actions(button("Weitermachen", () => go(state.resume ?? "intro", state.resumeIndex ?? 0))),
   ];
-  screen.replaceChildren(...parts.filter(Boolean));
+  backup.append(...backupParts.filter(Boolean));
+  parts.push(backup);
+  if (page.submit_url) {
+    parts.push(
+      el("p", { class: "hint task-foot" }, el("button", { type: "button", class: "link", text: "Probleme? Per WhatsApp schicken", onclick: () => (backup.hidden = false) })),
+    );
+  }
+  if (!complete) parts.push(actions(button("Weitermachen", () => go(state.resume ?? "intro", state.resumeIndex ?? 0))));
+  screen.replaceChildren(...parts);
 }
 
 function render() {

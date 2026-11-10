@@ -8,6 +8,7 @@ import { extname, join, normalize } from "node:path";
 import { PGlite } from "@electric-sql/pglite";
 
 import { createApp } from "./app.js";
+import { createParticipation } from "./participation.js";
 import { loadPrompt, loadShard } from "./files.js";
 import { hostedModels } from "./providers.js";
 import { createStore } from "./store.js";
@@ -30,7 +31,17 @@ const app = createApp({
   liveModels: hostedModels(),
 });
 
+const query = async (text, params) => (await db.query(text, params)).rows;
+const participation = createParticipation({
+  query,
+  exportKey: process.env.EXPORT_KEY ?? "local-export-key",
+  origins: [`http://localhost:${PORT}`, "http://localhost:8123"],
+});
+
 const routes = {
+  "POST /api/submit": participation.submit,
+  "OPTIONS /api/submit": participation.submit,
+  "GET /api/submissions": participation.list,
   "GET /api/duel": app.duel,
   "POST /api/vote": app.vote,
   "GET /api/ranking": app.ranking,

@@ -335,7 +335,9 @@ def ratings(
 
 
 @app.command("participation-page")
-def participation_page() -> None:
+def participation_page(
+    submit_url: str = typer.Option("", help="server that stores answers (empty: WhatsApp only)"),
+) -> None:
     """Write the data of the phone page that collects the fresh set and the ratings."""
     from gsw_eval.participation import build_page_data
 
@@ -347,6 +349,7 @@ def participation_page() -> None:
         rows(REPO_ROOT / "fresh" / "sentences_v1.csv"),
         rows(RATINGS / "sheet_v2.csv"),
         rows(RATINGS / "key_v2.csv"),
+        submit_url=submit_url,
     )
     _save(data, REPO_ROOT / "site" / "data" / "mitmachen.json")
     typer.echo(
@@ -356,21 +359,51 @@ def participation_page() -> None:
 
 @app.command()
 def collect(
-    messages: Annotated[list[Path], typer.Argument(help="text files with the forwarded messages")],
+    messages: Annotated[
+        list[Path] | None, typer.Argument(help="text files with forwarded WhatsApp messages")
+    ] = None,
+    server: bool = typer.Option(
+        False, help="also read the server (SUBMISSIONS_URL and EXPORT_KEY in .env)"
+    ),
 ) -> None:
-    """Turn the messages from the phone page into the fresh set and the ratings."""
+    """Turn the answers from the phone page into the fresh set and the ratings.
+
+    Answers come from the server, from forwarded messages, or both; a message wins over the
+    server for the same person, because people only use WhatsApp when the server failed.
+    """
     from gsw_eval.fresh import FRESH_COLUMNS
     from gsw_eval.participation import (
         PARTICIPANT_COLUMNS,
         RATING_COLUMNS,
         fresh_rows,
+        parse_export,
         parse_submissions,
         participant_rows,
         rating_rows,
         write_rows,
     )
 
-    submissions = parse_submissions("\n".join(p.read_text(encoding="utf-8") for p in messages))
+    by_person: dict[int, dict] = {}
+    if server:
+        import os
+        import urllib.parse
+        import urllib.request
+
+        load_dotenv(REPO_ROOT / ".env")
+        url, key = os.environ.get("SUBMISSIONS_URL"), os.environ.get("EXPORT_KEY")
+        if not url or not key:
+            raise typer.BadParameter("set SUBMISSIONS_URL and EXPORT_KEY in .env")
+        with urllib.request.urlopen(f"{url}?key={urllib.parse.quote(key)}", timeout=30) as reply:
+            by_person |= {s["p"]: s for s in parse_export(reply.read().decode("utf-8"))}
+    if messages:
+        text = "\n".join(p.read_text(encoding="utf-8") for p in messages)
+        by_person |= {s["p"]: s for s in parse_submissions(text)}
+    if not by_person:
+        if server:
+            typer.echo("no answers on the server yet")
+            return
+        raise typer.BadParameter("give message files, or --server")
+    submissions = [by_person[p] for p in sorted(by_person)]
     with (REPO_ROOT / "fresh" / "sentences_v1.csv").open(encoding="utf-8", newline="") as f:
         sentences = list(csv.DictReader(f))
     page = json.loads((REPO_ROOT / "site" / "data" / "mitmachen.json").read_text(encoding="utf-8"))
