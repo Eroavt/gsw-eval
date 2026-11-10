@@ -22,6 +22,20 @@ export function compact(state, person) {
   return { v: 2, p: person, c: state.canton, f: state.chat, ok: Boolean(state.consent), w: write, r: rate };
 }
 
+const CODES = Object.fromEntries(Object.entries(REASONS).map(([name, code]) => [code, name]));
+
+// The opposite of compact(): saved answers back into the page's state.
+export function expand(data) {
+  const write = {};
+  for (const [id, [chat, careful]] of Object.entries(data.w ?? {})) write[id] = { chat, careful };
+  const rate = {};
+  for (const [id, code] of Object.entries(data.r ?? {})) {
+    if (code === "s") rate[id] = { skip: true };
+    else rate[id] = code[1] ? { score: Number(code[0]), reason: CODES[code[1]] } : { score: Number(code[0]) };
+  }
+  return { canton: data.c, chat: data.f, consent: data.ok === true, write, rate };
+}
+
 async function gzip(bytes) {
   if (typeof CompressionStream === "undefined") return null;
   const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream("gzip"));

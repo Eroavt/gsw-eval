@@ -2,9 +2,16 @@
 
 Five native speakers give two kinds of data on one phone page, `site/mitmachen.html?p=N`
 (N = 1 to 5, one link per person). It takes about 35 minutes. One tap on «Absenden» stores the
-answers on our server (`/api/submit`, Vercel and Postgres). The page also saves a backup there after
-each part, and keeps everything on the phone, so nothing is lost. WhatsApp stays as a backup way to
-send.
+answers on our server (`/api/submit`, Vercel and Postgres). How nothing gets lost:
+
+- The phone keeps every answer, and copies all of them to the server a few seconds after each change
+  and whenever the page is left.
+- Opening the link on another phone or browser restores the saved answers (`/api/progress`).
+- The server keeps every copy. Per person the most complete copy counts, so an older or emptier one
+  never replaces a fuller one.
+- If the server cannot be reached at the end, the page says so and offers WhatsApp as a backup.
+
+Progress for the organiser: `status.html#key=EXPORT_KEY` shows how far each link is.
 
 ## What each person does
 

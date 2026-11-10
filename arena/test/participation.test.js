@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { PGlite } from "@electric-sql/pglite";
 
-import { checkAnswers, createParticipation } from "../participation.js";
+import { bestPerPerson, checkAnswers, completeness, createParticipation } from "../participation.js";
 
 const ANSWERS = {
   v: 2,
@@ -53,13 +53,34 @@ test("a submission is stored and only the key holder can read it", async () => {
   assert.equal(listed.submissions[0].final, true);
 });
 
-test("the latest post per person wins, and earlier ones are kept", async () => {
+test("the most complete post counts, so an emptier copy never replaces a fuller one", async () => {
   const app = await setup();
-  await app.submit(post({ final: false, data: { ...ANSWERS, r: {} } }));
   await app.submit(post({ final: true, data: ANSWERS }));
+  await app.submit(post({ final: false, data: { ...ANSWERS, r: {} } })); // later, but emptier
   await app.submit(post({ final: true, data: { ...ANSWERS, p: 1 } }));
   const listed = await (await app.list(get("secret-key"))).json();
-  assert.deepEqual(listed.submissions.map((s) => [s.person, s.posts, s.ratings]), [[1, 1, 3], [3, 2, 3]]);
+  assert.deepEqual(listed.submissions.map((s) => [s.person, s.posts, s.ratings, s.final]), [[1, 1, 3, true], [3, 2, 3, true]]);
+  assert.ok(listed.submissions[1].last_activity >= listed.submissions[1].received_at);
+});
+
+test("among equally complete posts the latest wins", () => {
+  const rows = [
+    { id: 1, person: 2, final: false, data: { ...ANSWERS, r: { r001: "5" } }, received_at: "2026-11-10T10:00:00Z" },
+    { id: 2, person: 2, final: true, data: { ...ANSWERS, r: { r001: "3" } }, received_at: "2026-11-10T11:00:00Z" },
+  ];
+  const best = bestPerPerson(rows).get(2).best;
+  assert.equal(best.id, 2);
+  assert.equal(completeness(ANSWERS), 2 + 3);
+});
+
+test("progress returns one person's answers for continuing on another phone", async () => {
+  const app = await setup();
+  await app.submit(post({ final: false, data: ANSWERS }));
+  const mine = await (await app.progress(new Request("https://x/api/progress?p=3"))).json();
+  assert.deepEqual(mine.data, ANSWERS);
+  const nobody = await (await app.progress(new Request("https://x/api/progress?p=4"))).json();
+  assert.equal(nobody.data, null);
+  assert.equal((await app.progress(new Request("https://x/api/progress?p=9"))).status, 400);
 });
 
 test("bad posts are refused, other sites get no access, preflight works", async () => {
@@ -71,7 +92,7 @@ test("bad posts are refused, other sites get no access, preflight works", async 
   assert.equal(foreign.headers.get("access-control-allow-origin"), null);
   const preflight = await app.submit(new Request("https://x/api/submit", { method: "OPTIONS", headers: { origin: "https://eroavt.github.io" } }));
   assert.equal(preflight.status, 204);
-  assert.equal(preflight.headers.get("access-control-allow-methods"), "POST, OPTIONS");
+  assert.equal(preflight.headers.get("access-control-allow-methods"), "GET, POST, OPTIONS");
 });
 
 test("without an export key nobody can read the answers", async () => {
@@ -79,4 +100,13 @@ test("without an export key nobody can read the answers", async () => {
   const app = createParticipation({ query: async (t, p) => (await db.query(t, p)).rows, exportKey: undefined });
   assert.equal((await app.list(get(""))).status, 403);
   assert.equal((await app.list(get("undefined"))).status, 403);
+});
+
+test("a person who pressed send stays marked as sent after later backups", async () => {
+  const app = await setup();
+  await app.submit(post({ final: true, data: ANSWERS }));
+  await app.submit(post({ final: false, data: ANSWERS })); // backup when the page is left
+  const [person] = (await (await app.list(get("secret-key"))).json()).submissions;
+  assert.equal(person.final, true);
+  assert.equal(person.posts, 2);
 });

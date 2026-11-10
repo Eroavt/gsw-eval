@@ -1,10 +1,11 @@
 // Collects the fresh set and the human ratings from one person, on their phone.
 // Chat round first, careful round second, each on its own, so neither version copies the other.
 // Ratings show no reference, so people judge meaning rather than word overlap.
-// Everything stays on the device until the person sends it as one message.
+// Answers are kept on the phone and copied to our server a few seconds after every change, so
+// nothing is lost if the phone forgets them; opening the link elsewhere restores them.
 
 import { el, segments } from "./format.js";
-import { compact, encodeMessages } from "./message.js";
+import { compact, encodeMessages, expand } from "./message.js";
 
 const CANTONS = {
   AG: "Aargau", AI: "Appenzell Innerrhoden", AR: "Appenzell Ausserrhoden", BE: "Bern",
@@ -49,7 +50,20 @@ function save() {
   } catch {
     // Without storage the page still works; progress is kept while the tab stays open.
   }
+  scheduleBackup();
 }
+
+// A copy on the server a few seconds after the last change, and when the page is left.
+const BACKUP_DELAY = 4000;
+let backupTimer;
+let lastBackup = "";
+function scheduleBackup() {
+  clearTimeout(backupTimer);
+  backupTimer = setTimeout(() => upload(false), BACKUP_DELAY);
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && state) upload(false);
+});
 
 function seeded(seed) {
   let value = seed >>> 0;
@@ -289,19 +303,71 @@ function renderRate() {
 }
 
 // Sends the answers to the server. True when they arrived. Without a server, false.
+// Backups skip unchanged answers and wait for the consent the server requires.
 async function upload(final) {
-  if (!page.submit_url) return false;
+  if (!page?.submit_url || !state?.consent || !state?.canton) return false;
+  const body = JSON.stringify({ final, data: compact(state, person) });
+  if (!final && body === lastBackup) return true;
   try {
     const response = await fetch(page.submit_url, {
       method: "POST",
       headers: { "content-type": "text/plain" },
-      body: JSON.stringify({ final, data: compact(state, person) }),
+      body,
       keepalive: true,
     });
+    if (response.ok && !final) lastBackup = body;
     return response.ok;
   } catch {
     return false;
   }
+}
+
+// The saved answers of this link on the server, or null.
+async function fetchProgress() {
+  if (!page.submit_url) return null;
+  try {
+    const url = `${page.submit_url.replace(/submit$/, "progress")}?p=${person}`;
+    const response = await fetch(url, { signal: AbortSignal.timeout(6000) });
+    return response.ok ? (await response.json()).data : null;
+  } catch {
+    return null;
+  }
+}
+
+// Both copies together; where both have an answer, the one on this phone wins.
+function merged(local, saved) {
+  const server = expand(saved);
+  const write = { ...server.write };
+  for (const [id, versions] of Object.entries(local.write ?? {})) {
+    write[id] = {
+      chat: versions.chat?.trim() ? versions.chat : server.write[id]?.chat ?? "",
+      careful: versions.careful?.trim() ? versions.careful : server.write[id]?.careful ?? "",
+    };
+  }
+  return {
+    ...local,
+    canton: local.canton || server.canton,
+    chat: local.chat || server.chat,
+    consent: local.consent || server.consent,
+    write,
+    rate: { ...server.rate, ...(local.rate ?? {}) },
+  };
+}
+
+// Where to continue: the first unanswered sentence or item.
+function resumePoint() {
+  if (!state.canton || !state.consent) return ["about", 0];
+  const parts = [
+    ["chat", chatOrder(), (id) => state.write[id]?.chat?.trim()],
+    ["careful", carefulOrder(), (id) => state.write[id]?.careful?.trim()],
+    ["rate", rateOrder(), (id) => state.rate[id]],
+  ];
+  for (const [step, order, done] of parts) {
+    const index = order.findIndex((id) => !done(id));
+    if (index === 0) return [`${step}-intro`, 0];
+    if (index > 0) return [step, index];
+  }
+  return ["send", 0];
 }
 
 async function messages() {
@@ -468,6 +534,18 @@ async function start() {
   }
   state = load() ?? { step: "intro", index: 0, write: {}, rate: {} };
   render();
+  const saved = await fetchProgress();
+  if (saved) {
+    const before = JSON.stringify([state.write, state.rate]);
+    const fresh = state.step === "intro" || state.step === "about";
+    state = merged(state, saved);
+    if (JSON.stringify([state.write, state.rate]) !== before) {
+      if (fresh) [state.step, state.index] = resumePoint();
+      save();
+      render();
+      screen.prepend(el("p", { class: "notice", text: "Willkommen zurück! Deine bisherigen Antworten sind wiederhergestellt." }));
+    }
+  }
 }
 
 start();
