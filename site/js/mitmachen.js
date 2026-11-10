@@ -546,6 +546,9 @@ async function start() {
       screen.prepend(el("p", { class: "notice", text: "Willkommen zurück! Deine bisherigen Antworten sind wiederhergestellt." }));
     }
   }
+  // Answers saved on this phone, maybe by an older version of the page, reach the server as
+  // soon as the link is opened again, without any tap.
+  upload(false);
 }
 
 start();
