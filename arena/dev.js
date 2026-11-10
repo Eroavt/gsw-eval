@@ -42,6 +42,7 @@ const routes = {
   "POST /api/submit": participation.submit,
   "OPTIONS /api/submit": participation.submit,
   "GET /api/submissions": participation.list,
+  "GET /api/progress": participation.progress,
   "GET /api/duel": app.duel,
   "POST /api/vote": app.vote,
   "GET /api/ranking": app.ranking,

@@ -1,7 +1,8 @@
-// One-tap submissions from the phone page (site/mitmachen.html), kept in Postgres.
-// The page posts the same compact answers it would otherwise send by WhatsApp. Every post is
-// kept, so nothing is overwritten; the export returns the latest one per person and is
-// protected by a key, because the answers stay private until the analysis is done.
+// Submissions from the phone page (site/mitmachen.html), kept in Postgres.
+// The page posts the same compact answers it would otherwise send by WhatsApp, every few
+// answers and at the end. Every post is kept, so nothing is ever overwritten. For each person
+// the most complete post counts (the latest among equally complete ones), so an older or
+// emptier copy can never replace a fuller one. Reading everything needs the export key.
 
 import { timingSafeEqual } from "node:crypto";
 
@@ -42,6 +43,33 @@ export function checkAnswers(data, people) {
   return null;
 }
 
+// How much of the work a post holds: both versions of each sentence, plus each rating.
+export function completeness(data) {
+  const written = Object.values(data.w).reduce((n, [chat, careful]) => n + Boolean(chat) + Boolean(careful), 0);
+  return written + Object.keys(data.r).length;
+}
+
+// Per person: the post that counts, when they were last active, and whether they ever sent.
+export function bestPerPerson(rows) {
+  const parse = (value) => (typeof value === "string" ? JSON.parse(value) : value);
+  const people = new Map();
+  for (const row of rows) {
+    const data = parse(row.data);
+    const entry = { id: Number(row.id), final: row.final, data, at: new Date(row.received_at), score: completeness(data) };
+    const known = people.get(row.person);
+    if (!known) {
+      people.set(row.person, { best: entry, posts: 1, last: entry.at, sent: Boolean(row.final) });
+      continue;
+    }
+    known.posts += 1;
+    known.sent ||= Boolean(row.final); // pressed "Absenden" at least once
+    if (entry.at > known.last) known.last = entry.at;
+    const better = entry.score > known.best.score || (entry.score === known.best.score && entry.id > known.best.id);
+    if (better) known.best = entry;
+  }
+  return people;
+}
+
 export function createParticipation({ query, exportKey, origins = [], people = 5 }) {
   let ready;
   const prepared = () => {
@@ -55,7 +83,7 @@ export function createParticipation({ query, exportKey, origins = [], people = 5
   const cors = (request) => {
     const origin = request.headers.get("origin");
     return origin && origins.includes(origin)
-      ? { "access-control-allow-origin": origin, "access-control-allow-methods": "POST, OPTIONS", "access-control-allow-headers": "content-type", vary: "origin" }
+      ? { "access-control-allow-origin": origin, "access-control-allow-methods": "GET, POST, OPTIONS", "access-control-allow-headers": "content-type", vary: "origin" }
       : {};
   };
   const json = (request, body, status = 200) =>
@@ -89,34 +117,47 @@ export function createParticipation({ query, exportKey, origins = [], people = 5
     });
   }
 
-  // The latest submission per person, plus who is done. Needs ?key=.
+  const allRows = () =>
+    query("SELECT id, person, final, data, received_at FROM submissions ORDER BY id", []);
+
+  // The post that counts per person, plus progress. Needs ?key=.
   async function list(request) {
     if (!sameKey(new URL(request.url).searchParams.get("key"), exportKey)) {
       return json(request, { error: "forbidden" }, 403);
     }
     await prepared();
-    const rows = await query(
-      `SELECT DISTINCT ON (person) person, final, data, received_at, count(*) OVER (PARTITION BY person) AS posts
-       FROM submissions ORDER BY person, id DESC`,
-      [],
-    );
-    const parse = (value) => (typeof value === "string" ? JSON.parse(value) : value);
+    const best = bestPerPerson(await allRows());
     return json(request, {
       people,
-      submissions: rows.map((row) => {
-        const data = parse(row.data);
-        return {
-          person: row.person,
-          final: row.final,
-          received_at: new Date(row.received_at).toISOString(),
-          posts: Number(row.posts),
-          sentences: Object.keys(data.w).length,
-          ratings: Object.keys(data.r).length,
-          data,
-        };
-      }),
+      submissions: [...best.entries()]
+        .sort(([a], [b]) => a - b)
+        .map(([person, { best: entry, posts, last, sent }]) => ({
+          person,
+          final: sent,
+          received_at: entry.at.toISOString(),
+          last_activity: last.toISOString(),
+          posts,
+          sentences: Object.keys(entry.data.w).length,
+          ratings: Object.keys(entry.data.r).length,
+          data: entry.data,
+        })),
     });
   }
 
-  return { submit, list };
+  // One person's saved answers, so their link can continue on another phone.
+  async function progress(request) {
+    const person = Number(new URL(request.url).searchParams.get("p"));
+    if (!Number.isInteger(person) || person < 1 || person > people) {
+      return json(request, { error: "unknown person" }, 400);
+    }
+    await prepared();
+    const rows = await query(
+      "SELECT id, person, final, data, received_at FROM submissions WHERE person = $1 ORDER BY id",
+      [person],
+    );
+    const entry = bestPerPerson(rows).get(person)?.best;
+    return json(request, { data: entry?.data ?? null });
+  }
+
+  return { submit, list, progress };
 }
