@@ -130,7 +130,12 @@ function renderIntro() {
       el("li", {}, el("strong", { text: "Sorgfältig: " }), "dieselben Sätze nochmals, sorgfältig geschrieben. Etwa 12 Minuten."),
       el("li", {}, el("strong", { text: "Bewerten: " }), `${myItems().length} Übersetzungen mit einem Tipp bewerten. Etwa 12 Minuten.`),
     ),
-    el("p", { class: "hint", text: "Am besten auf dem Handy. Du kannst jederzeit aufhören: Dein Stand bleibt auf diesem Gerät gespeichert. Am Schluss schickst du alles mit einem Tipp per WhatsApp." }),
+    el("p", {
+      class: "hint",
+      text: page.submit_url
+        ? "Am besten auf dem Handy. Du kannst jederzeit aufhören: Dein Stand wird laufend gespeichert. Am Schluss tippst du auf «Absenden», fertig."
+        : "Am besten auf dem Handy. Du kannst jederzeit aufhören: Dein Stand bleibt auf diesem Gerät gespeichert. Am Schluss schickst du alles mit einem Tipp per WhatsApp.",
+    }),
     actions(button("Los geht's", () => go("about"), "primary")),
   );
 }
