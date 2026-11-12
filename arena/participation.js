@@ -70,7 +70,10 @@ export function bestPerPerson(rows) {
   return people;
 }
 
-export function createParticipation({ query, exportKey, origins = [], people = 5 }) {
+// Persons 1 to 5 got the first links; 6 to 8 were added later (src/gsw_eval/participation.py).
+export const PEOPLE = 8;
+
+export function createParticipation({ query, exportKey, origins = [], people = PEOPLE }) {
   let ready;
   const prepared = () => {
     ready ??= query(SCHEMA, []).catch((error) => {

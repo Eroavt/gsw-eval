@@ -18,7 +18,7 @@ async function load() {
   let page;
   let data;
   try {
-    page = await (await fetch("data/mitmachen.json")).json();
+    page = await (await fetch("data/mitmachen.json", { cache: "no-cache" })).json();
     const url = `${page.submit_url.replace(/submit$/, "submissions")}?key=${encodeURIComponent(key)}`;
     const response = await fetch(url, { cache: "no-store" });
     if (response.status === 403) throw new Error("Falscher Schlüssel.");

@@ -20,10 +20,15 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
-PEOPLE = 5
-# Item i goes to persons i and i + RATER_OFFSET (mod PEOPLE): every item gets two raters,
-# every person rates the same share, and all five rater pairs overlap.
+PEOPLE = 8
+# The first five persons share the items in a rotation: item i goes to persons i and
+# i + RATER_OFFSET (mod ROTATION), so every item gets two raters and every person the same share.
+ROTATION = 5
 RATER_OFFSET = 2
+# Persons added later rate exactly the items of an earlier person (new: earlier). Agreement can
+# then be measured as soon as either of the two has finished, and the links already sent to
+# persons 1 to 5 keep their items.
+MIRRORS = {6: 1, 7: 2, 8: 3}
 SENTENCE_IDS = [f"f{i:02d}" for i in range(1, 21)] + ["f21", "f22", "f24", "f26"]
 RATING_COLUMNS = ["item", "rater", "adequacy", "reason"]
 PARTICIPANT_COLUMNS = ["writer", "canton", "chat_frequency"]
@@ -36,10 +41,15 @@ _REASON_CODES = {"m": "misread", "f": "missing", "e": "invented", "d": "dialect"
 
 
 def assign_raters(
-    n_items: int, people: int = PEOPLE, offset: int = RATER_OFFSET
+    n_items: int,
+    people: int = ROTATION,
+    offset: int = RATER_OFFSET,
+    mirrors: dict[int, int] | None = None,
 ) -> list[list[int]]:
-    """The two persons (1-based) who rate each item."""
-    return [[i % people + 1, (i + offset) % people + 1] for i in range(n_items)]
+    """The persons (1-based) who rate each item: two from the rotation, plus their mirrors."""
+    mirrors = MIRRORS if mirrors is None else mirrors
+    pairs = [[i % people + 1, (i + offset) % people + 1] for i in range(n_items)]
+    return [pair + [new for new, old in mirrors.items() if old in pair] for pair in pairs]
 
 
 def build_page_data(

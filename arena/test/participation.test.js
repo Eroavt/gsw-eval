@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { PGlite } from "@electric-sql/pglite";
 
-import { bestPerPerson, checkAnswers, completeness, createParticipation } from "../participation.js";
+import { bestPerPerson, checkAnswers, completeness, createParticipation, PEOPLE } from "../participation.js";
 
 const ANSWERS = {
   v: 2,
@@ -32,6 +32,8 @@ const get = (key) => new Request(`https://x/api/submissions${key === undefined ?
 test("answers are checked before they are stored", () => {
   assert.equal(checkAnswers(ANSWERS, 5), null);
   assert.equal(checkAnswers({ ...ANSWERS, p: 6 }, 5), "unknown person");
+  assert.equal(checkAnswers({ ...ANSWERS, p: 8 }, PEOPLE), null);
+  assert.equal(checkAnswers({ ...ANSWERS, p: 9 }, PEOPLE), "unknown person");
   assert.equal(checkAnswers({ ...ANSWERS, ok: false }, 5), "no consent");
   assert.equal(checkAnswers({ ...ANSWERS, r: { r001: "9" } }, 5), "bad rating");
   assert.equal(checkAnswers({ ...ANSWERS, w: { f01: ["only one"] } }, 5), "bad sentence");

@@ -531,7 +531,8 @@ function render() {
 
 async function start() {
   try {
-    page = await (await fetch("data/mitmachen.json")).json();
+    // no-cache: a phone that opened the page before links were added must not keep old data.
+    page = await (await fetch("data/mitmachen.json", { cache: "no-cache" })).json();
   } catch {
     screen.replaceChildren(el("p", { class: "error", text: "Die Seite konnte nicht laden. Bitte lade sie neu." }));
     return;

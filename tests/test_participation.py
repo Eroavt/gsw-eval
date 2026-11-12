@@ -23,7 +23,7 @@ KEY = [{"item": "r002", "condition": "de_input"}]
 
 
 def test_every_item_gets_two_different_raters_and_the_work_is_shared_evenly() -> None:
-    raters = assign_raters(112)
+    raters = [r[:2] for r in assign_raters(112)]
     assert all(len(set(pair)) == 2 for pair in raters)
     load = [sum(p in pair for pair in raters) for p in range(1, 6)]
     assert max(load) - min(load) <= 1
@@ -31,12 +31,27 @@ def test_every_item_gets_two_different_raters_and_the_work_is_shared_evenly() ->
     assert len(pairs) == 5
 
 
+def test_the_rotation_for_persons_one_to_five_stays_as_sent() -> None:
+    # Links 1 to 5 went out with this assignment; adding people must not change it.
+    assert [r[:2] for r in assign_raters(112)] == assign_raters(112, mirrors={})
+
+
+def test_later_persons_rate_exactly_the_items_of_their_earlier_person() -> None:
+    raters = assign_raters(112)
+    for new, old in {6: 1, 7: 2, 8: 3}.items():
+        mine = [i for i, r in enumerate(raters) if new in r]
+        assert mine == [i for i, r in enumerate(raters) if old in r[:2]]
+        assert len(mine) >= 44
+    assert all(len(set(r)) == len(r) for r in raters)
+
+
 def test_page_data_hides_models_and_references() -> None:
     data = build_page_data(SENTENCES, SHEET, KEY, sentence_ids=["f01"])
     assert data["sentences"] == [{"id": "f01", "de": "Ich komme heute später."}]
     assert data["items"][1]["german"] is True
     assert data["items"][0]["german"] is False
-    assert data["items"][0]["raters"] == [1, 3]
+    assert data["items"][0]["raters"] == [1, 3, 6, 8]
+    assert data["people"] == 8
     text = json.dumps(data)
     assert "model" not in text and "reference" not in text
 
