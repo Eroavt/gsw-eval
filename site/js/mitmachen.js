@@ -54,15 +54,23 @@ function save() {
 }
 
 // A copy on the server a few seconds after the last change, and when the page is left.
+// Someone who taps quickly through the ratings still gets a copy at least every BACKUP_MAX_WAIT.
 const BACKUP_DELAY = 4000;
+const BACKUP_MAX_WAIT = 15000;
 let backupTimer;
+let backupDue = 0;
 let lastBackup = "";
 function scheduleBackup() {
+  const now = Date.now();
+  if (backupTimer === undefined) backupDue = now + BACKUP_MAX_WAIT;
   clearTimeout(backupTimer);
-  backupTimer = setTimeout(() => upload(false), BACKUP_DELAY);
+  backupTimer = setTimeout(() => {
+    backupTimer = undefined;
+    upload(false);
+  }, Math.max(0, Math.min(BACKUP_DELAY, backupDue - now)));
 }
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden" && state) upload(false);
+  if (document.visibilityState === "hidden" && state) upload(false, true);
 });
 
 function seeded(seed) {
@@ -309,22 +317,32 @@ function renderRate() {
 
 // Sends the answers to the server. True when they arrived. Without a server, false.
 // Backups skip unchanged answers and wait for the consent the server requires.
-async function upload(final) {
+// keepalive lets a send finish after the page is closed, but Chrome allows only about 64 KB of
+// keepalive bodies per page in total: after about 20 backups every keepalive send failed, the
+// final one included. So keepalive is used only when the page is being left, with a plain send
+// as fallback. The final send tries three times.
+async function upload(final, leaving = false) {
   if (!page?.submit_url || !state?.consent || !state?.canton) return false;
   const body = JSON.stringify({ final, data: compact(state, person) });
   if (!final && body === lastBackup) return true;
-  try {
-    const response = await fetch(page.submit_url, {
-      method: "POST",
-      headers: { "content-type": "text/plain" },
-      body,
-      keepalive: true,
-    });
-    if (response.ok && !final) lastBackup = body;
-    return response.ok;
-  } catch {
-    return false;
+  const attempts = leaving ? [true, false] : final ? [false, false, false] : [false, false];
+  for (const [n, keepalive] of attempts.entries()) {
+    if (n > 0 && !leaving) await new Promise((resolve) => setTimeout(resolve, 1000 * n));
+    try {
+      const response = await fetch(page.submit_url, {
+        method: "POST",
+        headers: { "content-type": "text/plain" },
+        body,
+        keepalive,
+      });
+      if (response.ok && !final) lastBackup = body;
+      // A refusal (4xx) will not change on a retry.
+      if (response.ok || response.status < 500) return response.ok;
+    } catch {
+      // Network error or keepalive limit: try the next way.
+    }
   }
+  return false;
 }
 
 // The saved answers of this link on the server, or null.
