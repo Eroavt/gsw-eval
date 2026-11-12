@@ -1,7 +1,7 @@
 # Data collection
 
-Five native speakers give two kinds of data on one phone page, `site/mitmachen.html?p=N`
-(N = 1 to 5, one link per person). It takes about 35 minutes. One tap on «Absenden» stores the
+Up to eight native speakers give two kinds of data on one phone page, `site/mitmachen.html?p=N`
+(N = 1 to 8, one link per person; links 6 to 8 were added later). It takes about 35 minutes. One tap on «Absenden» stores the
 answers on our server (`/api/submit`, Vercel and Postgres). How nothing gets lost:
 
 - The phone keeps every answer, and copies all of them to the server a few seconds after each change
@@ -22,8 +22,10 @@ Progress for the organiser: `status.html#key=EXPORT_KEY` shows how far each link
 | 2. Careful | The same sentences again, carefully, in their dialect | A separate round, so neither version copies the other. Nothing is pre-filled, because accepting a pre-filled text would make both versions identical and hide the spelling effect |
 | 3. Rate | About 45 model translations on a 1 to 5 scale; for 3 or lower, one tap on what went wrong | No reference is shown, so people judge meaning, not word overlap. "Verstehe den Satz nicht" skips dialects they cannot follow |
 
-Each of the 112 rating items goes to two different people (`participation.assign_raters`), so every
-person rates the same share and all five rater pairs overlap. Agreement is Krippendorff's alpha,
+Each of the 112 rating items goes to two of persons 1 to 5 (`participation.assign_raters`), so each
+of them rates the same share and all five rater pairs overlap. Persons 6, 7 and 8 rate exactly the
+items of persons 1, 2 and 3, so agreement can be measured as soon as either of two such people has
+finished. Agreement is Krippendorff's alpha,
 which allows different rater pairs and skipped items.
 
 The 112 items are all four models on 24 test inputs (16 careful, 8 chat style) plus 16 model
