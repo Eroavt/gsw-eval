@@ -1,0 +1,3 @@
+# Model output caches are append-only JSON lines. When two people run models on separate
+# branches, keep both sides instead of a merge conflict (the loader lets the later line win).
+results/cache/*.jsonl merge=union
