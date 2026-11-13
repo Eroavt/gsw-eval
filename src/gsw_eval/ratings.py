@@ -265,6 +265,10 @@ def analyse(key: Sequence[dict[str, str]], ratings: Sequence[dict[str, str]]) ->
     return {
         "n_items": len(rated),
         "n_ratings": sum(len(v) for v in scores.values()),
+        "ratings_per_item": {
+            "min": min(len(v) for v in scores.values()),
+            "max": max(len(v) for v in scores.values()),
+        },
         "raters": len({r["rater"] for r in ratings}),
         "alpha_interval": krippendorff_alpha(list(scores.values())),
         "exact_agreement": _mean([float(a == b) for a, b in doubles]),

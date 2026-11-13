@@ -77,6 +77,14 @@ def tax_table(tax: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _signed(x: float) -> str:
+    """+1.3, $-$1.3, or 0.0 (no sign on zero), for LaTeX."""
+    value = round(x, 1) + 0.0
+    if value == 0:
+        return "0.0"
+    return f"{value:+.1f}".replace("-", "$-$")
+
+
 def _two_lines(label: str, width: int = 12) -> str:
     """Break a long tick label after its first word."""
     return label.replace(" ", "\n", 1) if len(label) > width else label
@@ -276,7 +284,7 @@ def tax_latex(tax: dict[str, Any]) -> str:
             f"{de['tokens_per_word']:.2f}",
             f"{clean:.2f}",
             f"{min(per_dialect):.2f}--{max(per_dialect):.2f}",
-            f"{round(100 * (texting / clean - 1), 1) + 0.0:+.1f}\\%",
+            _signed(100 * (texting / clean - 1)) + "\\%",
         ]
         lines.append(f"{name} & " + " & ".join(cells) + " \\\\")
     lines += ["\\bottomrule", "\\end{tabular}"]
@@ -356,6 +364,90 @@ def dose_latex(rows: list[dict[str, Any]]) -> str:
     return "\n".join(lines) + "\n"
 
 
+MODEL_STYLE = {  # same colour and marker per model as in the dialect figure
+    "apertus-8b": (SERIES[0], "o"),
+    "llama-3.1-8b": (SERIES[1], "s"),
+    "gemma-3-27b": (SERIES[2], "^"),
+    "claude-sonnet-5.5": (SERIES[3], "D"),
+}
+
+
+def dose_figure(results: Path, out: Path) -> list[Path]:
+    """chrF lost against the share of words changed: random noise as a curve per model, and the
+    texting rules (open) and real chat (filled, 95% interval) as single points."""
+    rows = dose_rows(results)
+    noise = [r for r in rows if r["label"].startswith("Noise")]
+    if not noise:
+        return []
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fresh = {
+        r["meta"]["model"]: r
+        for r in _load(list((results / "fresh").glob("*.json")))
+        if "costs" in r and r["meta"]["model"] in MODEL_STYLE
+    }
+    rules = next((r for r in rows if r["label"].startswith("Simulated")), None)
+    fig, ax = plt.subplots(figsize=(3.1, 2.5))
+    for model, (color, marker) in MODEL_STYLE.items():
+        points = [(0.0, 0.0)] + [
+            (100 * r["words_changed"], r["loss"][model]) for r in noise if model in r["loss"]
+        ]
+        if len(points) < 2:
+            continue
+        label = f"{MODEL_LABEL[model].split()[0]}: random noise"
+        ax.plot(
+            *zip(*points),
+            color=color,
+            linewidth=1.2,
+            marker=marker,
+            markersize=3.5,
+            label=label,
+            zorder=2,
+        )
+        if rules and model in rules["loss"]:
+            ax.scatter(
+                100 * rules["words_changed"],
+                rules["loss"][model],
+                s=34,
+                marker="o",
+                facecolor="white",
+                edgecolor=color,
+                linewidth=1.2,
+                zorder=3,
+            )
+        if model in fresh:
+            run = fresh[model]
+            cost = run["costs"]["real_spelling_cost"]
+            ax.errorbar(
+                100 * run["words_changed"]["texting"],
+                cost["value"],
+                yerr=[[cost["value"] - cost["low"]], [cost["high"] - cost["value"]]],
+                fmt="*",
+                markersize=11,
+                color=color,
+                markeredgecolor="white",
+                markeredgewidth=0.5,
+                elinewidth=1,
+                capsize=2,
+                zorder=4,
+            )
+    ax.scatter([], [], s=34, marker="o", facecolor="white", edgecolor=MUTED, label="our rules")
+    ax.scatter([], [], s=90, marker="*", color=MUTED, label="real chat (95% CI)")
+    ax.set_xlabel("words changed (%)", fontsize=8, color=INK)
+    ax.set_ylabel("chrF lost vs. careful spelling", fontsize=8, color=INK)
+    ax.set_xlim(0, 102)
+    ax.set_ylim(bottom=min(0, ax.get_ylim()[0]))
+    ax.tick_params(labelsize=7)
+    _style(ax)
+    ax.grid(axis="x", color=GRID, linewidth=0.8)
+    ax.legend(frameon=False, fontsize=6.5, loc="upper left", handletextpad=0.3, labelspacing=0.3)
+    fig.tight_layout()
+    return _save(fig, out)
+
+
 def _num(x: float) -> str:
     return f"{x:.1f}".replace("-", "$-$")
 
@@ -405,7 +497,7 @@ def human_macros(results: Path) -> str | None:
         macros["ClaudeRealVerdict"] = (
             "the interval includes zero"
             if real["low"] <= 0 <= real["high"]
-            else "small, but clearly above zero"
+            else "small but above zero"
         )
         macros["ClaudeCareful"] = f"{run['scores']['careful']['value']:.1f}"
         macros["ClaudeTexting"] = f"{run['scores']['texting']['value']:.1f}"
@@ -415,6 +507,13 @@ def human_macros(results: Path) -> str | None:
         macros["FreshWriterCostMax"] = _num(max(costs))
         macros["FreshCarefulMin"] = f"{min(w['careful'] for w in writers):.1f}"
         macros["FreshCarefulMax"] = f"{max(w['careful'] for w in writers):.1f}"
+        for source, prefix in (("texting", "Chat"), ("synthetic", "Rules")):
+            kinds = run.get("change_kinds", {}).get(source)
+            if kinds:
+                macros[f"{prefix}Lowered"] = f"{100 * kinds['lowercased']:.0f}\\%"
+                macros[f"{prefix}EndDropped"] = f"{100 * kinds['end_dropped']:.0f}\\%"
+                macros[f"{prefix}Respelled"] = f"{100 * kinds['respelled']:.0f}"
+                macros[f"{prefix}Reworded"] = f"{100 * kinds['reworded']:.0f}"
     ratings = results / "ratings" / "ratings_v2.json"
     if ratings.exists():
         r = json.loads(ratings.read_text(encoding="utf-8"))
@@ -426,6 +525,20 @@ def human_macros(results: Path) -> str | None:
         winner = r["pairwise_winner_agreement"]
         macros["RatingWinner"] = f"{100 * winner['rate']:.0f}\\%"
         macros["RatingWinnerN"] = f"{winner['agree']} of {winner['decided']}"
+        per_item = r.get("ratings_per_item")
+        if per_item:
+            macros["RatingsPerItem"] = (
+                str(per_item["min"])
+                if per_item["min"] == per_item["max"]
+                else f"{per_item['min']} to {per_item['max']}"
+            )
+        errors = r.get("errors", {}).get("model", {})
+        open_models = [m for m in errors if m != "claude-sonnet-5.5"]
+        flagged = sum(sum(errors[m].values()) for m in open_models)
+        if flagged:
+            misread = sum(errors[m].get("misread", 0) for m in open_models)
+            macros["OpenMisreadShare"] = f"{100 * misread / flagged:.0f}\\%"
+            macros["ClaudeFlagged"] = str(sum(errors.get("claude-sonnet-5.5", {}).values()))
         rewrites = r["rewrites_of_standard_german"]
         macros["ParaphraseRating"] = f"{rewrites['mean_rating']:.1f}"
         macros["ParaphraseSame"] = f"{100 * rewrites['same_meaning']:.0f}\\%"
@@ -506,19 +619,20 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
             color=SERIES[j],
             label=label,
             zorder=3,
+            alpha=0.85,
             edgecolor="white",
             linewidth=0.6,
         )
-        if j == 0:
-            # Labels sit left of the point where neighbours would collide.
-            offsets = {"BS": (-12, 3)}
+        if run["meta"]["model"] == "claude-sonnet-5.5":
+            # Claude's points stand apart from the rest, so the dialect names go above them.
             for d, xv, yv in zip(dialects, xs, ys):
                 ax.annotate(
                     d,
                     (xv, yv),
                     textcoords="offset points",
-                    xytext=offsets.get(d, (4, 3)),
-                    fontsize=6.5,
+                    xytext=(0, 5),
+                    ha="center",
+                    fontsize=7,
                     color=MUTED,
                 )
     ax.set_xlabel(
@@ -530,7 +644,7 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
     ax.grid(axis="x", color=GRID, linewidth=0.8)
     ax.legend(
         frameon=False,
-        fontsize=6,
+        fontsize=7,
         loc="upper center",
         bbox_to_anchor=(0.45, -0.3),
         ncol=2,
@@ -575,6 +689,7 @@ def build_report(results: Path) -> list[Path]:
     if dose:
         (tables / "dose.tex").write_text(dose_latex(dose), encoding="utf-8")
         written.append(tables / "dose.tex")
+        written += dose_figure(results, results / "figures" / "dose")
     fresh = fresh_latex(results)
     if fresh:
         (tables / "fresh.tex").write_text(fresh, encoding="utf-8")

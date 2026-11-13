@@ -20,7 +20,7 @@ from typing import Any
 import numpy as np
 
 from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats, reference_of
-from gsw_eval.noise import changed_words
+from gsw_eval.noise import change_kinds, changed_words
 
 FRESH_COLUMNS = ["sentence_id", "writer", "dialect", "style", "gsw", "de"]
 
@@ -106,7 +106,8 @@ def analyse_fresh(
 
     # How many words each kind of texting changes, compared with the careful version.
     careful_text = {(_parse(r)[0], r["sentence_id"]): r["input"] for r in groups.get("careful", [])}
-    dose = {}
+    dose: dict[str, float] = {}
+    kinds: dict[str, dict[str, float]] = {}
     for name in ("texting", "synthetic"):
         pairs = [
             (careful_text[key], r["input"])
@@ -115,6 +116,7 @@ def analyse_fresh(
         ]
         if pairs:
             dose[name] = changed_words(*zip(*pairs))
+            kinds[name] = change_kinds(*zip(*pairs))
 
     # Spelling cost with a cluster bootstrap over sentences (all writers of a sentence together).
     def per_sentence(name: str) -> dict[str, np.ndarray]:
@@ -164,5 +166,6 @@ def analyse_fresh(
         "scores": scores,
         "costs": costs,
         "words_changed": dose,
+        "change_kinds": kinds,
         "per_writer": per_writer,
     }

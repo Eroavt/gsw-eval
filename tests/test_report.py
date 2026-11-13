@@ -3,6 +3,7 @@ from pathlib import Path
 
 from gsw_eval.report import (
     _two_lines,
+    dose_figure,
     dose_latex,
     dose_rows,
     fresh_latex,
@@ -57,6 +58,12 @@ def test_dose_rows_and_table(tmp_path: Path) -> None:
     table = dose_latex(rows)
     assert "Noise in 50\\% of words & 50\\% & 10.0" in table
     assert dose_rows(tmp_path / "elsewhere") == []
+    paths = dose_figure(tmp_path, tmp_path / "figures" / "dose")
+    assert [p.suffix for p in paths] == [".pdf", ".png"] and all(p.exists() for p in paths)
+    first = paths[0].read_bytes()
+    dose_figure(tmp_path, tmp_path / "figures" / "dose")
+    assert paths[0].read_bytes() == first  # no timestamps: identical on every run
+    assert dose_figure(tmp_path / "elsewhere", tmp_path / "x") == []
 
 
 def test_fresh_table_and_macros_follow_the_results(tmp_path: Path) -> None:

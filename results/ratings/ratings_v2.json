@@ -1,6 +1,10 @@
 {
  "n_items": 112,
  "n_ratings": 224,
+ "ratings_per_item": {
+  "min": 1,
+  "max": 3
+ },
  "raters": 5,
  "alpha_interval": 0.48193140057166195,
  "exact_agreement": 0.5842696629213483,
