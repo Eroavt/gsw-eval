@@ -20,7 +20,9 @@ step "Checks"
 [[ "$(uname -m)" == "arm64" ]] || { echo "Needs an Apple Silicon Mac (M1 or newer)."; exit 1; }
 [[ -f data/swissdial/data1.1/sentences_ch_de_transcribed.json || -n "$(find data/swissdial -name 'sentences_ch_de_transcribed.json' 2>/dev/null)" ]] \
   || { echo "SwissDial missing: copy the swissdial folder to data/swissdial/ (see data/README.md)."; exit 1; }
-echo "ok: Apple Silicon, SwissDial found"
+[[ -n "$(git config user.name)" && -n "$(git config user.email)" ]] \
+  || { echo 'Git does not know who you are. Run: git config user.name "Your Name"; git config user.email "you@example.com"'; exit 1; }
+echo "ok: Apple Silicon, SwissDial found, Git set up"
 
 step "Python environment"
 if ! command -v uv >/dev/null; then
@@ -95,15 +97,24 @@ gsw-eval report
 gsw-eval site
 
 step "Save results"
+# main is protected: results go to their own branch and reach main through a pull request.
+host="$(scutil --get ComputerName 2>/dev/null || hostname)"
+branch="runs/$JOB-$(echo "$host" | tr -cs 'A-Za-z0-9' '-' | tr 'A-Z' 'a-z' | sed 's/-$//')-$(date +%Y%m%d-%H%M)"
 git add results site/data
 if git diff --cached --quiet; then
   echo "nothing new"
 else
-  git commit -q -m "Local model runs on $(scutil --get ComputerName 2>/dev/null || hostname)"
-  if git push -q 2>/dev/null; then
-    echo "pushed to GitHub"
+  git switch -q -c "$branch"
+  git commit -q -m "Local model runs ($JOB) on $host"
+  if git push -q -u origin "$branch" 2>/dev/null; then
+    echo "pushed branch $branch"
+    if command -v gh >/dev/null && gh pr create --fill --base main >/dev/null 2>&1; then
+      echo "pull request: $(gh pr view --json url -q .url)"
+    else
+      echo "Open the pull request here: https://github.com/Eroavt/gsw-eval/pull/new/$branch"
+    fi
   else
-    echo "Could not push. Send Erik the folder results/cache/ (AirDrop is fine)."
+    echo "Could not push. The results are committed on branch $branch; send Erik the folder results/cache/."
   fi
 fi
 step "Done"

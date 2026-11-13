@@ -1,0 +1,108 @@
+{
+ "n_items": 112,
+ "n_ratings": 224,
+ "raters": 5,
+ "alpha_interval": 0.48193140057166195,
+ "exact_agreement": 0.5842696629213483,
+ "kappa_quadratic": 0.4511878488900428,
+ "spearman_chrf_vs_human": {
+  "rho": 0.5947991233509256,
+  "p_value": 1.6581718662524429e-10
+ },
+ "mean_rating": {
+  "apertus-8b": {
+   "value": 3.8472222222222228,
+   "low": 3.3262152777777776,
+   "high": 4.284722222222222
+  },
+  "claude-sonnet-5.5": {
+   "value": 4.798611111111111,
+   "low": 4.611111111111111,
+   "high": 4.944444444444444
+  },
+  "gemma-3-27b": {
+   "value": 3.881944444444444,
+   "low": 3.3541666666666665,
+   "high": 4.381944444444444
+  },
+  "llama-3.1-8b": {
+   "value": 3.1111111111111107,
+   "low": 2.6666666666666665,
+   "high": 3.6114583333333328
+  }
+ },
+ "pairwise_winner_agreement": {
+  "agree": 84,
+  "decided": 96,
+  "rate": 0.875
+ },
+ "rewrites_of_standard_german": {
+  "n": 16,
+  "mean_rating": 4.197916666666667,
+  "mean_chrf": 77.47875,
+  "same_meaning": 0.5
+ },
+ "errors": {
+  "model": {
+   "apertus-8b": {
+    "misread": 10,
+    "missing": 2,
+    "invented": 4,
+    "dialect": 3
+   },
+   "claude-sonnet-5.5": {
+    "dialect": 3
+   },
+   "gemma-3-27b": {
+    "dialect": 5,
+    "misread": 9,
+    "invented": 2
+   },
+   "llama-3.1-8b": {
+    "misread": 18,
+    "dialect": 7,
+    "invented": 4
+   }
+  },
+  "dialect": {
+   "AG": {
+    "dialect": 4,
+    "misread": 5,
+    "invented": 1
+   },
+   "BE": {
+    "misread": 6,
+    "dialect": 1,
+    "invented": 2
+   },
+   "BS": {
+    "misread": 4,
+    "dialect": 1,
+    "invented": 1
+   },
+   "GR": {
+    "misread": 2,
+    "dialect": 1
+   },
+   "LU": {
+    "misread": 16,
+    "dialect": 4,
+    "missing": 1
+   },
+   "SG": {
+    "invented": 2
+   },
+   "VS": {
+    "dialect": 5,
+    "misread": 1,
+    "invented": 2
+   },
+   "ZH": {
+    "misread": 3,
+    "invented": 2,
+    "missing": 1,
+    "dialect": 2
+   }
+  }
+ }
+}

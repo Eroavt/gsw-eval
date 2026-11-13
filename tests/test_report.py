@@ -85,6 +85,7 @@ def test_fresh_table_and_macros_follow_the_results(tmp_path: Path) -> None:
     assert "\\newcommand{\\FreshCantons}{BE, ZH}" in macros
     assert "\\newcommand{\\FreshWriterCostMin}{$-$3.0}" in macros
     assert "Rating" not in macros  # no ratings yet
+    assert "includes zero" in macros  # real cost 1.5 [-0.5, 3.5]
     assert (
         fresh_latex(tmp_path / "elsewhere") is None and human_macros(tmp_path / "elsewhere") is None
     )
