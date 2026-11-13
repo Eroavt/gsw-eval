@@ -2,6 +2,7 @@
 
 import { diffSegments } from "./diff.js";
 import { el, segments } from "./format.js";
+import { colorOf } from "./models.js";
 
 const FORMS = [
   { value: "clean", label: "Careful spelling" },
@@ -86,7 +87,7 @@ export async function explorer(summary, models) {
         el(
           "li",
           {},
-          el("span", { class: "who", text: label }),
+          el("span", { class: "who" }, el("span", { class: "dot", style: `--c: ${colorOf(id)}` }), label),
           el(
             "span",
             { class: "text", lang: "de" },
