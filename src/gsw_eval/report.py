@@ -395,6 +395,12 @@ def human_macros(results: Path) -> str | None:
         macros["FreshRulesChanged"] = f"{100 * run['words_changed']['synthetic']:.1f}\\%"
         macros["ClaudeRealCost"] = _ci(run["costs"]["real_spelling_cost"])
         macros["ClaudeSimCost"] = _ci(run["costs"]["synthetic_spelling_cost"])
+        real = run["costs"]["real_spelling_cost"]
+        macros["ClaudeRealVerdict"] = (
+            "the interval includes zero"
+            if real["low"] <= 0 <= real["high"]
+            else "small, but clearly above zero"
+        )
         macros["ClaudeCareful"] = f"{run['scores']['careful']['value']:.1f}"
         macros["ClaudeTexting"] = f"{run['scores']['texting']['value']:.1f}"
         writers = run["per_writer"].values()

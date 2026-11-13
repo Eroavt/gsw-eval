@@ -1,0 +1,241 @@
+sentence_id,writer,dialect,style,gsw,de
+f01,w1,ZH,careful,ich chume hüt chli spöter hei,Ich komme heute etwas später nach Hause.
+f01,w1,ZH,texting,chume hüt chli spöter hei,Ich komme heute etwas später nach Hause.
+f02,w1,ZH,careful,häsch du scho gässe oder chochemer öpis zämme?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f02,w1,ZH,texting,häsch scho gässe oder chochemer uämme?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f03,w1,ZH,careful,han kei ahnig woni min schlüssel anegleit ham,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f03,w1,ZH,texting,ich han kei ahnig woni min schlüssel anegleit han,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f04,w1,ZH,careful,chasch mir bitte säge wänn dä zug fahrt morn?,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f04,w1,ZH,texting,chasch mir bitte säge wänn de zug gahrt morn?,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f05,w1,ZH,careful,mir träffed eus am 7ni vorem bahnhof,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f05,w1,ZH,texting,mir träffed eus am 7ni vorem bahnhof,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f06,w1,ZH,careful,"s konzert gester isch würkli super gsi, hettisch au sölle cho","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f06,w1,ZH,texting,"s konzert gester isch super gsi, hetisch au sölle cho","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f07,w1,ZH,careful,bin glaub chrank und bliebe hüt lieber im bett,"Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f07,w1,ZH,texting,"ich glaub bin chrank, bliebe hüt lieber im bett","Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f08,w1,ZH,careful,"mir gönd viellicht id berge am wucheend, chunsch au mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f08,w1,ZH,texting,"viellicht gömmer id berge am wucheend, chunsch au mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f09,w1,ZH,careful,min brüeder hät es neus velo kauft,Mein Bruder hat sich ein neues Velo gekauft.
+f09,w1,ZH,texting,min brüeder hät es neus velo kauft,Mein Bruder hat sich ein neues Velo gekauft.
+f10,w1,ZH,careful,tuet mir leid han dini nachricht erst jetzt gseh,"Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f10,w1,ZH,texting,tuet mir leid han dini nachricht erst jetzt gseh,"Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f11,w1,ZH,careful,weisch du ob dä lade offe hät am sunntig?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f11,w1,ZH,texting,weisch du ob dä lade offe hät am sunntig?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f12,w1,ZH,careful,d kinder spieled dusse im garte,Die Kinder spielen draussen im Garten.
+f12,w1,ZH,texting,d chinder spieled dusse im garte,Die Kinder spielen draussen im Garten.
+f13,w1,ZH,careful,"mun no schnäll go poste, bruchsch du öpis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f13,w1,ZH,texting,"mun no schnäll go poste, bruchsch au no was?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f14,w1,ZH,careful,säg eifach bscheid wännd da bisch,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f14,w1,ZH,texting,säg bscheid wännd acho bisch,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f15,w1,ZH,careful,s ässe isch nöd so gut i dem resti,Das Essen in diesem Restaurant ist nicht besonders gut.
+f15,w1,ZH,texting,s ässe i dem resti isch nöd so gut,Das Essen in diesem Restaurant ist nicht besonders gut.
+f16,w1,ZH,careful,morn sölls dä ganz tag rägne,Morgen soll es den ganzen Tag regnen.
+f16,w1,ZH,texting,morn rägnets dä ganzi tag,Morgen soll es den ganzen Tag regnen.
+f17,w1,ZH,careful,han gar nöd gut gschlafe letzti nacht,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f17,w1,ZH,texting,han gar nöd gut gschlafe letzti nacht,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f18,w1,ZH,careful,chunsch no uf es bier verbi?,Kommst du nachher noch auf ein Bier vorbei?
+f18,w1,ZH,texting,chunsch no uf es bier verbi nachher?,Kommst du nachher noch auf ein Bier vorbei?
+f19,w1,ZH,careful,mis grosi wird achzgi nächst wuche,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f19,w1,ZH,texting,mis grosi wird nächst wuche 80,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f20,w1,ZH,careful,mir händ dä bus verpasst und händ müsse laufe,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f20,w1,ZH,texting,mir händ de letzi bus verpasst und händ müsse laufe,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f21,w1,ZH,careful,dä gmeindrat hät beschlosse d schuel z renoviere,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f21,w1,ZH,texting,dä gmeidrat hät beschlosse d schuel z renoviere,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f22,w1,ZH,careful,im herbst stieged d krankekasseprämie wieder,Im Herbst steigen die Krankenkassenprämien erneut an.
+f22,w1,ZH,texting,im herbst stieged krankekasse prämie wieder,Im Herbst steigen die Krankenkassenprämien erneut an.
+f24,w1,ZH,careful,ide berge häts viel gschneit letzt nacht,In den Alpen ist in der Nacht viel Schnee gefallen.
+f24,w1,ZH,texting,ide berge häts ide nacht viel gschneit,In den Alpen ist in der Nacht viel Schnee gefallen.
+f26,w1,ZH,careful,viel schaffed hüt mindistens ein tag vo dähei us,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f26,w1,ZH,texting,viel lüt schaffed hüt mindistens ein tag pro wuche vo dähei,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f01,w2,AG,careful,Ich chume hüt es bitz spöter hei.,Ich komme heute etwas später nach Hause.
+f01,w2,AG,texting,Ich chume hüt bitz spöter hei,Ich komme heute etwas später nach Hause.
+f02,w2,AG,careful,Häsch scho g'ässe oder söllemer zemme was choche?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f02,w2,AG,texting,Häsch scho gesse oder söllemer zemme choche,Hast du schon gegessen oder sollen wir zusammen kochen?
+f03,w2,AG,careful,"Ich ha ke ahnig, wo ich min schlüssel anegleit ha.","Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f03,w2,AG,texting,"Ich ha ke ahnig, wo ich min schlüssel anegleit ha","Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f04,w2,AG,careful,"Chasch du mir bitte säge, wenn de zug morn fahret?","Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f04,w2,AG,texting,Chaschmer bitte säge wenn de zug morn fahrt?,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f05,w2,AG,careful,Mer treffed ois am sibni vorem bahnhof.,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f05,w2,AG,texting,Mer treffed ois am 7bni vorem bahnhof,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f06,w2,AG,careful,"S'Konzert geschter isch würkli super gsi, du hätsch au sölle mitcho.","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f06,w2,AG,texting,"S Konzert geschter isch würkli super gsi, du hätisch sölle mitcho.","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f07,w2,AG,careful,"Ich glaub ich bi chrank, blibe hüt glaub lieber im Bett.","Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f07,w2,AG,texting,"Ich glaub ich bi chrank, ich blibe hüt lieber im bett","Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f08,w2,AG,careful,"Villicht gömmer am wucheend id berge, chunsch mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f08,w2,AG,texting,"Villicht gömmer am wucheend id berge, chunsch mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f09,w2,AG,careful,Min brüeder hät sich es neus velo poschtet.,Mein Bruder hat sich ein neues Velo gekauft.
+f09,w2,AG,texting,Min brüder hät sich es neus velo kauft.,Mein Bruder hat sich ein neues Velo gekauft.
+f10,w2,AG,careful,"Tut mer leid, ich ha dini nachricht erscht jetzt gseh.","Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f10,w2,AG,texting,Sry ha dini nachricht erscht jetzt gseh,"Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f11,w2,AG,careful,"Weisch du, öb de lade am sunntig au offe hät?","Weisst du, ob der Laden am Sonntag offen hat?"
+f11,w2,AG,texting,Weish du öb de lade am sunntig offe het?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f12,w2,AG,careful,D'chind spieled dusse im garte.,Die Kinder spielen draussen im Garten.
+f12,w2,AG,texting,D chind spiled dusse im garte,Die Kinder spielen draussen im Garten.
+f13,w2,AG,careful,"Ich muen no gschwind go poschte gha, bruchsch du au öppis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f13,w2,AG,texting,"I muen no gschwind was go poschte, bruchsch was?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f14,w2,AG,careful,"Säg mir eifach bscheid, wenn'd acho bisch.","Sag mir einfach Bescheid, wenn du angekommen bist."
+f14,w2,AG,texting,Seisch eif bscheid wennd acho bisch,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f15,w2,AG,careful,S'esse i dem resti isch nöd bsunders guet.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f15,w2,AG,texting,S esse is em restaurant isch nöd bsunders guet,Das Essen in diesem Restaurant ist nicht besonders gut.
+f16,w2,AG,careful,Morn sölls de ganz Tag rägne.,Morgen soll es den ganzen Tag regnen.
+f16,w2,AG,texting,Morn söllls de ganz tag regne,Morgen soll es den ganzen Tag regnen.
+f17,w2,AG,careful,Ich ha überhaupt nöd guet gschlafe letscht Nacht.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f17,w2,AG,texting,Ich ha garnöd guet gschlafe die nacht,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f18,w2,AG,careful,Chunsch nachane no ufes bier verbii?,Kommst du nachher noch auf ein Bier vorbei?
+f18,w2,AG,texting,Chunsch nachane no uf es bier verbi?,Kommst du nachher noch auf ein Bier vorbei?
+f19,w2,AG,careful,Mini grossmuetter wird nächst wuche achzgi.,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f19,w2,AG,texting,Mini grossmuete wird nöchscht jahr achzgi,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f20,w2,AG,careful,Mer hend de letscht bus verpasst und händ müsse z'fuess gha.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f20,w2,AG,texting,Mer hend de letscht bus verpasst gha und händ müsse z fuess gha.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f21,w2,AG,careful,"D'gmeindrat hät bschlosse, d'schuel z renoviere.","Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f21,w2,AG,texting,"D gmeindrat hät bschlosse, d schuel renoviere","Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f22,w2,AG,careful,Im Herbst stiiged chrankekasseprämie nomal neu a.,Im Herbst steigen die Krankenkassenprämien erneut an.
+f22,w2,AG,texting,Im herbst stiiged d krankekasseprämie nomal a,Im Herbst steigen die Krankenkassenprämien erneut an.
+f24,w2,AG,careful,I de Alpe isch ide Nacht viel schnee obe abe cho.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f24,w2,AG,texting,I de alpe isch ide nacht viel schnee gfalle.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f26,w2,AG,careful,Vili lüüt schaffed hüt mindistens en Tag pro Wuche vo dihei us.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f26,w2,AG,texting,Vili lüüt schaffed hützutags nindistens ein tag pro wuche vo dihei us,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f01,w3,SO,careful,I chume hüt es bitzli spöter hei.,Ich komme heute etwas später nach Hause.
+f01,w3,SO,texting,I chume hüt e bitz spöter hei.,Ich komme heute etwas später nach Hause.
+f02,w3,SO,careful,"Hesch du scho gässe, oder söue mir zäme choche?",Hast du schon gegessen oder sollen wir zusammen kochen?
+f02,w3,SO,texting,"Hesch du scho gässe, oder söue mir zäme choche?",Hast du schon gegessen oder sollen wir zusammen kochen?
+f03,w3,SO,careful,"I ha kei Ahnig, wo ig min Schlüssel anegleit han.","Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f03,w3,SO,texting,"I ha kei Ahnig, woni min Schlüssel häregleit han.","Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f04,w3,SO,careful,"Chasch du mir bitte säge, wenn der Zug morn fahrt?","Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f04,w3,SO,texting,"Chasch du mir bitte säge, wenn dr Zug morn fahrt?","Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f05,w3,SO,careful,Am sibni treffe mir eus vorem Bahnhof.,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f05,w3,SO,texting,Mer träffe üs am siebni vorem Bahnhof,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f06,w3,SO,careful,"S Konzert gester isch würkli super gsi, du hättisch sölle mitcho.","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f06,w3,SO,texting,S Konzärt gester isch würkli super gsi.,"Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f07,w3,SO,careful,"Ig gloube, i bi chrank, i bliibe hüt lieber im Bett.","Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f07,w3,SO,texting,"Ig gloube, i bi chrank, i bliibe hüt lieber im Bett.","Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f08,w3,SO,careful,"Villicht gömmer am Wucheend id Berge, chunnsch au mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f08,w3,SO,texting,"Villicht gömmer am Wucheend id Berge, chunnsch mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f09,w3,SO,careful,Min Brüeder het sich es neus Velo kauft.,Mein Bruder hat sich ein neues Velo gekauft.
+f09,w3,SO,texting,Mi Brüetsch het sich es neus Velo kauft.,Mein Bruder hat sich ein neues Velo gekauft.
+f10,w3,SO,careful,"Es tuet mir leid, i ha dini Nachricht ersch jetz gseh.","Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f10,w3,SO,texting,"S tuet mir leid, i ha dini Nachricht ersch jetz gseh.","Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f11,w3,SO,careful,"Weisch du, ob der Lade am Sunntig offe het?","Weisst du, ob der Laden am Sonntag offen hat?"
+f11,w3,SO,texting,"Weisch du, ob dr Lade am Sunntig offe isch?","Weisst du, ob der Laden am Sonntag offen hat?"
+f12,w3,SO,careful,D Chinder spielet dusse im Garte.,Die Kinder spielen draussen im Garten.
+f12,w3,SO,texting,D Chinder spiele dusse im Garte.,Die Kinder spielen draussen im Garten.
+f13,w3,SO,careful,"I muess no schnell öppis go poste, bruchsch du au öppis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f13,w3,SO,texting,"I muess no schnäu go poste, bruchsch du no öppis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f14,w3,SO,careful,"Gib mir eifach Bscheid, wenn du acho bisch.","Sag mir einfach Bescheid, wenn du angekommen bist."
+f14,w3,SO,texting,Geb mir eifach Bscheid wenn du acho besch.,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f15,w3,SO,careful,S Ässe i dem Restaurant isch nid bsunders guet.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f15,w3,SO,texting,S Ässe i däm Resti isch nid bsunders guet.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f16,w3,SO,careful,Morn sötts de ganz Tag Regne.,Morgen soll es den ganzen Tag regnen.
+f16,w3,SO,texting,Morn sötts de ganz Tag rägne.,Morgen soll es den ganzen Tag regnen.
+f17,w3,SO,careful,I ha garnid guet gschlofe letscht Nacht.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f17,w3,SO,texting,I ha garnid guet gschlofe letscht Nacht.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f18,w3,SO,careful,Chunnsch du när no uf es Bier verbii?,Kommst du nachher noch auf ein Bier vorbei?
+f18,w3,SO,texting,Chunnsch du när no uf es Bier verbii?,Kommst du nachher noch auf ein Bier vorbei?
+f19,w3,SO,careful,Mis Grossi wird nöchst Wuche achzg Johr alt.,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f19,w3,SO,texting,Mis Grosi wird nöchst Wuche achzgi.,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f20,w3,SO,careful,Mer hend de letscht Bus verpasst und hend müesse laufe.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f20,w3,SO,texting,Mer hend de letscht Bus verpasst und hei müesse laufe.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f21,w3,SO,careful,"Dr Gmeindrot het beschlosse, d Schuel z renoviere.","Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f21,w3,SO,texting,"Dr Gmeindrot het beschlosse, d Schuel z renoviere.","Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f22,w3,SO,careful,Im Herbst stiige d Chrankekasseprämie wieder a.,Im Herbst steigen die Krankenkassenprämien erneut an.
+f22,w3,SO,texting,Im Herbst stiige d Chrankekasseprämie wieder a.,Im Herbst steigen die Krankenkassenprämien erneut an.
+f24,w3,SO,careful,I de Alpe hets die Nacht viel gschneit.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f24,w3,SO,texting,I de Alpe hets i der Nacht viel gschneit.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f26,w3,SO,careful,Wie viu Lüt schaffe hüt mindestens ei Tag pro Wuche vo deheim us.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f26,w3,SO,texting,Wie vöu Lüt schaffe hüt mindestens e Tag pro Wuche vo dehei us.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f01,w4,ZH,careful,Ich chum hüt biz spöter hei.,Ich komme heute etwas später nach Hause.
+f01,w4,ZH,texting,Ich chum hütt chli spöter hei.,Ich komme heute etwas später nach Hause.
+f02,w4,ZH,careful,Häsch du scho gässe oder söllemer zäme na was choche?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f02,w4,ZH,texting,Häsch scho was inebeamt oder wämmer no öppis choche zäme?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f03,w4,ZH,careful,Kei Ahnig woni min Schlüssel anegleit han.,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f03,w4,ZH,texting,Hey kei Ahnig woni min Schlüssel anegrüert han.,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f04,w4,ZH,careful,Chasch mir bitte säge wänn de Zug morn fahrt?,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f04,w4,ZH,texting,Chasch mer ächt säge wänn dr Zug morn fahrt?,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f05,w4,ZH,careful,Mir träffed üs am 7i vorem Bahnhof.,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f05,w4,ZH,texting,Mir träffed üs am 7i vorem Bahnhof,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f06,w4,ZH,careful,S'Konzi gestert isch de Hammer gsi! Hätsch sölle drbi si.,"Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f06,w4,ZH,texting,S'Konzi gestert isch wüki super gsi! Häsch was verpasst!,"Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f07,w4,ZH,careful,Ich glaub ich bi chrank worde und bliebe hüt lieber im Bett.,"Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f07,w4,ZH,texting,Ich glaube ich wird chrank und blibä darum hüt lieber nachli im dehei.,"Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f08,w4,ZH,careful,"Vilich gömmer am Wuchenend id Berge, chunnsch mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f08,w4,ZH,texting,"Vilich gömmer am Wuchenänd id Bergä, chunnsch au?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f09,w4,ZH,careful,Min Brüeder het sich es neus Velo kauft.,Mein Bruder hat sich ein neues Velo gekauft.
+f09,w4,ZH,texting,Min Brüedsch hät en neue Göppel kauft.,Mein Bruder hat sich ein neues Velo gekauft.
+f10,w4,ZH,careful,"Sorry, han dini Nachricht erscht ez gseh.","Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f10,w4,ZH,texting,"Hey sorry, han dini Nachricht ersch eze gseh.","Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f11,w4,ZH,careful,Weisch du ob de Lade au am Sunntig offe hät?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f11,w4,ZH,texting,Weisch du ob de Lade au am Sunntig offe isch?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f12,w4,ZH,careful,D'Chind spieled dusse im Garte.,Die Kinder spielen draussen im Garten.
+f12,w4,ZH,texting,D'Chind spieled dusse im Garte.,Die Kinder spielen draussen im Garten.
+f13,w4,ZH,careful,"Ich muen na churz öppis go poste, bruchsch au no öppis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f13,w4,ZH,texting,"Ich muen na gschnell go poste, bruchsch au na öppis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f14,w4,ZH,careful,Gib mer doch Bscheid wänd acho bisch.,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f14,w4,ZH,texting,Säg mer doch churz Bscheid wend acho bisch.,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f15,w4,ZH,careful,S'Esse im Reschti isch nöd würki guet.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f15,w4,ZH,texting,S'Ässe idere Beiz isch nöd so super imfall.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f16,w4,ZH,careful,Morn setts dr ganzi Tag rägne.,Morgen soll es den ganzen Tag regnen.
+f16,w4,ZH,texting,Morn setts dr ganzi Tag schiffe.,Morgen soll es den ganzen Tag regnen.
+f17,w4,ZH,careful,Ich han überhaupt ned guet gschlafe letscht Nacht.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f17,w4,ZH,texting,Ich han so schlächt pennt letscht Nacht.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f18,w4,ZH,careful,Chunnsch nacher no verbi ufes Bier?,Kommst du nachher noch auf ein Bier vorbei?
+f18,w4,ZH,texting,Chunnsch nacher no eis go zieh?,Kommst du nachher noch auf ein Bier vorbei?
+f19,w4,ZH,careful,Mis Grosi wird nächst Wuche 80i.,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f19,w4,ZH,texting,Mis Grosi wird nächst Wuche 80i.,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f20,w4,ZH,careful,Mir händ dr Bus verpasst und hend müesse zFuess gah.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f20,w4,ZH,texting,Mir händ dr letschti Bus verpasst und händ drum müesse de rescht tschalpe.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f21,w4,ZH,careful,De Gmeindrat hät bestumme dass sie dSchuel werde Rennoviere.,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f21,w4,ZH,texting,De Gmeindrat hät bestumme dSchuel zrenoviere.,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f22,w4,ZH,careful,Im Herbscht stieged dKrankekasseprämie wieder.,Im Herbst steigen die Krankenkassenprämien erneut an.
+f22,w4,ZH,texting,Im Herbscht stieged dKrankekasseprämie wiedermal.,Im Herbst steigen die Krankenkassenprämien erneut an.
+f24,w4,ZH,careful,Ide Bergä hets die Nacht heftig gschneit.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f24,w4,ZH,texting,Ide Bergä häts die Nacht rächt Schnee anegrüert.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f26,w4,ZH,careful,Viel Lüt schaffed mindestens ein Tag vo deheime us.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f26,w4,ZH,texting,Viel Lüt schaffed mindestens ein Tag ide Wuchä im homeoffice.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f01,w8,ZH,careful,Ich chumme hüt bitz spöter Hei.,Ich komme heute etwas später nach Hause.
+f01,w8,ZH,texting,Chumm hüt chli spöter hei.,Ich komme heute etwas später nach Hause.
+f02,w8,ZH,careful,Hesch scho gesse oder söllemer zämme choche?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f02,w8,ZH,texting,Heach schon gesse oder wemmer zämme choche ?,Hast du schon gegessen oder sollen wir zusammen kochen?
+f03,w8,ZH,careful,Ich ha kei Ahnig wonni min Schlüssel hietah ha.,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f03,w8,ZH,texting,Kei ahnig wonni de Schlüssel hietah ha.,"Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."
+f04,w8,ZH,careful,"Chasch du mir bitte sege, wenn de Zug fahrt?","Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f04,w8,ZH,texting,Chasch mer bitte säge wen de Zug morn fahrt?,"Kannst du mir bitte sagen, wann der Zug morgen fährt?"
+f05,w8,ZH,careful,Mir träffed eus am 7ni vor em Bahnhof.,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f05,w8,ZH,texting,Mir treffed eus am 7i vor em Bahnhof,Wir treffen uns um sieben Uhr vor dem Bahnhof.
+f06,w8,ZH,careful,"SKozert gester isch wükli super gsie, hettisch au sölle cho.","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f06,w8,ZH,texting,"Dkinonzert gester isch super gsie, hetsch au sölle cho","Das Konzert gestern war wirklich super, du hättest mitkommen sollen."
+f07,w8,ZH,careful,"Ich glaub ich bi chrank, ich blibe hüt lieber im Bett.","Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f07,w8,ZH,texting,Ich glaub ich bi chrank. Ich blib hüt im bett.,"Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."
+f08,w8,ZH,careful,"Viellicht gömmer am wuchenend it Berge, chunsch au mit?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f08,w8,ZH,texting,"Villicht gömmer am wuchenänt it Berge, chunsch au?","Vielleicht gehen wir am Wochenende in die Berge, kommst du mit?"
+f09,w8,ZH,careful,Min Brüeder het sich es neus Velo kauft.,Mein Bruder hat sich ein neues Velo gekauft.
+f09,w8,ZH,texting,Min brüeder het sich es neus velo kauft,Mein Bruder hat sich ein neues Velo gekauft.
+f10,w8,ZH,careful,"Es tuet mer Leid, ich ha dini Nachricht erst jetzt gseh.","Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f10,w8,ZH,texting,Tut mer leid ich ha dini nachricht erst jetzt gseh,"Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."
+f11,w8,ZH,careful,Weisch du ob de Lade am Sunntig offe het?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f11,w8,ZH,texting,Weisch ob de laade an sunntig offe het?,"Weisst du, ob der Laden am Sonntag offen hat?"
+f12,w8,ZH,careful,DChind spieled dusse im Garte.,Die Kinder spielen draussen im Garten.
+f12,w8,ZH,texting,Dchind spieled dusse im garte,Die Kinder spielen draussen im Garten.
+f13,w8,ZH,careful,"Ich muss no churz go poste, bruchsch au no öppis?","Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f13,w8,ZH,texting,Ich muss no churz go ihchaufe. Bruchsch no öppis?,"Ich muss noch schnell einkaufen gehen, brauchst du etwas?"
+f14,w8,ZH,careful,Gib mer eifach Bscheid wennt acho bisch.,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f14,w8,ZH,texting,Gisch Bscheid wennt acho bisch,"Sag mir einfach Bescheid, wenn du angekommen bist."
+f15,w8,ZH,careful,SEsse i dem Restaurant isch nöd bsundrigs guet.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f15,w8,ZH,texting,SEsse i dem Restaurant isch nöd busundrig guet.,Das Essen in diesem Restaurant ist nicht besonders gut.
+f16,w8,ZH,careful,Morn sötts de ganz Tag regne.,Morgen soll es den ganzen Tag regnen.
+f16,w8,ZH,texting,Morn sötts de ganz Tag regne.,Morgen soll es den ganzen Tag regnen.
+f17,w8,ZH,careful,Ich han gar nöd guet gschlafe.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f17,w8,ZH,texting,Ich han gar nöd guet gachlate lesti nacht.,Ich habe überhaupt nicht gut geschlafen letzte Nacht.
+f18,w8,ZH,careful,Chunsch nacher no uf es Bier verbie?,Kommst du nachher noch auf ein Bier vorbei?
+f18,w8,ZH,texting,Chunsch nacher no uf es bier?,Kommst du nachher noch auf ein Bier vorbei?
+f19,w8,ZH,careful,Mis Grossmami wird negst Wuche 80i.,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f19,w8,ZH,texting,Mis Grosi wird negat wuche 80gi,Meine Grossmutter wird nächste Woche achtzig Jahre alt.
+f20,w8,ZH,careful,Mir händ de letzti Bus verpasst und händ müsse zFuess gah.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f20,w8,ZH,texting,Mir hend de lesti Bus verpasst und münd zFuess gah.,Wir haben den letzten Bus verpasst und mussten zu Fuss gehen.
+f21,w8,ZH,careful,De Geminrat het beachlosse dSchuel zrenoviere.,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f21,w8,ZH,texting,De gmeindrat het entschiede dschuel zrenoviere,"Der Gemeinderat hat beschlossen, die Schule zu renovieren."
+f22,w8,ZH,careful,Im Herbst stieged dKrankekasseprämi wieder.,Im Herbst steigen die Krankenkassenprämien erneut an.
+f22,w8,ZH,texting,Dkrakekasseprämie stieged im herbst wieder,Im Herbst steigen die Krankenkassenprämien erneut an.
+f24,w8,ZH,careful,I de Alpe isch i de Nacht viel Schnee kheit.,In den Alpen ist in der Nacht viel Schnee gefallen.
+f24,w8,ZH,texting,I de alpe isch i de nacht viel schnee keiht,In den Alpen ist in der Nacht viel Schnee gefallen.
+f26,w8,ZH,careful,Viel Lüt schaffed mindestens en Tag pro Wuche vo Dihei.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
+f26,w8,ZH,texting,Viil lüt schaffed hüt mindestens ei. Tag vo dihei us.,Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus.
