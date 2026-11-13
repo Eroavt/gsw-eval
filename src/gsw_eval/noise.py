@@ -126,3 +126,48 @@ def changed_words(originals: Sequence[str], rewritten: Sequence[str]) -> float:
         changed += len(before) - kept
         total += len(before)
     return changed / total if total else 0.0
+
+
+_SENTENCE_END = re.compile(r"[.!?]\s*$")
+
+
+def change_kinds(originals: Sequence[str], rewritten: Sequence[str]) -> dict[str, float]:
+    """What kind of change a rewrite makes, to compare real chat with the texting rules.
+
+    - lowercased: share of sentences starting with a capital that the rewrite starts lower case
+    - end_dropped: share of sentences ending in . ! or ? that lose it
+    - respelled: changes per original word where a word is spelled differently but stays
+      recognisable (character similarity of at least 0.5, e.g. "Chinder" -> "kinder")
+    - reworded: changes per original word where words are replaced, dropped, added, merged or
+      split (e.g. "isch es" -> "ischs", a dropped "ich")
+    """
+    capital = lowered = ended = dropped = respelled = reworded = total = 0
+    for original, new in zip(originals, rewritten):
+        if original[:1].isupper():
+            capital += 1
+            lowered += new[:1].islower()
+        if _SENTENCE_END.search(original):
+            ended += 1
+            dropped += not _SENTENCE_END.search(new)
+        before = _WORD.findall(original.lower())
+        after = _WORD.findall(new.lower())
+        total += len(before)
+        matcher = difflib.SequenceMatcher(a=before, b=after, autojunk=False)
+        for op, i1, i2, j1, j2 in matcher.get_opcodes():
+            if op == "equal":
+                continue
+            old, now = before[i1:i2], after[j1:j2]
+            if op == "replace" and len(old) == len(now):
+                for a, b in zip(old, now):
+                    if difflib.SequenceMatcher(a=a, b=b).ratio() >= 0.5:
+                        respelled += 1
+                    else:
+                        reworded += 1
+            else:
+                reworded += max(len(old), len(now))
+    return {
+        "lowercased": lowered / capital if capital else 0.0,
+        "end_dropped": dropped / ended if ended else 0.0,
+        "respelled": respelled / total if total else 0.0,
+        "reworded": reworded / total if total else 0.0,
+    }

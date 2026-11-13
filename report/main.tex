@@ -35,15 +35,13 @@ writer spells it their own way. Large language models (LLMs) understand it worse
 German and need more tokens for it. We ask how much of this cost comes from the dialect and how
 much from chat-style spelling. We build \textsc{gsw-eval}, an open, reproducible benchmark that
 feeds the same 500 sentences to a model as Standard German, as careful Swiss German in eight
-dialects, and with simulated chat spelling and character noise. On SwissDial, the step to careful
-Swiss German costs the 8B models 20 to 24 chrF points and Claude Sonnet~5.5 only 8.6, while simulated
-chat spelling adds 1 to 5 points. That simulation is mild, though: it changes only 6.5\% of the
-words, and damaging half of all words costs Claude 9.2 points, as much as the dialect. The Swiss-focused Apertus scores 6.4 points above Llama~3.1 at
-equal size, and the three times larger Gemma~3 27B only 1.1 above Apertus; Claude is 11.5 points
-ahead of Apertus on dialect input, while the two tie on Standard German. A small dialect cost can
-also mislead, because Gemma rewrites even Standard German. Open LLM tokenizers need 16 to 30\%
-more tokens for Swiss German. Real chat spelling from \FreshWriters{} native writers costs Claude only
-\ClaudeRealCost{} points, and human raters rank the models as chrF does.
+dialects, and with simulated chat spelling and character noise, and we collect a fresh set of real
+chat from \FreshWriters{} native writers. The step to careful Swiss German costs 8B models 20 to 24
+chrF points and Claude Sonnet~5.5 only 8.6; simulated chat spelling adds 1 to 5. Real chat is
+different in kind: writers keep most letters but change \FreshChatChanged{} of the words, which
+costs Claude \ClaudeRealCost{} points, no more than random noise of the same size. The Swiss-focused
+Apertus beats Llama~3.1 at equal size by 6.4 points. Open LLM tokenizers need 16 to 30\% more tokens
+for Swiss German, and human raters rank the models as chrF does.
 \end{abstract}
 
 \section{Introduction}
@@ -135,7 +133,7 @@ were trained, so it cannot be in their training data. It is released with the co
 (2)~\emph{clean}: the SwissDial transcription;
 (3)~\emph{texting}: the clean text rewritten by 23 texting rules (lower case, dropped
 punctuation, collapsed double vowels, short forms such as \emph{vlt} for \emph{vilicht}),
-each firing with a probability, \todo{Simone: confirm the rules are realistic}; and
+each firing with a probability (Section~\ref{sec:results} compares them with real chat); and
 (4)~\emph{character noise}: 10\% of words get one random letter insertion, deletion or
 substitution, following \citet{aepli2022noise}. All noise is seeded per sentence. The texting rules
 are mild: ignoring case and punctuation they change 6.5\% of words, and 57\% of inputs not at all.
@@ -185,6 +183,7 @@ a reference, so they judged meaning, not word overlap, and for scores of 3 or lo
 went wrong. Rater pairs vary, so we report Krippendorff's $\alpha$ \citep{krippendorff2011alpha}.
 
 \section{Results}
+\label{sec:results}
 
 \begin{table*}[t]
 \centering
@@ -203,22 +202,19 @@ noise 2.9, 3.0 and 1.4. All models stay far above the identity baseline (46.9), 
 rather than copy. Much of the texting loss is case and punctuation, which chrF counts: the identity
 baseline loses 6.8 points to texting, but only 0.6 once both are ignored.
 
-\begin{table}[t]
+\begin{figure}[t]
 \centering
-\small
-\setlength{\tabcolsep}{3pt}
-\input{../results/tables/dose.tex}
-\caption{Stress test on the first 100 test sentences: chrF lost compared with careful spelling.
-Words changed ignores case and punctuation.}
-\label{tab:dose}
-\end{table}
+\includegraphics[width=\columnwidth]{../results/figures/dose.pdf}
+\caption{chrF lost compared with careful spelling, against the share of words changed (case and
+punctuation ignored). Lines: random character noise on the first 100 test sentences. Open marks:
+our texting rules. Stars: the writers' own chat versions in the fresh set, with 95\% intervals.}
+\label{fig:dose}
+\end{figure}
 
-\textbf{Stronger spelling damage does cost quality.} Table~\ref{tab:dose} raises the noise for
-Claude. The loss grows faster than the noise: 1.6 points at 10\% of words, 4.2 at 25\%, 9.2 at 50\%,
+\textbf{Stronger spelling damage does cost quality.} Figure~\ref{fig:dose} raises the noise. For
+Claude the loss grows faster than the noise: 1.6 points at 10\% of words, 4.2 at 25\%, 9.2 at 50\%,
 where it matches the whole dialect cost, and 28.5 when every word is damaged. The small spelling cost
-is thus a result of a small dose, not proof that spelling does not matter. Random noise is not real
-texting, so the fresh set has to show where real writers fall on this curve. \todo{local models from
-the MacBook Pro run, and the dose of the fresh set.}
+of our rules is thus a result of a small dose, not proof that spelling does not matter.
 
 \begin{table}[t]
 \centering
@@ -253,12 +249,10 @@ on dialect input (Table~\ref{tab:example}).
 \textbf{Even Standard German is not copied.} No model reaches 100 on Standard German input:
 Apertus returns the sentence unchanged 64\% of the time, Claude 59\%, Llama 45\% and Gemma only
 23\%; the rest are paraphrases such as ``Jemand vermiest mir hier die Arbeit'' for ``Irgendjemand
-pfuscht mir hier ins Handwerk''. This is why the upper bound matters: part of every model's gap to
-100 is paraphrase that chrF counts as error, not misunderstanding. It also means a small dialect
-cost alone is not good news. Gemma's dialect cost (9.4) is almost as small as Claude's (8.6), but
-mainly because Gemma rewrites even Standard German (84.7 against Claude's 94.2), not because it
-reads dialect well. The upper bound also depends on the prompt: Llama falls from 91.7 to 85.1 under
-one wording. The dialect cost has to be read together with the upper bound.
+pfuscht mir hier ins Handwerk''. So a small dialect cost alone is not good news: Gemma's (9.4) is
+almost as small as Claude's (8.6) mainly because Gemma rewrites even Standard German (84.7 against
+94.2), not because it reads dialect well. The upper bound also depends on the prompt (Llama: 91.7
+to 85.1), so the dialect cost has to be read together with it.
 Raters gave these rewrites a mean of \ParaphraseRating{} and judged \ParaphraseSame{} of them
 fully equivalent (mean rating 4.5 or more), at a chrF of only \ParaphraseChrf: part of the gap to
 100 is harmless paraphrase, but not all of it.
@@ -275,12 +269,10 @@ dialect text, a measure of how close its spelling is to Standard German.}
 69.6 (AG) to 80.5 (GR) for Apertus, and the ranking is almost the same for Llama and Gemma
 (Figure~\ref{fig:dialects}). All models correlate strongly with the identity score of
 each dialect ($r = 0.93$, $0.97$ and $0.95$ for the open models, $0.79$ for Claude, range 81.0 to
-89.4): models do worst where the written form is farthest from Standard German. With only eight
-dialects these estimates are rough (Claude's 95\% interval is about 0.2 to 0.96), so we do not claim
-that Claude depends on it less.
-Since SwissDial has one writer per dialect, this mixes the dialect with the writer's personal
-spelling. On the fresh set, Claude's careful score varies from \FreshCarefulMin{} to \FreshCarefulMax{}
-between writers alone.
+89.4): models do worst where the written form is farthest from Standard German. With eight
+dialects these estimates are rough (Claude: 95\% interval about 0.2 to 0.96). SwissDial has one
+writer per dialect, and on the fresh set Claude's careful score alone varies from
+\FreshCarefulMin{} to \FreshCarefulMax{} between writers.
 
 \begin{table}[t]
 \centering
@@ -304,14 +296,13 @@ extra there, and texting spelling even saves 9\%.
 
 \textbf{A second test set shows the same order.} On Swiss German NTREX, clean input gives Claude
 59.9, Gemma 57.5, Apertus 56.6 and Llama 53.8 (neighbouring models differ with $p < 0.01$), and
-texting costs 0.4 to 2.3 points. We do not interpret its dialect cost: the Swiss and Standard German
-versions are separate translations from English, so part of the gap is wording, not dialect.
+texting costs 0.4 to 2.3 points. Its dialect cost is not comparable: both versions are separate
+translations from English.
 
 \textbf{Robustness.} Across three prompt wordings (100 test sentences), clean-dialect chrF moves
-by 0.2 points for Claude, 2.2 for Llama and 3.1 for Apertus. Apertus stays ahead of Llama under
-every wording, and the spelling cost stays between 3.1 and 5.3 points for both 8B models, far
-below their dialect cost, which itself moves between 16.5 and 21.7. Full-precision (bf16) weights change the 8-bit scores of Apertus and
-Llama by at most 0.5 points.
+by 0.2 (Claude) to 3.1 points (Apertus); Apertus stays ahead of Llama, and the spelling cost of the
+8B models (3.1 to 5.3) stays far below their dialect cost (16.5 to 21.7). Full-precision (bf16)
+weights change the 8-bit scores by at most 0.5 points.
 
 \textbf{People rank the models like chrF does.} \Raters{} raters gave \RatingsN{} ratings. Their
 agreement is moderate (Krippendorff's $\alpha = \RatingAlpha$). Mean ratings follow the chrF order:
@@ -330,37 +321,41 @@ chrF lost to the writers' own chat spelling (real) or to our rules (simulated), 
 \label{tab:fresh}
 \end{table}
 
-\textbf{Real chat spelling costs Claude little.} The writers' chat versions change
-\FreshChatChanged{} of the words of their careful versions, against \FreshRulesChanged{} for our
-rules. Yet Claude loses only \ClaudeRealCost{} chrF points (Table~\ref{tab:fresh}):
-\ClaudeRealVerdict{} (per writer \FreshWriterCostMin{} to \FreshWriterCostMax). Random noise in 25\% of the words costs Claude
-4.2 points (Table~\ref{tab:dose}), so real chat spelling hurts less than random damage of
-the same size: it is systematic, and the model reads it. With \FreshWriters{} writers this is an
-estimate, not a proof.
+\textbf{Real chat differs from our rules in kind, and costs little.} The writers' chat versions
+change \FreshChatChanged{} of the words of their careful versions, against \FreshRulesChanged{} for
+our rules, and the change is of another kind. Our rules lower-case \RulesLowered{} of sentences and
+drop \RulesEndDropped{} of final full stops; the writers did so in \ChatLowered{} and
+\ChatEndDropped{} (phones capitalise automatically). Per 100 words, the writers respelled
+\ChatRespelled{} and reworded \ChatReworded{} (replaced, dropped, added or merged words, such as
+\emph{isch es} $\to$ \emph{ischs}), against \RulesRespelled{} and \RulesReworded{} for our rules.
+Yet Claude loses only \ClaudeRealCost{} chrF points (Table~\ref{tab:fresh}): \ClaudeRealVerdict{}
+(per writer \FreshWriterCostMin{} to \FreshWriterCostMax). On the noise curve
+(Figure~\ref{fig:dose}), real chat changes as many words as noise in a quarter of all words but costs
+no more. With \FreshWriters{} writers this is an estimate, not a proof.
 
 \section{Discussion and Limitations}
 
-\todo{Kelvin + Erik: write after all results are in. Points to cover:}
-(1)~SwissDial transcriptions are free translations by one writer per dialect, so dialect and
-writer are confounded; the fresh set addresses this only for \FreshWriters{} writers.
-(2)~The texting rules are mild and hand-written; real texting is richer (abbreviations, emoji,
-code-switching). The stress test shows that the spelling result depends on this dose.
-(3)~chrF punishes valid paraphrases; the human ratings estimate how much.
-(4)~We test one prompt per model in the main run and 8-bit weights; the robustness checks cover
-both on a subset.
-(5)~SwissDial has been public since 2021 and may be in the models' training data; the fresh set
-cannot be.
-(6)~A small dialect cost can come from a weak upper bound: a model that paraphrases Standard
-German (Gemma) looks robust to dialect. The cost must be read with the upper bound and copy rate.
-(7)~Comparing models is not an ablation: we cannot attribute Apertus's lead to its Swiss data.
+\textbf{Writer, not only dialect.} SwissDial has one writer per dialect, so dialect and personal
+spelling are confounded. In the fresh set, scores vary between writers as much as between dialects,
+and the chat cost per writer reaches \FreshWriterCostMax{} points: one number per dialect hides
+this spread.
+
+\textbf{Simulated spelling is the wrong kind of noise.} Rules and character noise, here and in
+earlier robustness work, perturb letters; real writers change words. Synthetic texting thus measures
+a different robustness than the one users need. Part of the rewording is free translation, since
+both versions were written separately. \todo{Simone: 2--3 sentences in your own words:
+which of our rules match how you chat, and what real chat does that they miss.}
+
+\textbf{Scope.} chrF ranks models as people do but is a weak judge of single sentences and counts
+paraphrase as error. The main run uses one prompt and 8-bit weights per model (checked on a subset).
+SwissDial may be in the training data; the fresh set cannot be, but it is small (\FreshWriters{}
+writers, \FreshNCantons{} cantons). Comparing models is not an ablation: Apertus's lead need not
+come from its Swiss data.
 
 \section{Conclusion}
-What does Swiss German cost a language model? Mostly the step from Standard German to the careful
-written dialect. It costs 8B models 20 to 24 chrF points, and open LLM tokenizers 16 to 30\% more
-tokens. Simulated chat spelling adds only 1 to 5 points, but it is a mild test, and stronger spelling
-damage costs more. A Swiss-focused 8B model nearly matches a model three times its size, and a
-frontier model cuts the dialect cost to 8.6. The dialect cost should always be read with the upper
-bound. Real chat spelling, though far heavier, costs Claude little.
+What does Swiss German cost a language model? Mostly the step to the written dialect: 20 to 24
+chrF points for 8B models, 8.6 for Claude, and 16 to 30\% more tokens. Real chat changes words, not
+letters, and costs Claude little; simulated noise is a poor stand-in for it.
 
 \section*{Code and Data}
 Code, outputs of every model, and the fresh set: \url{https://github.com/Eroavt/gsw-eval}.

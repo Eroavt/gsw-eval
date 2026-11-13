@@ -42,6 +42,20 @@
   "texting": 0.24497991967871485,
   "synthetic": 0.05622489959839357
  },
+ "change_kinds": {
+  "texting": {
+   "lowercased": 0.0,
+   "end_dropped": 0.2647058823529412,
+   "respelled": 0.08634538152610442,
+   "reworded": 0.20582329317269077
+  },
+  "synthetic": {
+   "lowercased": 0.84375,
+   "end_dropped": 0.7745098039215687,
+   "respelled": 0.0321285140562249,
+   "reworded": 0.024096385542168676
+  }
+ },
  "per_writer": {
   "w1": {
    "dialect": "ZH",

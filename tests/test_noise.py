@@ -2,7 +2,14 @@ from pathlib import Path
 
 import pytest
 
-from gsw_eval.noise import Rule, changed_words, character_noise, load_rules, texting_style
+from gsw_eval.noise import (
+    Rule,
+    change_kinds,
+    changed_words,
+    character_noise,
+    load_rules,
+    texting_style,
+)
 
 RULES_FILE = Path(__file__).parent.parent / "rules" / "texting_v0.tsv"
 SENTENCE = "Zur Ziit isch er in «Parasite», em Siegerfilm vo Cannes, z'gseh."
@@ -65,3 +72,21 @@ def test_changed_words_ignores_case_and_punctuation() -> None:
     assert changed_words(["Ich gehe, heim."], ["ich gehe heim"]) == 0.0
     assert changed_words(["ich gehe heim"], ["ich geh heim"]) == pytest.approx(1 / 3)
     assert changed_words([""], [""]) == 0.0
+
+
+def test_change_kinds_separates_surface_spelling_and_words() -> None:
+    kinds = change_kinds(
+        ["Ich chume hüt spöter.", "Isch es guet?"],
+        ["ich chumme hüt spöter", "Ischs guet?"],
+    )
+    assert kinds["lowercased"] == pytest.approx(1 / 2)
+    assert kinds["end_dropped"] == pytest.approx(1 / 2)
+    # 7 original words: "chume" -> "chumme" is respelled; "isch es" -> "ischs" rewords 2.
+    assert kinds["respelled"] == pytest.approx(1 / 7)
+    assert kinds["reworded"] == pytest.approx(2 / 7)
+    assert change_kinds([""], [""]) == {
+        "lowercased": 0.0,
+        "end_dropped": 0.0,
+        "respelled": 0.0,
+        "reworded": 0.0,
+    }

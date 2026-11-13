@@ -356,6 +356,91 @@ def dose_latex(rows: list[dict[str, Any]]) -> str:
     return "\n".join(lines) + "\n"
 
 
+MODEL_STYLE = {  # same colour and marker per model as in the dialect figure
+    "apertus-8b": (SERIES[0], "o"),
+    "llama-3.1-8b": (SERIES[1], "s"),
+    "gemma-3-27b": (SERIES[2], "^"),
+    "claude-sonnet-5.5": (SERIES[3], "D"),
+}
+
+
+def dose_figure(results: Path, out: Path) -> list[Path]:
+    """chrF lost against the share of words changed: random noise as a curve per model, and the
+    texting rules (open) and real chat (filled, 95% interval) as single points."""
+    rows = dose_rows(results)
+    noise = [r for r in rows if r["label"].startswith("Noise")]
+    if not noise:
+        return []
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fresh = {
+        r["meta"]["model"]: r
+        for r in _load(list((results / "fresh").glob("*.json")))
+        if "costs" in r and r["meta"]["model"] in MODEL_STYLE
+    }
+    rules = next((r for r in rows if r["label"].startswith("Simulated")), None)
+    fig, ax = plt.subplots(figsize=(3.1, 2.5))
+    for model, (color, marker) in MODEL_STYLE.items():
+        points = [(0.0, 0.0)] + [
+            (100 * r["words_changed"], r["loss"][model]) for r in noise if model in r["loss"]
+        ]
+        if len(points) < 2:
+            continue
+        label = MODEL_LABEL[model].split()[0]
+        ax.plot(
+            *zip(*points),
+            color=color,
+            linewidth=1.2,
+            marker=marker,
+            markersize=3.5,
+            label=label,
+            zorder=2,
+        )
+        if rules and model in rules["loss"]:
+            ax.scatter(
+                100 * rules["words_changed"],
+                rules["loss"][model],
+                s=34,
+                marker=marker,
+                facecolor="white",
+                edgecolor=color,
+                linewidth=1.2,
+                zorder=3,
+            )
+        if model in fresh:
+            run = fresh[model]
+            cost = run["costs"]["real_spelling_cost"]
+            ax.errorbar(
+                100 * run["words_changed"]["texting"],
+                cost["value"],
+                yerr=[[cost["value"] - cost["low"]], [cost["high"] - cost["value"]]],
+                fmt="*",
+                markersize=11,
+                color=color,
+                markeredgecolor="white",
+                markeredgewidth=0.5,
+                elinewidth=1,
+                capsize=2,
+                zorder=4,
+            )
+    ax.plot([], [], color=MUTED, linewidth=1.2, label="random noise")
+    ax.scatter([], [], s=34, marker="o", facecolor="white", edgecolor=MUTED, label="our rules")
+    ax.scatter([], [], s=90, marker="*", color=MUTED, label="real chat (95% CI)")
+    ax.set_xlabel("words changed (%)", fontsize=8, color=INK)
+    ax.set_ylabel("chrF lost vs. careful spelling", fontsize=8, color=INK)
+    ax.set_xlim(0, 102)
+    ax.set_ylim(bottom=min(0, ax.get_ylim()[0]))
+    ax.tick_params(labelsize=7)
+    _style(ax)
+    ax.grid(axis="x", color=GRID, linewidth=0.8)
+    ax.legend(frameon=False, fontsize=6.5, loc="upper left", handletextpad=0.3, labelspacing=0.3)
+    fig.tight_layout()
+    return _save(fig, out)
+
+
 def _num(x: float) -> str:
     return f"{x:.1f}".replace("-", "$-$")
 
@@ -415,6 +500,13 @@ def human_macros(results: Path) -> str | None:
         macros["FreshWriterCostMax"] = _num(max(costs))
         macros["FreshCarefulMin"] = f"{min(w['careful'] for w in writers):.1f}"
         macros["FreshCarefulMax"] = f"{max(w['careful'] for w in writers):.1f}"
+        for source, prefix in (("texting", "Chat"), ("synthetic", "Rules")):
+            kinds = run.get("change_kinds", {}).get(source)
+            if kinds:
+                macros[f"{prefix}Lowered"] = f"{100 * kinds['lowercased']:.0f}\\%"
+                macros[f"{prefix}EndDropped"] = f"{100 * kinds['end_dropped']:.0f}\\%"
+                macros[f"{prefix}Respelled"] = f"{100 * kinds['respelled']:.0f}"
+                macros[f"{prefix}Reworded"] = f"{100 * kinds['reworded']:.0f}"
     ratings = results / "ratings" / "ratings_v2.json"
     if ratings.exists():
         r = json.loads(ratings.read_text(encoding="utf-8"))
@@ -575,6 +667,7 @@ def build_report(results: Path) -> list[Path]:
     if dose:
         (tables / "dose.tex").write_text(dose_latex(dose), encoding="utf-8")
         written.append(tables / "dose.tex")
+        written += dose_figure(results, results / "figures" / "dose")
     fresh = fresh_latex(results)
     if fresh:
         (tables / "fresh.tex").write_text(fresh, encoding="utf-8")
