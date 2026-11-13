@@ -82,7 +82,11 @@ def test_results_page_helpers_use_the_data() -> None:
         scores = {"de_input": german, "clean": clean, "texting": texting}
         return {"model": name, "scores": {k: {"value": v} for k, v in scores.items()}}
 
-    models = [model("a", 91.5, 67.7, 62.7), model("b", 94.2, 85.6, 84.5), model("c", 90.0, 80.0, 81.0)]
+    models = [
+        model("a", 91.5, 67.7, 62.7),
+        model("b", 94.2, 85.6, 84.5),
+        model("c", 90.0, 80.0, 81.0),
+    ]
     script = (
         "import {colorOf, costBars, range} from './site/js/models.js';"
         f"const chart = costBars({json.dumps(models)});"
