@@ -161,7 +161,8 @@ All models receive the same German prompt asking for the Standard German sentenc
 the input Swiss German even when it is Standard German, which may invite rewriting.
 
 \textbf{Metric and statistics.} We score with chrF \citep{popovic2015chrf} as implemented in
-sacreBLEU \citep{post2018sacrebleu} (\texttt{nrefs:2|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0});
+sacreBLEU \citep{post2018sacrebleu};\footnote{Signature: \texttt{\footnotesize nrefs:2|case:mixed|eff:yes|nc:6|}
+\texttt{\footnotesize nw:0|space:no|version:2.6.0}.}
 character n-grams suit a task where most errors are partial word forms. All intervals are 95\%
 bootstrap intervals \citep{koehn2004significance} that resample whole sentences with all their
 dialects, because the eight versions of a sentence are not independent. Model differences use the
