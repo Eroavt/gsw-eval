@@ -1,92 +1,76 @@
-// The cost chart: one row per model, from Standard German over careful to chat-style spelling.
+// The cost chart: one bar per model on a shared chrF axis, read from left to right: the score on
+// chat-style spelling, the spelling cost (light), the dialect cost (solid), the score on Standard
+// German input. Both end scores are written next to the bar.
+// Plain HTML, so it reflows on a phone without redrawing.
 
-const NS = "http://www.w3.org/2000/svg";
+import { el } from "./format.js";
+import { colorOf, costBars } from "./models.js";
 
-function svg(tag, attrs, text) {
-  const node = document.createElementNS(NS, tag);
-  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
-  if (text !== undefined) node.textContent = text;
-  return node;
-}
+const points = (x) => `−${Math.abs(x).toFixed(1)}`;
 
-function draw(container, rows, tip) {
-  const width = container.clientWidth;
-  const narrow = width < 560;
-  const left = narrow ? 44 : 150;
-  const right = 16;
-  const rowHeight = narrow ? 76 : 62;
-  const top = 8;
-  const axis = 30;
-  const height = top + rows.length * rowHeight + axis;
-  const low = Math.floor(Math.min(...rows.map((r) => r.scores.texting.value)) / 10) * 10 - 10;
-  const x = (v) => left + ((v - low) / (100 - low)) * (width - left - right);
+export function costChart(container, models, tip) {
+  const hide = () => (tip.hidden = true);
+  const place = (x, y) => {
+    const room = window.innerWidth - tip.offsetWidth - 8;
+    tip.style.left = `${Math.max(8, Math.min(x, room))}px`;
+    tip.style.top = `${y}px`;
+  };
+  const { ticks, rows } = costBars(models);
+  const grid = `--step: ${ticks.length > 1 ? ticks[1].at - ticks[0].at : 100}%`;
 
-  const root = svg("svg", {
-    viewBox: `0 0 ${width} ${height}`,
-    role: "img",
-    "aria-label": "Dialect and spelling cost per model. The numbers are in the leaderboard table.",
-  });
-  const ticks = svg("g", { class: "axis" });
-  for (let v = low; v <= 100; v += 10) {
-    ticks.append(
-      svg("line", { class: "grid", x1: x(v), x2: x(v), y1: top, y2: height - axis }),
-      svg("text", { x: x(v), y: height - 8, "text-anchor": "middle" }, v),
-    );
-  }
-  ticks.append(svg("text", { x: 0, y: height - 8 }, "chrF"));
-  root.append(ticks);
-
-  rows.forEach((row, i) => {
-    const y = top + i * rowHeight + rowHeight - (narrow ? 22 : 20);
-    const { de_input: de, clean, texting } = row.scores;
-    const group = svg("g", {});
-    group.append(
-      svg("rect", { x: 0, y: y - rowHeight + 20, width, height: rowHeight, fill: "transparent" }),
-      svg("text", { class: "row-name", x: narrow ? x(low) : 0, y: narrow ? y - 30 : y + 5 }, row.label),
-      svg("line", {
-        x1: x(clean.value), x2: x(de.value), y1: y, y2: y,
-        stroke: "var(--dialect)", "stroke-width": 6, "stroke-linecap": "round",
-      }),
-      svg("line", {
-        x1: x(texting.value), x2: x(clean.value), y1: y, y2: y,
-        stroke: "var(--spelling)", "stroke-width": 6, "stroke-linecap": "round",
-      }),
-    );
-    for (const [value, color] of [
-      [de.value, "var(--dialect)"],
-      [clean.value, "var(--dialect)"],
-      [texting.value, "var(--spelling)"],
-    ]) {
-      group.append(svg("circle", { class: "dot", cx: x(value), cy: y, r: 6, fill: color }));
-    }
-    group.append(
-      svg("text", {
-        x: (x(clean.value) + x(de.value)) / 2, y: y - 12, "text-anchor": "middle",
-      }, `−${row.dialect_cost.value.toFixed(1)}`),
-      svg("text", {
-        x: x(texting.value) - 12, y: y + 5, "text-anchor": "end",
-      }, `−${row.spelling_cost.value.toFixed(1)}`),
-    );
-    group.addEventListener("pointermove", (event) => {
+  const lines = rows.map(({ model, start, spelling, dialect }) => {
+    const { de_input: german, clean, texting } = model.scores;
+    const detail =
+      `${model.label}: Standard German ${german.value.toFixed(1)}, ` +
+      `careful ${clean.value.toFixed(1)}, chat-style ${texting.value.toFixed(1)}`;
+    const summary =
+      `${model.label} loses ${model.dialect_cost.value.toFixed(1)} points to the dialect and ` +
+      `${model.spelling_cost.value.toFixed(1)} to the spelling.`;
+    const show = () => {
+      tip.textContent = detail;
       tip.hidden = false;
-      tip.textContent =
-        `${row.label}: Standard German ${de.value.toFixed(1)}, ` +
-        `careful ${clean.value.toFixed(1)}, chat-style ${texting.value.toFixed(1)}`;
-      const room = window.innerWidth - tip.offsetWidth - 8;
-      tip.style.left = `${Math.max(8, Math.min(event.clientX + 12, room))}px`;
-      tip.style.top = `${event.clientY + 14}px`;
+    };
+    const row = el(
+      "div",
+      { class: "cost-row", style: `--c: ${colorOf(model.model)}`, tabindex: "0", role: "img", "aria-label": `${summary} ${detail}.` },
+      el("div", { class: "cost-name" }, el("span", { class: "dot" }), model.label),
+      el(
+        "div",
+        { class: "cost-track", style: grid },
+        el("span", { class: "end from", style: `right: ${100 - start}%`, text: Math.min(texting.value, clean.value).toFixed(1) }),
+        el("span", { class: "spelling", style: `left: ${start}%; width: ${spelling}%` }),
+        el("span", { class: "dialect", style: `left: ${start + spelling}%; width: ${dialect}%` }),
+        el("span", { class: "end to", style: `left: ${start + spelling + dialect}%`, text: german.value.toFixed(1) }),
+      ),
+      el(
+        "div",
+        { class: "cost-values" },
+        "Dialect ",
+        el("b", { text: points(model.dialect_cost.value) }),
+        " · Spelling ",
+        el("b", { text: points(model.spelling_cost.value) }),
+      ),
+    );
+    row.addEventListener("pointermove", (event) => {
+      show();
+      place(event.clientX + 12, event.clientY + 16);
     });
-    group.addEventListener("pointerleave", () => (tip.hidden = true));
-    root.append(group);
+    row.addEventListener("pointerleave", hide);
+    row.addEventListener("focus", () => {
+      show();
+      const box = row.getBoundingClientRect();
+      place(box.left, box.bottom + 6);
+    });
+    row.addEventListener("blur", hide);
+    return row;
   });
-  container.replaceChildren(root);
-}
 
-export function costChart(container, rows, tip) {
-  let lastWidth = 0;
-  new ResizeObserver(() => {
-    if (container.clientWidth === lastWidth) return;
-    lastWidth = container.clientWidth;
-    draw(container, rows, tip);
-  }).observe(container);
+  const axis = el(
+    "div",
+    { class: "cost-row cost-axis", "aria-hidden": "true" },
+    el("div", { class: "cost-name", text: "chrF" }),
+    el("div", { class: "cost-ticks" }, ...ticks.map((t) => el("span", { style: `left: ${t.at}%`, text: t.value }))),
+    el("div"),
+  );
+  container.replaceChildren(...lines, axis);
 }
