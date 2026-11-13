@@ -1,7 +1,14 @@
 import json
 from pathlib import Path
 
-from gsw_eval.report import _two_lines, dose_latex, dose_rows, quality_latex
+from gsw_eval.report import (
+    _two_lines,
+    dose_latex,
+    dose_rows,
+    fresh_latex,
+    human_macros,
+    quality_latex,
+)
 
 
 def _run(model: str) -> dict:
@@ -50,3 +57,34 @@ def test_dose_rows_and_table(tmp_path: Path) -> None:
     table = dose_latex(rows)
     assert "Noise in 50\\% of words & 50\\% & 10.0" in table
     assert dose_rows(tmp_path / "elsewhere") == []
+
+
+def test_fresh_table_and_macros_follow_the_results(tmp_path: Path) -> None:
+    est = lambda v: {"value": v, "low": v - 2, "high": v + 2}
+    fresh = {
+        "meta": {"model": "claude-sonnet-5.5"},
+        "scores": {"careful": est(84.0), "texting": est(82.5)},
+        "costs": {"real_spelling_cost": est(1.5), "synthetic_spelling_cost": est(-0.5)},
+        "words_changed": {"texting": 0.24, "synthetic": 0.065},
+        "per_writer": {
+            "w1": {"dialect": "ZH", "careful": 80.0, "texting": 83.0},
+            "w2": {"dialect": "BE", "careful": 90.0, "texting": 88.0},
+        },
+    }
+    (tmp_path / "fresh").mkdir()
+    (tmp_path / "fresh" / "claude-sonnet-5.5.json").write_text(json.dumps(fresh))
+    (tmp_path / "fresh" / "identity.json").write_text(
+        json.dumps({**fresh, "meta": {"model": "identity"}})
+    )
+    table = fresh_latex(tmp_path)
+    assert table is not None and "Claude & 84.0 & 1.5 [$-$0.5, 3.5]" in table
+    assert "Identity" not in table
+    macros = human_macros(tmp_path)
+    assert macros is not None
+    assert "\\newcommand{\\FreshWriters}{2}" in macros
+    assert "\\newcommand{\\FreshCantons}{BE, ZH}" in macros
+    assert "\\newcommand{\\FreshWriterCostMin}{$-$3.0}" in macros
+    assert "Rating" not in macros  # no ratings yet
+    assert (
+        fresh_latex(tmp_path / "elsewhere") is None and human_macros(tmp_path / "elsewhere") is None
+    )
