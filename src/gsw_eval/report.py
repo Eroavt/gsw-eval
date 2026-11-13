@@ -77,6 +77,14 @@ def tax_table(tax: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _signed(x: float) -> str:
+    """+1.3, $-$1.3, or 0.0 (no sign on zero), for LaTeX."""
+    value = round(x, 1) + 0.0
+    if value == 0:
+        return "0.0"
+    return f"{value:+.1f}".replace("-", "$-$")
+
+
 def _two_lines(label: str, width: int = 12) -> str:
     """Break a long tick label after its first word."""
     return label.replace(" ", "\n", 1) if len(label) > width else label
@@ -276,7 +284,7 @@ def tax_latex(tax: dict[str, Any]) -> str:
             f"{de['tokens_per_word']:.2f}",
             f"{clean:.2f}",
             f"{min(per_dialect):.2f}--{max(per_dialect):.2f}",
-            f"{round(100 * (texting / clean - 1), 1) + 0.0:+.1f}\\%",
+            _signed(100 * (texting / clean - 1)) + "\\%",
         ]
         lines.append(f"{name} & " + " & ".join(cells) + " \\\\")
     lines += ["\\bottomrule", "\\end{tabular}"]
@@ -389,7 +397,7 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
         ]
         if len(points) < 2:
             continue
-        label = MODEL_LABEL[model].split()[0]
+        label = f"{MODEL_LABEL[model].split()[0]}: random noise"
         ax.plot(
             *zip(*points),
             color=color,
@@ -404,7 +412,7 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
                 100 * rules["words_changed"],
                 rules["loss"][model],
                 s=34,
-                marker=marker,
+                marker="o",
                 facecolor="white",
                 edgecolor=color,
                 linewidth=1.2,
@@ -426,7 +434,6 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
                 capsize=2,
                 zorder=4,
             )
-    ax.plot([], [], color=MUTED, linewidth=1.2, label="random noise")
     ax.scatter([], [], s=34, marker="o", facecolor="white", edgecolor=MUTED, label="our rules")
     ax.scatter([], [], s=90, marker="*", color=MUTED, label="real chat (95% CI)")
     ax.set_xlabel("words changed (%)", fontsize=8, color=INK)
@@ -490,7 +497,7 @@ def human_macros(results: Path) -> str | None:
         macros["ClaudeRealVerdict"] = (
             "the interval includes zero"
             if real["low"] <= 0 <= real["high"]
-            else "small, but clearly above zero"
+            else "small but above zero"
         )
         macros["ClaudeCareful"] = f"{run['scores']['careful']['value']:.1f}"
         macros["ClaudeTexting"] = f"{run['scores']['texting']['value']:.1f}"
@@ -518,6 +525,20 @@ def human_macros(results: Path) -> str | None:
         winner = r["pairwise_winner_agreement"]
         macros["RatingWinner"] = f"{100 * winner['rate']:.0f}\\%"
         macros["RatingWinnerN"] = f"{winner['agree']} of {winner['decided']}"
+        per_item = r.get("ratings_per_item")
+        if per_item:
+            macros["RatingsPerItem"] = (
+                str(per_item["min"])
+                if per_item["min"] == per_item["max"]
+                else f"{per_item['min']} to {per_item['max']}"
+            )
+        errors = r.get("errors", {}).get("model", {})
+        open_models = [m for m in errors if m != "claude-sonnet-5.5"]
+        flagged = sum(sum(errors[m].values()) for m in open_models)
+        if flagged:
+            misread = sum(errors[m].get("misread", 0) for m in open_models)
+            macros["OpenMisreadShare"] = f"{100 * misread / flagged:.0f}\\%"
+            macros["ClaudeFlagged"] = str(sum(errors.get("claude-sonnet-5.5", {}).values()))
         rewrites = r["rewrites_of_standard_german"]
         macros["ParaphraseRating"] = f"{rewrites['mean_rating']:.1f}"
         macros["ParaphraseSame"] = f"{100 * rewrites['same_meaning']:.0f}\\%"
@@ -598,19 +619,20 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
             color=SERIES[j],
             label=label,
             zorder=3,
+            alpha=0.85,
             edgecolor="white",
             linewidth=0.6,
         )
-        if j == 0:
-            # Labels sit left of the point where neighbours would collide.
-            offsets = {"BS": (-12, 3)}
+        if run["meta"]["model"] == "claude-sonnet-5.5":
+            # Claude's points stand apart from the rest, so the dialect names go above them.
             for d, xv, yv in zip(dialects, xs, ys):
                 ax.annotate(
                     d,
                     (xv, yv),
                     textcoords="offset points",
-                    xytext=offsets.get(d, (4, 3)),
-                    fontsize=6.5,
+                    xytext=(0, 5),
+                    ha="center",
+                    fontsize=7,
                     color=MUTED,
                 )
     ax.set_xlabel(
@@ -622,7 +644,7 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
     ax.grid(axis="x", color=GRID, linewidth=0.8)
     ax.legend(
         frameon=False,
-        fontsize=6,
+        fontsize=7,
         loc="upper center",
         bbox_to_anchor=(0.45, -0.3),
         ncol=2,
