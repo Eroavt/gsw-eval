@@ -184,8 +184,14 @@ def _save(fig: Any, out: Path) -> list[Path]:
 
     out.parent.mkdir(parents=True, exist_ok=True)
     paths = [out.with_suffix(".pdf"), out.with_suffix(".png")]
+    # No creation date or software version in the files: the same results give byte-identical
+    # figures on every Mac, so two people's runs never conflict on these binary files.
+    metadata = {
+        ".pdf": {"CreationDate": None, "Producer": None, "Creator": None},
+        ".png": {"Software": None},
+    }
     for path in paths:
-        fig.savefig(path, dpi=200, bbox_inches="tight")
+        fig.savefig(path, dpi=200, bbox_inches="tight", metadata=metadata[path.suffix])
     plt.close(fig)
     return paths
 
