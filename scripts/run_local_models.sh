@@ -22,7 +22,10 @@ step "Checks"
   || { echo "SwissDial missing: copy the swissdial folder to data/swissdial/ (see data/README.md)."; exit 1; }
 [[ -n "$(git config user.name)" && -n "$(git config user.email)" ]] \
   || { echo 'Git does not know who you are. Run: git config user.name "Your Name"; git config user.email "you@example.com"'; exit 1; }
-echo "ok: Apple Silicon, SwissDial found, Git set up"
+[[ "$(git branch --show-current)" == main ]] \
+  || { echo "Run this on main, not on a feature branch: git switch main"; exit 1; }
+git pull -q --ff-only || { echo "Could not update main (git pull). Commit or stash your changes first."; exit 1; }
+echo "ok: Apple Silicon, SwissDial found, Git set up, on the latest main"
 
 step "Python environment"
 if ! command -v uv >/dev/null; then
