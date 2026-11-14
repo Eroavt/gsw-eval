@@ -14,21 +14,48 @@ export function tabs(list) {
     }
     if (focus) button.focus();
     if (remember) {
-      const first = button === buttons[0];
-      history.replaceState(null, "", first ? location.pathname + location.search : `#${panelOf(button).id}`);
+      // The first tab needs no hash, unless the address would otherwise open another tab.
+      const bare = button === buttons[0] && fallback() === buttons[0];
+      history.replaceState(null, "", bare ? location.pathname + location.search : `#${panelOf(button).id}`);
+    }
+  }
+
+  // The tab for an address without a hash: a shared sentence link (?s=...) opens the sentences.
+  function fallback() {
+    const shared = new URLSearchParams(location.search).has("s") && document.getElementById("tab-explore");
+    return shared || buttons[0];
+  }
+
+  // The element named in the address, or null for no hash, an unknown id or a broken one.
+  function named() {
+    if (location.hash.length < 2) return null;
+    try {
+      return document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    } catch {
+      return null;
     }
   }
 
   // Opens the tab whose panel is, or contains, the element named in the address.
-  function openFromAddress() {
-    const target = location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+  // Runs on load and whenever the hash changes.
+  function openFromAddress(event) {
+    const target = named();
     const button = target && buttons.find((b) => panelOf(b).contains(target));
-    if (!button) return false;
+    if (!button) {
+      // No usable hash, for example after the Back button: show the default tab.
+      if (location.hash.length < 2) open(fallback(), { remember: false });
+      return;
+    }
     open(button, { remember: false });
     target.closest("details")?.setAttribute("open", "");
     if (target !== panelOf(button)) target.scrollIntoView();
     else window.scrollTo(0, 0);
-    return true;
+    // After a link on the page, the browser drops the focus: put it on the place the link named,
+    // so that keyboard and screen reader users continue from there.
+    if (event) {
+      if (target.tabIndex < 0) target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    }
   }
 
   buttons.forEach((button, i) => {
@@ -50,7 +77,7 @@ export function tabs(list) {
     });
   });
 
-  open(buttons[0], { remember: false });
+  open(fallback(), { remember: false });
   openFromAddress();
   window.addEventListener("hashchange", openFromAddress);
 }

@@ -47,6 +47,11 @@ export function leaderboard(summary) {
 
   function render() {
     const columns = COLUMNS.filter((c) => view.set === "test" || !c.testOnly);
+    if (!columns.some((c) => c.id === view.sort)) {
+      // The sorted column does not exist in this test set: back to the default order.
+      view.sort = columns[0].id;
+      view.ascending = false;
+    }
     const rows = summary[view.set];
     const models = rows.filter((r) => r.model !== "identity");
     const column = columns.find((c) => c.id === view.sort) ?? columns[0];
@@ -75,10 +80,13 @@ export function leaderboard(summary) {
             type: "button",
             title: c.hint,
             text: c.label,
+            "data-column": c.id,
             onclick: () => {
               view.ascending = active ? !view.ascending : c.id.endsWith("cost");
               view.sort = c.id;
               render();
+              // The table was rebuilt: give the keyboard focus back to the same column.
+              table.querySelector(`button[data-column="${c.id}"]`)?.focus();
             },
           }),
         ),
