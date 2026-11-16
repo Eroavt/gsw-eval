@@ -53,6 +53,10 @@ def test_analysis_of_identity_outputs(tmp_path: Path) -> None:
     assert result["n_sentences"] == 2  # only sentences with both styles
     assert "real_spelling_cost" in result["costs"]
     assert "synthetic_spelling_cost" in result["costs"]
+    # Identity copies the input: Standard German scores 100 and careful Swiss German far less.
+    dialect = result["costs"]["dialect_cost"]
+    assert 0 < dialect["value"] < 100
+    assert dialect["low"] <= dialect["value"] <= dialect["high"]
     assert result["per_writer"]["w1"]["dialect"] == "ZH"
     assert set(result["words_changed"]) == {"texting", "synthetic"}
     assert 0 <= result["words_changed"]["texting"] <= 1

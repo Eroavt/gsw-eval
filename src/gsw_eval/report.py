@@ -215,7 +215,8 @@ MODEL_LABEL = {
 
 def _tex_est(est: dict[str, float], digits: int = 1) -> str:
     half = (est["high"] - est["low"]) / 2
-    return f"{est['value']:.{digits}f}\\,{{\\scriptsize$\\pm${half:.{digits}f}}}"
+    value = f"{est['value']:.{digits}f}".replace("-", "$-$")
+    return f"{value}\\,{{\\scriptsize$\\pm${half:.{digits}f}}}"
 
 
 def quality_latex(runs: list[dict[str, Any]], compact: bool = False) -> str:
@@ -439,7 +440,7 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
     ax.scatter([], [], s=34, marker="o", facecolor="white", edgecolor=MUTED, label="our rules")
     ax.scatter([], [], s=90, marker="*", color=MUTED, label="real chat (95% CI)")
     ax.set_xlabel("words changed (%)", fontsize=8, color=INK)
-    ax.set_ylabel("chrF lost vs. careful spelling", fontsize=8, color=INK)
+    ax.set_ylabel("chrF lost", fontsize=8, color=INK)
     ax.set_xlim(0, 102)
     ax.set_ylim(bottom=min(0, ax.get_ylim()[0]))
     ax.tick_params(labelsize=7)
@@ -467,12 +468,17 @@ def fresh_latex(results: Path) -> str | None:
     }
     if not runs:
         return None
-    lines = ["\\begin{tabular}{lrrr}", "\\toprule"]
-    lines += ["Model & Careful & Real chat cost & Simulated cost \\\\", "\\midrule"]
+    lines = ["\\begin{tabular}{lrrrr}", "\\toprule"]
+    lines += ["Model & Careful & Dialect cost & Real chat cost & Our rules \\\\", "\\midrule"]
     for m in (m for m in MODEL_LABEL if m in runs):
         r = runs[m]
-        cells = [MODEL_LABEL[m].split()[0], f"{r['scores']['careful']['value']:.1f}"]
-        cells += [_ci(r["costs"]["real_spelling_cost"]), _ci(r["costs"]["synthetic_spelling_cost"])]
+        cells = [MODEL_LABEL[m].split()[0], _tex_est(r["scores"]["careful"])]
+        dialect = r["costs"].get("dialect_cost")
+        cells.append(_tex_est(dialect) if dialect else "--")
+        cells += [
+            _tex_est(r["costs"]["real_spelling_cost"]),
+            _tex_est(r["costs"]["synthetic_spelling_cost"]),
+        ]
         lines.append(" & ".join(cells) + " \\\\")
     lines += ["\\bottomrule", "\\end{tabular}"]
     return "\n".join(lines) + "\n"
@@ -516,6 +522,28 @@ def human_macros(results: Path) -> str | None:
                 macros[f"{prefix}EndDropped"] = f"{100 * kinds['end_dropped']:.0f}\\%"
                 macros[f"{prefix}Respelled"] = f"{100 * kinds['respelled']:.0f}"
                 macros[f"{prefix}Reworded"] = f"{100 * kinds['reworded']:.0f}"
+    runs = [
+        json.loads(f.read_text(encoding="utf-8"))
+        for f in sorted((results / "fresh").glob("*.json"))
+        if f.stem in MODEL_LABEL and f.stem != "identity"
+    ]
+    runs = [r for r in runs if "dialect_cost" in r.get("costs", {})]
+    if runs:
+        real = [r["costs"]["real_spelling_cost"]["value"] for r in runs]
+        macros["FreshRealMin"] = f"{min(real):.1f}"
+        macros["FreshRealMax"] = f"{max(real):.1f}"
+        open_dialect = [
+            r["costs"]["dialect_cost"]["value"]
+            for r in runs
+            if r["meta"]["model"] != "claude-sonnet-5.5"
+        ]
+        if open_dialect:
+            macros["FreshDialectOpenMin"] = f"{min(open_dialect):.1f}"
+            macros["FreshDialectOpenMax"] = f"{max(open_dialect):.1f}"
+        claude = next((r for r in runs if r["meta"]["model"] == "claude-sonnet-5.5"), None)
+        if claude:
+            macros["ClaudeFreshDialect"] = _ci(claude["costs"]["dialect_cost"])
+            macros["ClaudeFreshDE"] = _ci(claude["scores"]["de_input"])
     ratings = results / "ratings" / "ratings_v2.json"
     if ratings.exists():
         r = json.loads(ratings.read_text(encoding="utf-8"))

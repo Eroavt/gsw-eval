@@ -129,12 +129,14 @@ def analyse_fresh(
             out[r["sentence_id"]] = out.get(r["sentence_id"], 0) + s
         return out
 
-    sentence_stats = {n: per_sentence(n) for n in ("careful", "texting", "synthetic")}
+    sentence_stats = {n: per_sentence(n) for n in ("de_input", "careful", "texting", "synthetic")}
     costs: dict[str, dict[str, float]] = {}
     ids = sorted(set(sentence_stats["careful"]) & set(sentence_stats["texting"]))
     if ids:
         names = [
-            n for n in ("careful", "texting", "synthetic") if set(ids) <= set(sentence_stats[n])
+            n
+            for n in ("de_input", "careful", "texting", "synthetic")
+            if set(ids) <= set(sentence_stats[n])
         ]
         matrix = {n: np.stack([sentence_stats[n][i] for i in ids]) for n in names}
 
@@ -143,6 +145,9 @@ def analyse_fresh(
             result = {"real_spelling_cost": s["careful"] - s["texting"]}
             if "synthetic" in s:
                 result["synthetic_spelling_cost"] = s["careful"] - s["synthetic"]
+            if "de_input" in s:
+                # The same 24 sentences as Standard German: the dialect cost on real writers.
+                result["dialect_cost"] = s["de_input"] - s["careful"]
             return result
 
         point = compute(np.arange(len(ids)))
