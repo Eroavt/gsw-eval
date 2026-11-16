@@ -20357,3 +20357,353 @@
 {"key": "03b4f7e323621f503681d9fe", "output": "Für Jan Benger beginnt ein Fußballspiel eine Sportprüfung."}
 {"key": "16ec0427debbb058ab761d94", "output": "Der Satz im Standarddeutschen lautet: \n\nEs gibt in der Kanton Freiburg verschiedene Präventions- und Betreuungsmassnahmen im Bereich, wo Spiel und Verschuldung in Frage kommen."}
 {"key": "f384b27aa4018f54c711a4ce", "output": "Die Kanton Frankfurt setzt verschiedene Präventions- und Betreuungsmassnahmen in der Bereich der Spielsucht und zur Verschuldung."}
+{"key": "3ab82d0c1a898814e78e5cc2", "output": "Am siebten treffen wir uns vor dem Bahnhof."}
+{"key": "93a8df831074b62a8309655b", "output": "Kannst du mir bitte sagen, wenn dein Zug fährt?"}
+{"key": "eceefaf89383296aeab0bf1f", "output": "Sagt mir bitte, wenn dein Zug morgen fährt."}
+{"key": "917bc9e08586b490d9ee495f", "output": "Kannst du mir bitte sagen, wann der Zug morgen fährt?"}
+{"key": "554efeee902aa8f6af65ffcf", "output": "Kannst du mir bitte sagen, wenn der Zug morgen fährt?"}
+{"key": "9b1d34a55857aa1cc82dfd3c", "output": "Können Sie bitte sagen, wann der Zug morgen fährt?"}
+{"key": "8baac6dcc1d0c60603580557", "output": "Wir wissen nicht, wann der Zug morgen fährt."}
+{"key": "ca437579e68274167eb569b7", "output": "Könnten Sie mir bitte sagen, wann der Zug morgen fährt?"}
+{"key": "fc428d24f68d3d37fa7207d1", "output": "Bitte sage mir, wann dein Zug morgen fährt."}
+{"key": "11a23d6cf9173150678bf75a", "output": "Wir sehen uns später."}
+{"key": "290dfdfddc0e9b2d781a08f5", "output": "Wenn du nachher noch auf ein Bier verbiest."}
+{"key": "9427d6ae080f093ed9858b13", "output": "Kommst du nie auf ein Bier?"}
+{"key": "1bfe19162801a3255ba0a5c2", "output": "Wollen wir nachher noch ein Eis gegessen haben?"}
+{"key": "a28a4522433c5d89413c5e5c", "output": "Soll ich dir noch ein Bier bringen?"}
+{"key": "40f1ed1c14e269740fe4c680", "output": "Hast du nachgefragt, ob es ein Bier gibt?"}
+{"key": "ad1bf2dd66fc7fe53ac8c991", "output": "Hast du nachgefragt, ob es noch Bier gibt?"}
+{"key": "bba8ef0f1a320b19b83c8d31", "output": "Komm, trink ein Bier mit mir."}
+{"key": "2d1ccd701474b6015b4aca50", "output": "Willst du nachher noch ein Bier?"}
+{"key": "38c00596fbb0417aaa9f5c7d", "output": "Die Kinder spielen dort im Garten."}
+{"key": "38038337c55c7c64e5c29d0b", "output": "Die Kinder spielen dort im Garten."}
+{"key": "3bb291367bbdcb19286d34db", "output": "Das Kind spielte draußen im Garten."}
+{"key": "309e19c1344cbe901b9bf3bd", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "397643316956590590531f9a", "output": "Der Kind spielte draußen im Garten."}
+{"key": "d6711d98608e2c0bef764f64", "output": "Die Kinder spielten draußen im Garten."}
+{"key": "3e815bae25e6718d02dbbdcc", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "a1edb74a6c8f41042aab94b5", "output": "Der Junge spielte draußen im Garten."}
+{"key": "aafe0a3204cfe3365ad38931", "output": "Das Essen in diesem Restaurant ist nicht besonders gut."}
+{"key": "497b0cd48f64b9a6693ef19d", "output": "Das Konzert gestern war wirklich super, du hättest mitkommen sollen."}
+{"key": "45fdb36224187474d7184dd8", "output": "Die Kinder spielten draussen im Garten."}
+{"key": "a1e852c0f37e7ba2095cea75", "output": "Der Gemeinderat hat die Schule renovieren lassen."}
+{"key": "0f0eb2429733e9575f0eb868", "output": "Der Gemeinderat hat die Schule gründlich renovieren."}
+{"key": "040d384899d50d726fcb68aa", "output": "Der Gemeinderat hat beschlossen, dass die Schule renoviert werden wird."}
+{"key": "a4e75412d4064dde70df1e49", "output": "Der Gemeinderat hat sich entschieden, das Schulgebäude zu renovieren."}
+{"key": "f415fd74d27bcf13e8536e5c", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "0335d42ad03123d58d2fcff1", "output": "Die Kinder spielen draußen im Garten."}
+{"key": "1f50bfc1e169962211adcd17", "output": "Das Konzert gestern war super geil, hätte ich auch sollen gehen."}
+{"key": "d141b47657939820fd4b9f89", "output": "Die Kasseprämie stieg im Herbst wieder."}
+{"key": "8505d1401057347cc3a2e3f5", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "ab7c13b3033ffd37b9cc878e", "output": "Es tut mir Leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "b3bb039c78e6a3a03986396c", "output": "Es tut mir leid, dass ich deine Nachricht erst jetzt gesehen habe."}
+{"key": "a1cd915cb48900162f68c754", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "25720a584721a7cffaa0432d", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "dcc329690b2ebabd1580543b", "output": "Gib mir einfach Bescheid, wenn du beschäftigt bist."}
+{"key": "9936cd88977aaf0ab2bdc252", "output": "Gib mir doch Bescheid, wenn du kannst."}
+{"key": "777b94d49f8032773826e89c", "output": "Gib mir doch Bescheid, wenn du bist."}
+{"key": "d8dfbde432106db1c1430c3f", "output": "Gib mir einfach Bescheid, wenn du ankommen bist."}
+{"key": "473a0393efb3c2dcd933d5ed", "output": "Gib mir einfach Bescheid, wenn du abgehst."}
+{"key": "9cd1c8b17a6ae2af1411feda", "output": "Der Satz im Standarddeutschen lautet: \"Gischt, Bischcheid, wenn nötig bisch.\""}
+{"key": "a7f184349d7b1af32034e0db", "output": "Hast du schon gegessen oder sollen wir zusammen kochen?"}
+{"key": "034e2c88d317741ab9e243cc", "output": "Wer ist schon gescheit oder wer ist zusammengebrochen ?"}
+{"key": "3f40a5c1f0156c4219e3c361", "output": "Hast du schon gegessen, oder kommst du mir zusammen zu essen?"}
+{"key": "e0b59f69d84ddc2ec0f790f7", "output": "Hättest du schon gegessen oder solltest du zusammenkommen."}
+{"key": "4fb1af172a2ea5759ff84e37", "output": "Hast du schon gegessen oder sollst du mit mir zusammen essen?"}
+{"key": "df2d9846fffc66ce4ea088e2", "output": "Hey, kann ich meinen Schlüssel anrufen."}
+{"key": "bbb43233a29963ddbc62e705", "output": "Entschuldigung, ich habe deine Nachricht gelesen."}
+{"key": "d1e8a7aee3e790d77151d176", "output": "Hast du schon gegessen oder soll ich uns etwas kochen?"}
+{"key": "10e1fdd192c8424f69457d93", "output": "Hast du schon gegessen oder soll ich dir was mitbringen?"}
+{"key": "cbafd0cfb494072d331d699b", "output": "Der Satz im Standarddeutschen lautet: \"Hast du schon geschossen oder soll man zusammenkommen?\""}
+{"key": "ae5c7ab0e861d7227b7e3d5b", "output": "Hast du schon etwas eingebucht oder weißt du noch etwas zusammenzustellen?"}
+{"key": "0af1c8596e967e7a16af3467", "output": "Ich komme heute ein bisschen später her."}
+{"key": "75cdc08b16aeb67f086df293", "output": "Ich komme heute erst später hier."}
+{"key": "e2e536d636385dce91419578", "output": "In den Alpen hat es in der Nacht viel geschneit."}
+{"key": "c2a5fffb0784cf5ec4f5052c", "output": "In den Alpen ist in der Nacht viel geschneit."}
+{"key": "37c83e5654608674ff7614f5", "output": "In den Alpen ist in der Nacht viel Schnee gefallen."}
+{"key": "54cda71f89103f02c4dfa5b5", "output": "In den Alpen ist in der Nacht viel Schnee gefallen."}
+{"key": "d82fdf519da3ecffdc46b214", "output": "In den Alpen ist in der Nacht viel Schnee oben und unten gefallen."}
+{"key": "50064d7344931fe2c8bbff2e", "output": "In den Alpen ist in der Nacht viel Schnee gefallen."}
+{"key": "85fab531f00f5964e5128b4c", "output": "In den Alpen ist in der Nacht viel Schnee gefallen."}
+{"key": "53921eb201cd13594a0f61cf", "output": "Ich habe gut geschlafen letzte Nacht."}
+{"key": "47c41f919ad75801c7adb3d9", "output": "Ich habe keinen Ahnung, wo ich meinen Schlüssel angelegt habe."}
+{"key": "dd0549fe7b86ea1cc68b43d7", "output": "Ich habe keinen Ahnung, wo mein Schlüssel hergegangen ist."}
+{"key": "299141b7c115270adb0e94fb", "output": "Ich muss schnell was posten, brichst du was?"}
+{"key": "38e579420ba37db2c5cfc8d4", "output": "Ich muss schnell etwas posten, brichst du auch etwas?"}
+{"key": "fbe7776d9efd1bbf29b91c0d", "output": "Ich muss jetzt schnell gehen, hast du noch etwas?"}
+{"key": "7079522f9def2d26d87c9884", "output": "Ich komme heute später hier."}
+{"key": "b24914878ff9af37c224be17", "output": "Ich komme später herein."}
+{"key": "aa5d393c28d8a35c7fd391e2", "output": "Ich komme heute später herein."}
+{"key": "a28139db3803dce711bc1872", "output": "Ich komme heute erst später hier."}
+{"key": "533fff926e17b1fad40bbb5f", "output": "Ich komme heute später hier."}
+{"key": "e039885e43ee2846513bf56f", "output": "Ich glaube, ich bin krank geworden und bliebe heute lieber im Bett."}
+{"key": "1d0af8e9f8fc3c03aecca53b", "output": "Ich glaube, ich bin krank, bleibe heute lieber im Bett."}
+{"key": "a7da41c26bac7c46a2247eeb", "output": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."}
+{"key": "00adc4c1ef929fa992267f11", "output": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."}
+{"key": "65db91da51251b20afb3a0c0", "output": "Ich glaube, ich bin krank. Ich bleibe heute im Bett."}
+{"key": "4388d05fdd469bcaf877050e", "output": "Ich glaube, ich werde krank und bleibe deshalb lieber heute im Hause."}
+{"key": "98b2ace7c1c6509915f18c2d", "output": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."}
+{"key": "13ad87a6d00cc7f7006973a5", "output": "Ich habe gestern Nacht gut geschlafen."}
+{"key": "008ecf43a2f0f4bbbdbf1f72", "output": "Ich habe keine Ahnung, wo ich meinen Schlüssel angelegt habe."}
+{"key": "b5eadb4382339a417a705d53", "output": "Ich habe keine Ahnung, wo ich meinen Schlüssel angelegt habe."}
+{"key": "3a58f328beab95ba5541938c", "output": "Ich habe keinen Ahnung, wo mein Schlüssel her ist."}
+{"key": "bdc90b00b24011e4582db8e5", "output": "Ich habe überhaupt nicht gut geschlafen letzte Nacht."}
+{"key": "88920edb9db36f13a640b56f", "output": "Ich habe keine Ahnung, wo ich meinen Schlüssel hingelegt habe."}
+{"key": "f3234377b0d5167a8a96fa3e", "output": "Ich habe überhaupt nicht gut geschlafen letzte Nacht."}
+{"key": "f1e82108f1d13f1b185c12a8", "output": "Ich habe gar nicht gut geschlafen."}
+{"key": "cf78e35e86101c11d3807386", "output": "Ich habe gar nicht gut geschlafen letzte Nacht."}
+{"key": "cb54012a94eea96657fbd59c", "output": "Ich habe gar nicht gut geschlafen."}
+{"key": "ace7b7f3b002d12f82cb8199", "output": "Ich habe so schlecht geschlafen letzte Nacht."}
+{"key": "381d84d221dce425a57017df", "output": "Ich habe überhaupt nicht gut geschlafen letzte Nacht."}
+{"key": "a93354a57fe3cb9c0d81f330", "output": "Ich komme heute etwas später nach Hause."}
+{"key": "9e5b7ba3a5152126e5f00289", "output": "Ich muss kurz etwas posten, brauchst du auch noch etwas?"}
+{"key": "a5ae28409e53f06c86ed0bef", "output": "Ich muss mich schnell auf den Weg machen, hast du auch etwas?"}
+{"key": "2423b136a20c2a6c4c55ef2c", "output": "Ich muss schnell gehen und posten, brauchst du auch etwas?"}
+{"key": "ac65d8a737c4c824674bf2ae", "output": "Ich muss jetzt schnell los. Bist du noch etwas?"}
+{"key": "e8a2928a243813b3e9ad1016", "output": "Ich muss kurz gehen, brauche ich noch etwas?"}
+{"key": "39f7723fb19d619d6e60daa9", "output": "Ich muss noch schnell einkaufen gehen, brauchst du etwas? \n\nÜbersetzung: Ich muss noch schnell einkaufen gehen, brauchst du etwas? (ist bereits Standarddeutsch)"}
+{"key": "aceec328010dfb3fcb69877d", "output": "Es ist heftig geschneit."}
+{"key": "19f01903400012468c265cbd", "output": "Der Berg hat die Nacht mit Schnee bedeckt."}
+{"key": "8ce9467ba598371eff0bc2ad", "output": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."}
+{"key": "ea0ce79d74ab602b506261c6", "output": "Im Herbst stieg die Krankenkassenprämie wieder."}
+{"key": "87e8936ec0ac6ec3a9737d46", "output": "Im Herbst stieg die Krankenkassenprämie wiederum."}
+{"key": "af006b0e92719abf189f0856", "output": "Im Herbst steigen die Krankenversicherungsbeiträge erneut an."}
+{"key": "b1d25d3074dbfa48d6ef4ff6", "output": "Im Herbst stieg die Krankenkassenprämie wieder."}
+{"key": "a1d7b7013830699e0ecd7beb", "output": "Im Herbst steigt die Krankenkasseprämie wieder an."}
+{"key": "7906d333eb74be912770be8a", "output": "Im Herbst stieg die Krankenkasseprämie normal neu an."}
+{"key": "952086bee1fc336217fd21be", "output": "Im Herbst stieg die Krankenkassenprämie normal an."}
+{"key": "a436eadd6988b6bd37671ffe", "output": "In den Alpen ist in der Nacht viel Schnee gefallen."}
+{"key": "af910e114a610d54d30cc775", "output": "Können Sie mir bitte sagen, wann der Zug morgen fährt?"}
+{"key": "0c84180019d031fac8f251dc", "output": "Keiner ahnt, dass ich meinen Schlüssel angelegt habe."}
+{"key": "887bcee493a5a70192070b34", "output": "Keiner ahnte, dass der Schlüssel hier war."}
+{"key": "9a9250a1244811d29dfafdd0", "output": "Kommst du später noch vorbei?"}
+{"key": "8c78957776b029a0fe8e4129", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "15d7d6303fd57b9246e9d00b", "output": "Meine Großmutter wird nächste Woche achtzig Jahre alt."}
+{"key": "e0f7193d82ee13792193a175", "output": "Wir haben den letzten Bus verpasst und müssen laufen."}
+{"key": "b9450fea854c10b67d22bb84", "output": "Wir haben den letzten Bus verpasst und mussten laufen."}
+{"key": "06b83cf9852bcb459e84ea3c", "output": "Wir haben den letzten Bus verpasst und müssen zu Fuß gehen."}
+{"key": "7ab93b2cbf7fc08a0b3411d2", "output": "Wir haben den letzten Bus verpasst und müssen zu Fuß gehen."}
+{"key": "c153dca03f4a6478c6ec4713", "output": "Wir treffen uns am 7. vor dem Bahnhof."}
+{"key": "fab5175df4a6886f0a8b359d", "output": "Wir trafen uns am siebten Vormittag am Bahnhof."}
+{"key": "849fa6048bb1d00c28cd94b8", "output": "Wir treffen uns am siebten vor dem Bahnhof."}
+{"key": "ca99ce601030148625b2d41a", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "54058560fefd4494a0c6184e", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "94d3b0b839de5bfbe2e13798", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "6571e0654251c41c806ec9da", "output": "Mein Bruder hat einen neuen Gaul gekauft."}
+{"key": "6eb16699338cbd7de3673473", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "e4837a2ff9bdd50c348e95fa", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "d036f97bffd8c92943fd04c5", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "a599b9de4afef8b2986735b6", "output": "Der Satz im Standarddeutschen lautet: \"Mini-Grossmutter wird nächstes Jahr achtzig.\""}
+{"key": "bc896f2b29009b951f00a345", "output": "Mini wird nächste Woche acht Jahre."}
+{"key": "5c9dbb632f31034296fa6771", "output": "Die Mini-Grossmutter wird nächste Woche achtzig."}
+{"key": "2310851804c84ff97a6e2095", "output": "Ich habe den letzten Bus verpasst und muss zu Fuß gehen."}
+{"key": "b72a3f4c16d98b748d9ac9b8", "output": "Ich habe den letzten Bus verpasst und muss zu Fuß gehen."}
+{"key": "8bf57400fd88fd9f2e412c25", "output": "Mir ist der Bus verpasst und ich musste zu Fuß gehen."}
+{"key": "e7acc6f48125bb69c8106566", "output": "Mir habe den letzten Bus verpasst und habe deshalb den Rest zu Fuß geschlagen."}
+{"key": "b5072a4833cec53d43efe3f9", "output": "Mir traf euch am 7. vor dem Bahnhof."}
+{"key": "0ccb42f31624560339a733ea", "output": "Ich traf euch vor dem Bahnhof."}
+{"key": "8619cd1e8bf1d1a833db159a", "output": "Mir traf euch am 7. vor dem Bahnhof."}
+{"key": "a84e6c16bcb4c2d6a46092c8", "output": "Mir traf uns am 7. vor dem Bahnhof."}
+{"key": "e2f613e06c8c1390b3ea98fb", "output": "Mir traf uns am 7. vor dem Bahnhof."}
+{"key": "8ff4843babc0bd95f87608ca", "output": "Mein Großvater wird nächste Woche 80."}
+{"key": "cb18c57dcf3d562698cef649", "output": "Mein Großvater wird nächste Woche 80."}
+{"key": "9317ea4b2ca8c1d703237f70", "output": "Mein Großvater wird nächste Woche achtzig."}
+{"key": "1bb985bcdf0dc575b1e7ff42", "output": "Mein Grossi wird nächste Woche achtzig Jahre alt."}
+{"key": "f27bb8d6e3fc021a6ffed8f9", "output": "Meine Großmutter wird nächste Woche 80."}
+{"key": "9dd6559eb99e6aafec729647", "output": "Morgen soll es den ganzen Tag regnen. (Übersetzung ist gleich, da es sich um Standarddeutsch handelt.)"}
+{"key": "a7b7ddd24dc235fb509f5ba6", "output": "Der Regen fiel den ganzen Tag."}
+{"key": "a212fc9d46046980396820a8", "output": "Der Regen fällt den ganzen Tag."}
+{"key": "e831de15abe72ce3c8cbeafd", "output": "Der Morgen setzt den ganzen Tag in Gang."}
+{"key": "6eabff52b31d70da1bd0aaa3", "output": "Der ganze Tag soll regnen."}
+{"key": "873dbaefb1151cbcfa2e695c", "output": "Der ganze Tag soll regnen."}
+{"key": "035126f1ceb54eb567515abf", "output": "Der Morgen ist der ganze Tag Regen."}
+{"key": "3de9a1d802fae31897fd6975", "output": "Der Morgen ist der ganze Tag regnerisch."}
+{"key": "6cddc878ce52d660fcb2d104", "output": "Der Morgen ist der ganze Tag über regnerisch."}
+{"key": "8e157914560247a77ae9c203", "output": "Das Konzert gestern war wirklich super, du hättest es sollten mitkommen."}
+{"key": "b05debe5c8fb3cc162008546", "output": "Das Konzert gestern war wirklich super, du hättest es sollten mitkommen."}
+{"key": "806cc0a5b3379750d07f9d60", "output": "Der Konzert gestern war wirklich super."}
+{"key": "8b1a3c2da33bb3c7e25fcc30", "output": "Das Essen ist im Restaurant nicht besonders gut."}
+{"key": "cd2f770c242908e0e5006e0b", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "f881ea1a111c14d25c131413", "output": "Der Essenswert im Restaurant ist nicht besonders gut."}
+{"key": "3295e9c9ee888cbdb5ba16b6", "output": "Der Rest ist nicht besonders gut."}
+{"key": "a82eba03dc246d49f808c6f2", "output": "Der Essig im Reis ist nicht sehr gut."}
+{"key": "be7d3e3cf23209805ad6dc15", "output": "Das Konzert gestern war wirklich super, du hättest auch hingehen sollen."}
+{"key": "b152491a981a33f4f36df537", "output": "Der Konzi ist gestorben, er hätte daran sein sollen."}
+{"key": "8598623086d343b24220dcf5", "output": "Der Konzert ist sehr super gewesen! Du hast etwas verpasst!"}
+{"key": "3aad949313ea4fdbf047e72d", "output": "Der Satz im Standarddeutschen lautet: \"Das Essen im Restaurant ist nicht besonders gut.\""}
+{"key": "d42186a9f73b26343ef05d2a", "output": "Der Essensqualität in dieser Gaststätte ist nicht so überzeugend."}
+{"key": "b984f04f2a97365bbc41a781", "output": "Der Sessplatz im Restaurant ist nicht besonders gut."}
+{"key": "1029aa5275b9703c6d7de45e", "output": "Der Süsses im Restaurant ist nicht besonders gut."}
+{"key": "f52914c6a50ac2c35455d5af", "output": "Das Konzert gestern war wirklich super, du hättest es auch solle mitkommen."}
+{"key": "57b5c73604b51d6594426adb", "output": "Der Satz im Standarddeutschen lautet: \"Heute ist der Skikurs super gelaufen, und ich bin auch hingefahren.\""}
+{"key": "b185bacb0cbda571544a2339", "output": "Sag mir einfach Bescheid, wenn du angekommen bist."}
+{"key": "9a2b4b9e1e3c767c1198e37c", "output": "Satz: Sei'sch eifrig bei der Sache, wenn du bisch."}
+{"key": "70da76c49b081e24def20bb7", "output": "Der Rest ist nicht besonders gut."}
+{"key": "d70d2735c972a569c8a1b95d", "output": "Entschuldigung, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "142585713723ee35094a0fa1", "output": "Entschuldigung, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "8eda732bed839b783ad613af", "output": "Sag mir doch kurz Bescheid, wenn du bist."}
+{"key": "df7733ef8767b18cb67e4798", "output": "Sag mir einfach Bescheid, wenn du da bist."}
+{"key": "54be439b9ce25c9618e00a65", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "f2a81e0efd9b9e81a192c80f", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "1704527e991e7c5b1e45b2da", "output": "Viele Leute schaffen mindestens einen Tag im Homeoffice."}
+{"key": "162e431e82fa6dccb3868ae5", "output": "Viele Leute schafften mindestens einen Tag von Hause aus."}
+{"key": "1f9b1e5fbd58e34862a575ce", "output": "Viele Leute schafften es, mindestens einen Tag zu Hause auszusparen."}
+{"key": "f5fdbb90f5ca7cb754ac4bb2", "output": "Viele Leute schaffen mindestens einen Tag pro Woche frei."}
+{"key": "ee89d3a368188f5f5df6d6cd", "output": "Viele Leute arbeiten heute mindestens einen Tag pro Woche von zu Hause aus."}
+{"key": "34e38164720d5f67fe094aad", "output": "Vielleicht gehen wir am Wochenende in die Berge, kommst du mit? \n\nÜbersetzung: Vielleicht gehen wir am Wochenende in die Berge, kommst du mit? (Der Satz ist bereits in Standarddeutsch.)"}
+{"key": "5c65b4f8d119e76c6cface86", "output": "Vielleicht gömmer es am Wochenende in den Bergen, kommen Sie auch mit?"}
+{"key": "af5860ad82e5239c795975a1", "output": "Viele Leute schaffen heute mindestens einen Tag von der Arbeit aus."}
+{"key": "b875752ccbc95c57e49bc614", "output": "Viel Leute schaffen heute mindestens einen Tag pro Woche davon."}
+{"key": "16e603cbf377adb0451e8095", "output": "Vili lief heute zumindest einen Tag pro Woche davon."}
+{"key": "6ebef4548fface663b32c18b", "output": "Vilich versteckt sich am Wochenende in den Bergen, kommst du mit?"}
+{"key": "39fd32e909dbdf3a9401ac42", "output": "Vilich versteckt sich am Wochenende im Bergwald, oder?"}
+{"key": "409ea32f54b5fcd46dea7361", "output": "Vielleicht gehst du am Wochenende in die Berge, kommst du auch mit?"}
+{"key": "beb846be06a7dd065157de8e", "output": "Vielleicht gehst du am Wochenende in die Berge, kommst du mit?"}
+{"key": "271229ca7dd786a4db246ee5", "output": "Vielleicht gehst du am Wochenende in die Berge, kommst mit?"}
+{"key": "3201ec55b9b87e23196f4847", "output": "Vielleicht versteckt sich am Wochenende in den Bergen, oder?"}
+{"key": "0489ebb2c95b329cf06347a0", "output": "Weißt du, ob die Ladentür am Sonntag offen ist?"}
+{"key": "c89d0b22645dc115014c3262", "output": "Weißt du, ob die Ladentür am Sonntag offen ist?"}
+{"key": "d3608d558ac86efdbcb3d0d7", "output": "Weißt du, ob die Ladentür am Sonntag offen ist?"}
+{"key": "d4d2fb8abc12c04297e38b8a", "output": "Wusstest du, ob die Ladentür am Sonntag offen hat?"}
+{"key": "2370953e5f93aedd51771735", "output": "Weißt du, ob der Laden am Sonntag offen hat?"}
+{"key": "379445c5c2263143f70b5639", "output": "Weißt du, ob die Ladentür am Sonntag offen ist?"}
+{"key": "946ca56760e34ce5c726d6d5", "output": "Weißt du, ob deine Ladengeschäfte am Sonntag offen haben?"}
+{"key": "11f3b4939532fc1fd888214f", "output": "Weißt du, ob die Ladengeschäfte am Sonntag offen haben?"}
+{"key": "f93fc6de6dd3f36371fea16e", "output": "Weißt du, ob die Ladentür am Sonntag offen ist?"}
+{"key": "194f7702439aeb28a25fc873", "output": "Weißt du, ob der Laden am Sonntag geöffnet hat?"}
+{"key": "4ff209006e47d0b368b618f9", "output": "Wie viele Leute schaffen es heute mindestens einen Tag pro Woche von zu Hause aus."}
+{"key": "8422a43ed15f4c720bd4aedd", "output": "Wie viele Leute schaffen es heute mindestens einen Tag pro Woche frei zu haben."}
+{"key": "071b35bb897dc75c0e656236", "output": "Wir haben den letzten Bus verpasst und mussten zu Fuß gehen."}
+{"key": "02314623a5cec01e0f3ee451", "output": "Wir treffen uns um sieben Uhr vor dem Bahnhof."}
+{"key": "c88edd3a952fdca914c44ed5", "output": "am siebten treffen wir uns vor dem Bahnhof."}
+{"key": "dd5346c626bbcab82de0e8b4", "output": "Ich bin glaub krank und bleibe heute lieber im Bett."}
+{"key": "ae172fc0b0d9109ec2799364", "output": "Ich bin glaub krank und bliebe heute lieber im Bett."}
+{"key": "837b545411909e1ae6130bc3", "output": "Bitte bestätige mir, wann dein Zug fährt."}
+{"key": "96f663f079cead43674d734a", "output": "Kannst du mir bitte sagen, wenn dein Zug morgen fährt?"}
+{"key": "7170c34dcaa37cd6d56a8a92", "output": "Bitte sage mir, wann der Zug morgen fährt."}
+{"key": "b36e693a18deef588d0b6c35", "output": "Könntest du mir bitte sagen, wann der Zug fährt morgen?"}
+{"key": "79e706f5b4855a9ab9c944cf", "output": "Bitte sag mir, wann der Zug morgen fährt."}
+{"key": "ded47216e90bc549ccd76b2a", "output": "Könntest du bitte sagen, wann der Zug fährt morgen?"}
+{"key": "4afd763d91b81e0645edd8d8", "output": "Könntest du mir bitte sagen, wann der Zug fährt morgen?"}
+{"key": "45bf94ba2c63e8c0db289adc", "output": "Wir sehen uns später."}
+{"key": "1f7712eb314b8280b39d5464", "output": "Kommst du nachher noch vorbei aufs Bier?"}
+{"key": "9af5186f89ed7e7c3fe8dcbd", "output": "Ich kann den Satz nicht übersetzen, da er nicht verständlich ist. Es scheint sich um Schweizerdeutsch zu handeln, aber der Satz ist nicht korrekt."}
+{"key": "aa8903d6dd7fd3cdfe582cc3", "output": "Nun also auf ein Bier."}
+{"key": "bc9c356e64397c2af50fcab6", "output": "Sollten wir später ein Bier trinken?"}
+{"key": "973df6d62448046de53605d5", "output": "Kommst du auf ein Bier vorbei?"}
+{"key": "60ae36b197dbde40f81e24ef", "output": "Ich verstehe den Satz nicht. Es scheint, als ob es sich um eine regionale oder dialektale Ausdrucksweise handelt, die ich nicht genau identifizieren kann. Wenn du mir mehr Kontext oder Informationen gibst, kann ich versuchen, den Satz zu übersetzen."}
+{"key": "ac4b602d2839f5906c92eb06", "output": "Die Kinder spielten draußen im Garten."}
+{"key": "f289c0e0bd947013dfaa4174", "output": "Die Kinder spielen draußen im Garten."}
+{"key": "421efe2f90de231add50e850", "output": "Die Kinder spielten draußen im Garten."}
+{"key": "dead64aa812ce5ebd634216e", "output": "Der Hund spielte draußen im Garten."}
+{"key": "e6bb3d26b0e65f310e7339e8", "output": "Der Hund spielte draußen im Garten."}
+{"key": "9cec6f048264748cdb586216", "output": "Der Hund spielte draussen im Garten."}
+{"key": "83f32c8f3c4c826ff75a4ef8", "output": "Der Gemeinderat hat beschlossen, das Schulgebäude zu renovieren."}
+{"key": "110bc9639b6dfcb9db027917", "output": "Der Gemeinderat hat beschlossen, dass die Schule renoviert werden wird."}
+{"key": "de9b8974265823dce67cb89b", "output": "Der Gemeinderat hat beschlossen, das Schulhaus zu renovieren."}
+{"key": "ca556531b45903941aad28f1", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "c6940c3b14b8cf92890be23e", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "4539fabd5d622aa9c72a009d", "output": "Der Gemeinderat hat beschlossen, die Schule zu renovieren."}
+{"key": "35b55cc24f8232886fb08bd0", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "a874dc914a7b7b39ce25307f", "output": "Lass uns einfach Schluss machen, wenn du bereit bist."}
+{"key": "91f13fb48f8c885542090605", "output": "Gib mir einfach Bescheid, wenn du ankommen bist."}
+{"key": "2c273d67c0e183e84de31f3d", "output": "Ich habe gestern Nacht nicht gut geschlafen."}
+{"key": "b0dbd810d819b74cc8659832", "output": "Ich habe keinen Ahnung, wo mein Schlüssel hingelegt haben."}
+{"key": "4d010dc0818381d814c3f16f", "output": "Ich habe keinen Schuss auf meine Schlüssel abgegeben."}
+{"key": "0c53c1e88c46b44c6062be00", "output": "Ich habe schon gegessen, oder so etwas."}
+{"key": "8bacbcbc5849f3c809746a88", "output": "Hast du schon gegessen oder kommst du etwas zusammen?"}
+{"key": "fecdad9c589ec7ed7767cca2", "output": "Hast du schon gegessen oder kommst du etwas zusammen?"}
+{"key": "c9aac391f7b57e89d411a7da", "output": "Hast du schon gegessen oder sollst du mit mir zusammen etwas essen?"}
+{"key": "840f24da17100137d5a82670", "output": "Hast du schon gegessen oder kommst du erst später?"}
+{"key": "82a41ac6dfffc2147397d361", "output": "Ich habe keine Informationen über Schweizerdeutsch."}
+{"key": "0b2b63f31fd9fa163dae49db", "output": "Ich komme bald hierher."}
+{"key": "2637c8c0698da7a1f08d3cc8", "output": "Ich komme heute erst später her."}
+{"key": "bb266adb7fcaa766abd9e56a", "output": "In den Alpen hat es in der Nacht viel geschneit."}
+{"key": "1959abf0d70096a59e8b1463", "output": "In den Alpen ist in der Nacht viel Schnee oben gefallen."}
+{"key": "b681ac6141cf088ac25c86a0", "output": "Ich glaube, ich bin krank geworden und bliebe lieber im Bett."}
+{"key": "943d4d27b0ee2717ad9d8767", "output": "Ich glaube, ich bin krank, bleibe heute besser im Bett."}
+{"key": "0c381ffb8f891f2b2a336cba", "output": "Ich habe sehr gut geschlafen letzte Nacht."}
+{"key": "0fe548634b0990a24b1ef222", "output": "Ich habe keine Ahnung, wo ich meinen Schlüssel angelegt habe."}
+{"key": "9f3417f554b5ad171aa91a08", "output": "Ich habe überhaupt nicht gut geschlafen letzte Nacht."}
+{"key": "8bc35b62473e8e266b636b19", "output": "Ich möchte Ihnen kurz etwas mitteilen, aber ich habe auch noch etwas anderes."}
+{"key": "6f8758e3430da662495f4d5a", "output": "Ich muss jetzt schnell etwas posten, kannst du auch etwas?"}
+{"key": "ef76688ae50d58a031960aff", "output": "Ich muss jetzt schnell gehen, bevor etwas Bruchschutt aufkommt."}
+{"key": "ddeca4fe0b9e129e32ffcd6e", "output": "Ich komme heute später herein."}
+{"key": "b72e5157c9f2eba8fe57d6f9", "output": "Ich komme heute erst später hier."}
+{"key": "77285bbfe7deaa0f1262361c", "output": "Ich komme heute später herein."}
+{"key": "4074c2ac2cdff346f8483eeb", "output": "Ich glaube, ich bin krank, bliebe heute lieber im Bett."}
+{"key": "f11dc110eddc795c90cc33ef", "output": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."}
+{"key": "155af5a93fc84e8a6cc11b0a", "output": "Ich habe keinen Schimmer, wo ich meinen Schlüssel hingelegt habe."}
+{"key": "a8f348d5a915d62e335c41f4", "output": "Ich habe keinen Ahnung, wo mein Schlüssel her ist."}
+{"key": "712f0af414e470d473a34aa5", "output": "Ich habe überhaupt nicht gut geschlafen letzte Nacht."}
+{"key": "8f0724e89814556719bb4812", "output": "Ich habe keine Ahnung, wo ich meinen Schlüssel abgelegt habe."}
+{"key": "93bcabaf4f9fccaa450343fe", "output": "Ich muss schnell gehen, poste ich dir später etwas."}
+{"key": "79166349f611224a65e624ee", "output": "Es ist bergauf sehr viel geschneit."}
+{"key": "0f2ce6b0d64524176c848b8e", "output": "Es ist viel geschneit auf den Bergen letzte Nacht."}
+{"key": "8968ed07aa31068f463855ec", "output": "Es ist bergauf heftig geschneit."}
+{"key": "ee280619deb0e80c3f817986", "output": "Ich glaube, ich bin krank, ich bleibe heute lieber im Bett."}
+{"key": "9403ef448d67968ec276b5a8", "output": "Im Herbst stieg die Krankenkasseprämie wieder."}
+{"key": "53924497c76fa04f82e22f14", "output": "Im Herbst stieg die Krankenkassenprämie wieder."}
+{"key": "1eb96d7d7d991507c8893af4", "output": "Im Herbst steigt die Krankenkasseprämie wieder."}
+{"key": "035fe3bffb20cc8b1e415875", "output": "Im Herbst stieg die Krankenkasseprämie wieder."}
+{"key": "d26fdda3dba7b321fe3f0d65", "output": "Im Herbst steigt die Krankenkasseprämie wieder an."}
+{"key": "9f4ca62932d95a5d59ff9dbd", "output": "Im Herbst stiegen die Krankenkassenprämien normalerweise neu an."}
+{"key": "ef9f9f31db0258cd061622ff", "output": "Keiner ahnt, wo mein Schlüssel angelegt hat."}
+{"key": "5e854a8daaf1d775b173c6b5", "output": "Wir haben den letzten Bus verpasst und müssen zu Fuß gehen."}
+{"key": "96ed910eef59691e73931c2b", "output": "Wir haben den letzten Bus verpasst und müssen laufen."}
+{"key": "8684e370a649f97b286bf567", "output": "Wir trafen uns am siebten vor dem Bahnhof."}
+{"key": "9faa093f9aaa8e3fe22fc85b", "output": "Mein Bruder hat sich ein neues Fahrrad gekauft."}
+{"key": "49f007ca023eb486fc12219a", "output": "Mein Bruder hat ein neues Fahrrad gekauft."}
+{"key": "02de9c18433abffcffa072f4", "output": "Mein Bruder hat sich ein neues Fahrrad gepostet."}
+{"key": "3ef623e6edce3fb9e1b60c25", "output": "Ich gehe vielleicht in die Berge am Wochenende, kommst du auch mit?"}
+{"key": "b49a19c1a5def76734b64db0", "output": "Mir gehe vielleicht in die Berge am Wochenende schauen."}
+{"key": "9a86b2e7ad0e1f206d5fba3d", "output": "Ich habe den letzten Bus verpasst und muss laufen."}
+{"key": "5b5ff790100a34d5e2de61ab", "output": "Ich habe den letzten Bus verpasst und muss zu Fuß gehen."}
+{"key": "a6e1c559bd588f7b8dd6cc32", "output": "Ich habe den Bus verpasst und muss zu Fuß gehen."}
+{"key": "2ed6851323254263e73a75de", "output": "Mir ist der Bus verpasst und ich muss laufen."}
+{"key": "58cb51bb93501c471c3b0a30", "output": "Wir trafen uns am 7. vor dem Bahnhof."}
+{"key": "352c45a71ef0e3864d574699", "output": "Meine Großen werden achtzehn nächste Woche."}
+{"key": "90590fec246a99be09cb8716", "output": "Meine Groschen werden nächste Woche 80."}
+{"key": "9107811c2e580ed280870e83", "output": "Meine Großen wird nächste Woche 80."}
+{"key": "82be8f01e9e455ad0204e48f", "output": "Mein Grossi wird nächste Woche achtzig Jahre alt."}
+{"key": "2af928c05d11b588ab4c7185", "output": "Meine Großmutter wird nächste Woche 80."}
+{"key": "17f547881327dcdda52d6340", "output": "Der Regen fällt den ganzen Tag."}
+{"key": "1ef11a242692df41f5f10a3d", "output": "Der ganze Tag sollte regnen."}
+{"key": "7ffc94b76a794ff53ee1883d", "output": "Der ganze Tag sollte regnen."}
+{"key": "958507aec956fba459446c55", "output": "Der ganze Tag regnet."}
+{"key": "71895e26a31e6c6304c600c3", "output": "Warum schickst du dich so schnell in die Post, brichst du auch noch was?"}
+{"key": "817af18d320466830a8866be", "output": "Ich poste mich schnell, wenn du etwas brauchst."}
+{"key": "93ea67a218e10dbb63b095b3", "output": "Mann, nimm dir schnell die Post, brichst du etwa?"}
+{"key": "b64056a3355e67c0a79d2b56", "output": "Das ist nicht so gut im Rest."}
+{"key": "cc40528578b23b46b760c2a3", "output": "Das Konzert gestern war super, es sollte auch kommen."}
+{"key": "f47e9b8fea46975cd1686303", "output": "Das Konzert gestern war wirklich super, du hättest es sollten mitkommen."}
+{"key": "f9cb21a0ee778da56a655bc8", "output": "Das Konzert gestern war wirklich super gewesen, auch sollte es kommen."}
+{"key": "f2ffb5f89038417eac6fcd85", "output": "Das Konzert gestern war wirklich super, es sollte auch kommen."}
+{"key": "7ab2d17ac886610fdf4688db", "output": "Der Satz im Standarddeutschen lautet: Das Essen im Restaurant war nicht besonders gut."}
+{"key": "dc3d37b153cf61da4ea8b8de", "output": "Der Satz im Standarddeutschen lautet: Es ist im Rest nicht so gut."}
+{"key": "e2f1c58262f8a2883758cc84", "output": "Der Satz im Standarddeutschen lautet: \"Das Essen ist nicht so gut in dem Restaurant.\""}
+{"key": "6ddef1e55b8e6f6ee4a6e51b", "output": "Das Restaurant ist besonders gut."}
+{"key": "4925be14995233e864c50d81", "output": "Sessem im Rechten ist nicht immer gut."}
+{"key": "be8d864121409a43fbb57fea", "output": "Der Hammer war ein Riesenerfolg! Er hätte es wirklich schaffen sollen."}
+{"key": "96ff40313cd81d3397db4661", "output": "Gestern war es wunderbar schön, und es sollte auch noch schöner werden."}
+{"key": "c9d5699864a4e00e565f4040", "output": "Entschuldigung, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "861427ccd15dd7ccac229743", "output": "Ich sage Bescheid, wenn ich bin."}
+{"key": "33422085db9c137366397805", "output": "Sag einfach Bescheid, wenn du bist."}
+{"key": "ef91c1d18b95a456082da5f6", "output": "Sag mir einfach Bescheid, wenn du da bist."}
+{"key": "3271a1925522b0a1db3b58e1", "output": "Es tut mir leid, dass ich deine Nachricht erst jetzt gesehen habe."}
+{"key": "213242034ded4daf97ee896b", "output": "Es tut mir leid, ich habe deine Nachricht erst jetzt gesehen."}
+{"key": "aae74103fa5e19adf5815edd", "output": "Viele Leute schaffen heute mindestens einen Tag pro Woche frei."}
+{"key": "82328b30f679e18a3d91f0a3", "output": "Viele Leute schaffen mindestens einen Tag pro Woche davon."}
+{"key": "7108df45abed1b6ec26e9a14", "output": "Viel geschah heute mindestens ein Tag."}
+{"key": "875a416bd8a27120a230dacc", "output": "Vielleicht geht am Wochenende in die Berge hinauf?"}
+{"key": "c31afeedb130a286fc668eba", "output": "Vielleicht gehst du am Wochenende in die Berge, schau auch mit?"}
+{"key": "7e79706b8b7b8d3b90804568", "output": "Viele Leute schaffen heute mindestens einen Tag pro Woche davon."}
+{"key": "db6683d04fb8e68f14fc69f0", "output": "Ich gehe am Wochenende in die Berge spazieren."}
+{"key": "4d92f5d28a5c17dffa41b20f", "output": "Vielleicht gehst du am Wochenende in die Berge?"}
+{"key": "37d4c230800cfc0f231d6e87", "output": "Vielleicht verstecke ich mich am Wochenende in den Bergen, chunsch mit."}
+{"key": "164b659dfecdfa385a824b74", "output": "Weißt du, ob die Ladentür am Sonntag offen ist?"}
+{"key": "e67c59f8462289490f41ad70", "output": "Weißt du, ob die Ladentür am Sonntag offen hat?"}
+{"key": "23bafd23bf657865a2d01002", "output": "Wissen Sie, ob die Ladentür am Sonntag offen war?"}
+{"key": "e802b40dc77f191d4633a3c6", "output": "Weißt du, ob die Ladentür am Sonntag offen hat?"}
+{"key": "d7c452bd43690fe6f228129f", "output": "Wissen Sie, ob die Ladentür am Sonntag offen ist."}
+{"key": "ed79308685481c77898905cb", "output": "Wie viele Leute schaffen es heute mindestens einen Tag pro Woche von zu Hause aus."}
