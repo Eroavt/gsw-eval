@@ -219,3 +219,54 @@ export function doseTable(summary) {
   }
   document.querySelector("#dose-table").replaceChildren(el("thead", {}, head), body);
 }
+
+const share = (x) => `${x < 0.1 ? (x * 100).toFixed(1) : Math.round(x * 100)}%`;
+
+// Real chat from native writers: points lost against careful spelling, beside our rules.
+export function realChatTable(summary) {
+  const section = document.querySelector("#real-chat");
+  const fresh = summary.fresh;
+  if (!fresh) {
+    section.hidden = true;
+    return;
+  }
+  const kinds = fresh.kinds?.texting ?? {};
+  const rules = fresh.kinds?.synthetic ?? {};
+  document.querySelector("#real-chat-intro").textContent =
+    `${fresh.writers} native speakers (${fresh.cantons.join(", ")}) wrote the same 24 sentences twice on their phone: ` +
+    `as in a chat, and carefully. Their chat versions change ${share(fresh.words_changed.texting)} of the words, ` +
+    `our rules ${share(fresh.words_changed.synthetic)}. Real writers keep capitals and most letters but replace, ` +
+    `drop or merge words: ${Math.round((kinds.reworded ?? 0) * 100)} per 100 words, against ` +
+    `${Math.round((rules.reworded ?? 0) * 100)} for our rules.`;
+  const head = el(
+    "tr",
+    {},
+    el("th", { scope: "col", class: "left", text: "Model" }),
+    el("th", { scope: "col", text: "Careful", title: "chrF on the writers' careful versions" }),
+    el("th", { scope: "col", text: "Dialect cost", title: "chrF lost from Standard German to the careful versions, same sentences" }),
+    el("th", { scope: "col", text: "Real chat cost", title: "chrF lost to the writers' own chat versions" }),
+    el("th", { scope: "col", text: "Our rules' cost", title: "chrF lost when our rules rewrite the careful versions" }),
+  );
+  const body = el("tbody");
+  for (const row of fresh.rows) {
+    body.append(
+      el(
+        "tr",
+        {},
+        modelCell(row),
+        el("td", {}, ...interval(row.careful)),
+        el("td", {}, ...(row.dialect ? interval(row.dialect) : ["–"])),
+        el("td", {}, ...interval(row.real)),
+        el("td", {}, ...interval(row.rules)),
+      ),
+    );
+  }
+  document.querySelector("#real-chat-table").replaceChildren(el("thead", {}, head), body);
+  const r = summary.ratings;
+  document.querySelector("#real-chat-note").textContent =
+    "On the same sentences the dialect costs far more than real chat, which in turn costs more than our rules. Claude's dialect cost is uncertain: its Standard German score rests on 24 sentences." +
+    (r
+      ? ` The writers also rated model outputs blind: ${r.raters} raters, ${r.ratings} ratings. They rank the models ` +
+        `as chrF does (Spearman ${r.spearman.toFixed(2)}; same better output in ${Math.round(r.winner * 100)}% of pairs).`
+      : "");
+}

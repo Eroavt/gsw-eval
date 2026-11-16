@@ -106,6 +106,56 @@ def build_summary(results: Path) -> dict[str, Any]:
         "ntrex": _quality_rows(results, "ntrex", models),
         "tax": _tax_rows(tax),
         "dose": [{**row, "label": row["label"].replace("\\%", "%")} for row in dose_rows(results)],
+        "fresh": _fresh_summary(results),
+        "ratings": _rating_summary(results),
+    }
+
+
+def _fresh_summary(results: Path) -> dict[str, Any] | None:
+    """Real chat from native writers against careful spelling and against our rules."""
+    rows = []
+    meta: dict[str, Any] = {}
+    for model in SITE_MODELS:
+        path = results / "fresh" / f"{model}.json"
+        if not path.exists():
+            continue
+        run = json.loads(path.read_text(encoding="utf-8"))
+        if "costs" not in run:
+            continue
+        rows.append(
+            {
+                "model": model,
+                "label": MODEL_LABEL.get(model, model),
+                "careful": _estimate(run["scores"]["careful"]),
+                "dialect": _estimate(run["costs"]["dialect_cost"])
+                if "dialect_cost" in run["costs"]
+                else None,
+                "real": _estimate(run["costs"]["real_spelling_cost"]),
+                "rules": _estimate(run["costs"]["synthetic_spelling_cost"]),
+            }
+        )
+        meta = {
+            "writers": len(run["per_writer"]),
+            "cantons": sorted({w["dialect"] for w in run["per_writer"].values()}),
+            "words_changed": {k: round(v, 6) for k, v in run["words_changed"].items()},
+            "kinds": run.get("change_kinds", {}),
+        }
+    return {**meta, "rows": rows} if rows else None
+
+
+def _rating_summary(results: Path) -> dict[str, Any] | None:
+    """How people rated the model outputs, and how well chrF agrees with them."""
+    path = results / "ratings" / "ratings_v2.json"
+    if not path.exists():
+        return None
+    r = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        "raters": r["raters"],
+        "ratings": r["n_ratings"],
+        "alpha": round(r["alpha_interval"], 2),
+        "spearman": round(r["spearman_chrf_vs_human"]["rho"], 2),
+        "winner": round(r["pairwise_winner_agreement"]["rate"], 2),
+        "mean": {m: round(v["value"], 2) for m, v in r["mean_rating"].items()},
     }
 
 
