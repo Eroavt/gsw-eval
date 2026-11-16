@@ -84,7 +84,10 @@ def test_fresh_table_and_macros_follow_the_results(tmp_path: Path) -> None:
         json.dumps({**fresh, "meta": {"model": "identity"}})
     )
     table = fresh_latex(tmp_path)
-    assert table is not None and "Claude & 84.0 & 1.5 [$-$0.5, 3.5]" in table
+    assert (
+        table is not None
+        and "Claude & 84.0\\,{\\scriptsize$\\pm$2.0} & -- & 1.5\\,{\\scriptsize$\\pm$2.0}" in table
+    )
     assert "Identity" not in table
     macros = human_macros(tmp_path)
     assert macros is not None
