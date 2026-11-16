@@ -17,7 +17,8 @@ and in tokens, with confidence intervals. The short answer: mostly the dialect.
   Claude Sonnet 5.5 only 8.6. Rule-based chat spelling adds 1 to 5 points.
 - Real chat from native writers is a different kind of change: people keep capitals and most
   letters but replace, drop or merge about a fifth of the words. It costs the models 2.6 (Claude) to
-  5.3 points (Llama): more than our rules, but less than random noise that changes as many words.
+  5.3 points (Llama), several times less than the dialect on the same sentences (13.8 to 27.2 for
+  the open models).
 - The Swiss-focused Apertus 8B beats Llama 3.1 8B by 6.4 points at the same size.
 - Five native raters rank the models as chrF does (Spearman 0.59, same better output in 88% of
   pairs), but agree only moderately with each other on single sentences.
