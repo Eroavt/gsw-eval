@@ -9,8 +9,19 @@ than the spelling?**
 gsw-eval is an open benchmark for LLMs on written Swiss German. It feeds a model the same sentences
 as Standard German, as careful Swiss German in eight dialects, and as chat-style Swiss German. The
 difference between those scores splits the cost into a dialect part and a spelling part, in quality
-and in tokens, with confidence intervals. The short answer so far: mostly the dialect. The spelling
-result is under test with real texting from native speakers.
+and in tokens, with confidence intervals. The short answer: mostly the dialect.
+
+**Findings** (details and intervals in the [report](report/main.pdf))
+
+- Careful Swiss German costs the 8B models 20 to 24 chrF points against Standard German input, and
+  Claude Sonnet 5.5 only 8.6. Rule-based chat spelling adds 1 to 5 points.
+- Real chat from native writers is a different kind of change: people keep capitals and most
+  letters but replace, drop or merge about a fifth of the words. It costs Claude 3.9 points, no more
+  than random noise that changes as many words.
+- The Swiss-focused Apertus 8B beats Llama 3.1 8B by 6.4 points at the same size.
+- Six native raters rank the models as chrF does (Spearman 0.63, same better output in 88% of
+  pairs), but agree only moderately with each other on single sentences.
+- Open LLM tokenizers need 16 to 30% more tokens for Swiss German than for the same Standard German.
 
 **Website: [eroavt.github.io/gsw-eval](https://eroavt.github.io/gsw-eval/)**
 
