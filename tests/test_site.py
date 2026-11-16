@@ -69,6 +69,32 @@ def test_build_summary_and_write(tmp_path: Path) -> None:
     assert summary["ntrex"] == []
     assert summary["tax"][0]["texting_change"] == 0.0
     assert summary["dose"] == []
+    assert summary["fresh"] is None and summary["ratings"] is None
+
+    (results / "fresh").mkdir()
+    fresh = {
+        "scores": {"careful": est},
+        "costs": {"real_spelling_cost": est, "synthetic_spelling_cost": est},
+        "per_writer": {"w1": {"dialect": "ZH"}, "w2": {"dialect": "BE"}},
+        "words_changed": {"texting": 0.2449, "synthetic": 0.0562},
+        "change_kinds": {"texting": {"reworded": 0.21}},
+    }
+    (results / "fresh" / "claude-sonnet-5.5.json").write_text(json.dumps(fresh))
+    (results / "ratings").mkdir()
+    rating = {
+        "raters": 5,
+        "n_ratings": 224,
+        "alpha_interval": 0.4812,
+        "spearman_chrf_vs_human": {"rho": 0.5912},
+        "pairwise_winner_agreement": {"rate": 0.875},
+        "mean_rating": {"claude-sonnet-5.5": {"value": 4.8}},
+    }
+    (results / "ratings" / "ratings_v2.json").write_text(json.dumps(rating))
+    summary = build_summary(results)
+    assert summary["fresh"]["writers"] == 2 and summary["fresh"]["cantons"] == ["BE", "ZH"]
+    assert summary["fresh"]["rows"][0]["label"] == "Claude Sonnet 5.5"
+    assert summary["fresh"]["words_changed"]["texting"] == 0.2449
+    assert summary["ratings"]["alpha"] == 0.48 and summary["ratings"]["winner"] == 0.88
 
     paths = write_site_data(summary, {"BE": [{"id": "1"}]}, tmp_path / "data")
     assert {p.name for p in paths} == {"summary.json", "BE.json"}

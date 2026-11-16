@@ -6,7 +6,7 @@ import { explorer } from "./explorer.js";
 import { el, ofModel, pct } from "./format.js";
 import { range } from "./models.js";
 import { scrollHints } from "./scrollhint.js";
-import { dialectTable, doseTable, leaderboard, taxTable } from "./tables.js";
+import { dialectTable, doseTable, leaderboard, realChatTable, taxTable } from "./tables.js";
 import { tabs } from "./tabs.js";
 import { tokenChecker } from "./tokens.js";
 
@@ -78,6 +78,7 @@ async function main() {
   taxNote(summary);
   dialectTable(summary);
   doseTable(summary);
+  realChatTable(summary);
   scrollHints(document.querySelectorAll(".scroll"));
 
   const ranked = models.toSorted((a, b) => b.scores.clean.value - a.scores.clean.value);
