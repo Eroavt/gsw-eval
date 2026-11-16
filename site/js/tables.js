@@ -243,6 +243,7 @@ export function realChatTable(summary) {
     {},
     el("th", { scope: "col", class: "left", text: "Model" }),
     el("th", { scope: "col", text: "Careful", title: "chrF on the writers' careful versions" }),
+    el("th", { scope: "col", text: "Dialect cost", title: "chrF lost from Standard German to the careful versions, same sentences" }),
     el("th", { scope: "col", text: "Real chat cost", title: "chrF lost to the writers' own chat versions" }),
     el("th", { scope: "col", text: "Our rules' cost", title: "chrF lost when our rules rewrite the careful versions" }),
   );
@@ -254,6 +255,7 @@ export function realChatTable(summary) {
         {},
         modelCell(row),
         el("td", {}, ...interval(row.careful)),
+        el("td", {}, ...(row.dialect ? interval(row.dialect) : ["–"])),
         el("td", {}, ...interval(row.real)),
         el("td", {}, ...interval(row.rules)),
       ),
@@ -262,7 +264,7 @@ export function realChatTable(summary) {
   document.querySelector("#real-chat-table").replaceChildren(el("thead", {}, head), body);
   const r = summary.ratings;
   document.querySelector("#real-chat-note").textContent =
-    "Every model loses more to real chat than to our rules, but less than to random noise that changes as many words." +
+    "On the same sentences the dialect costs far more than real chat, which in turn costs more than our rules. Claude's dialect cost is uncertain: its Standard German score rests on 24 sentences." +
     (r
       ? ` The writers also rated model outputs blind: ${r.raters} raters, ${r.ratings} ratings. They rank the models ` +
         `as chrF does (Spearman ${r.spearman.toFixed(2)}; same better output in ${Math.round(r.winner * 100)}% of pairs).`

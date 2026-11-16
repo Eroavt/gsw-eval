@@ -127,6 +127,9 @@ def _fresh_summary(results: Path) -> dict[str, Any] | None:
                 "model": model,
                 "label": MODEL_LABEL.get(model, model),
                 "careful": _estimate(run["scores"]["careful"]),
+                "dialect": _estimate(run["costs"]["dialect_cost"])
+                if "dialect_cost" in run["costs"]
+                else None,
                 "real": _estimate(run["costs"]["real_spelling_cost"]),
                 "rules": _estimate(run["costs"]["synthetic_spelling_cost"]),
             }
