@@ -122,7 +122,8 @@ split. Both versions are translated from English, so the reference is looser and
 sentences (20 everyday chat, 4 news-like) twice on their phone: first the way they would text a friend,
 then, in a separate round, carefully. The chat round comes first so it stays natural, and nothing is
 pre-filled. Because the same person writes both versions, they differ in spelling and style, not
-dialect. The set was written after the models were trained. It is released with the code (CC BY 4.0).
+dialect. The set was written after the models were trained. One further writer (ZH) finished after
+we froze the set for the model runs and is not used. It is released with the code (CC BY 4.0).
 
 \section{Method}
 
@@ -328,9 +329,10 @@ drop \RulesEndDropped{} of final full stops; the writers did so in \ChatLowered{
 \ChatRespelled{} and reworded \ChatReworded{} (replaced, dropped, added or merged words, such as
 \emph{isch es} $\to$ \emph{ischs}), against \RulesRespelled{} and \RulesReworded{} for our rules.
 Yet Claude loses only \ClaudeRealCost{} chrF points (Table~\ref{tab:fresh}): \ClaudeRealVerdict{}
-(per writer \FreshWriterCostMin{} to \FreshWriterCostMax). On the noise curve
-(Figure~\ref{fig:dose}), real chat changes as many words as noise in a quarter of all words but costs
-no more. With \FreshWriters{} writers this is an estimate, not a proof.
+(per writer \FreshWriterCostMin{} to \FreshWriterCostMax). Every model loses more to real chat than
+to our rules, but less than to random noise that changes as many words (Figure~\ref{fig:dose}):
+real chat is harder than the rules suggest, yet models read it better than random damage. With
+\FreshWriters{} writers this is an estimate, not a proof.
 
 \section{Discussion and Limitations}
 
