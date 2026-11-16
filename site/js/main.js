@@ -4,19 +4,18 @@
 import { costChart } from "./chart.js";
 import { explorer } from "./explorer.js";
 import { el, ofModel, pct } from "./format.js";
+import { range } from "./models.js";
+import { scrollHints } from "./scrollhint.js";
 import { dialectTable, doseTable, leaderboard, taxTable } from "./tables.js";
+import { tabs } from "./tabs.js";
 import { tokenChecker } from "./tokens.js";
 
 const ENCODERS = ["XLM-R", "SwissBERT"];
 
-function range(values, digits = 0) {
-  const low = Math.min(...values).toFixed(digits);
-  const high = Math.max(...values).toFixed(digits);
-  return low === high ? low : `${low} to ${high}`;
-}
-
 function headlineStats(summary, models) {
-  const small = ["apertus-8b", "llama-3.1-8b"].map((id) => ofModel(models, id).dialect_cost.value);
+  const small = ["apertus-8b", "llama-3.1-8b"]
+    .map((id) => ofModel(models, id)?.dialect_cost.value)
+    .filter((v) => v !== undefined);
   const spelling = models.map((m) => m.spelling_cost.value);
   const llms = summary.tax.filter((t) => !ENCODERS.includes(t.tokenizer)).map((t) => t.tax.value);
   const stats = [
@@ -34,6 +33,7 @@ function findingNotes(models) {
   const llama = ofModel(models, "llama-3.1-8b");
   const gemma = ofModel(models, "gemma-3-27b");
   const claude = ofModel(models, "claude-sonnet-5.5");
+  if (!apertus || !llama || !gemma || !claude) return;
   const clean = (m) => m.scores.clean.value;
   const german = (m) => m.scores.de_input.value;
   const notes = [
@@ -51,7 +51,7 @@ function findingNotes(models) {
     ],
   ];
   document.querySelector("#findings-notes").replaceChildren(
-    ...notes.map(([title, text]) => el("div", {}, el("h3", { text: title }), el("p", { text }))),
+    ...notes.map(([title, text]) => el("div", {}, el("h2", { text: title }), el("p", { text }))),
   );
 }
 
@@ -65,24 +65,23 @@ function taxNote(summary) {
 }
 
 async function main() {
+  tabs(document.querySelector("#tabs"));
   const response = await fetch("data/summary.json");
   const summary = await response.json();
   const models = summary.test.filter((r) => r.model !== "identity");
 
   headlineStats(summary, models);
-  costChart(
-    document.querySelector("#cost-chart"),
-    models.toSorted((a, b) => b.scores.clean.value - a.scores.clean.value),
-    document.querySelector("#tip"),
-  );
+  costChart(document.querySelector("#cost-chart"), models, document.querySelector("#tip"));
   findingNotes(models);
-  doseTable(summary);
+  leaderboard(summary);
   taxTable(summary);
   taxNote(summary);
-  leaderboard(summary);
   dialectTable(summary);
+  doseTable(summary);
+  scrollHints(document.querySelectorAll(".scroll"));
 
-  const view = await explorer(summary, models.map((m) => ({ id: m.model, label: m.label })));
+  const ranked = models.toSorted((a, b) => b.scores.clean.value - a.scores.clean.value);
+  const view = await explorer(summary, ranked.map((m) => ({ id: m.model, label: m.label })));
   const { entry } = view.current();
   tokenChecker({ gsw: entry.forms.clean.input, de: entry.de });
 }
