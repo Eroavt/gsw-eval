@@ -26,8 +26,8 @@ done
 for model in apertus-8b-bf16 llama-3.1-8b-bf16; do
   gsw-eval run --model "$model" "${SUBSET[@]}"
 done
-# Stress test with stronger character noise. Add a model here once it has run at these rates.
-for model in claude-sonnet-5.5; do
+# Stress test with stronger character noise.
+for model in apertus-8b llama-3.1-8b gemma-3-27b claude-sonnet-5.5; do
   for rate in 0.1 0.25 0.5 1.0; do
     gsw-eval run --model "$model" --split test --limit 100 --conditions clean,char_noise \
       --noise-rate "$rate" --cache-only
@@ -35,7 +35,7 @@ for model in claude-sonnet-5.5; do
 done
 # Human data, once it is collected (docs/DATA_COLLECTION.md).
 if [[ -f fresh/data/fresh_v1.csv ]]; then
-  for model in identity claude-sonnet-5.5; do
+  for model in identity apertus-8b llama-3.1-8b gemma-3-27b claude-sonnet-5.5; do
     gsw-eval run --model "$model" --split fresh --cache-only
   done
 fi
