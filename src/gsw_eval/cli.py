@@ -379,6 +379,7 @@ def collect(
     """
     from gsw_eval.fresh import FRESH_COLUMNS
     from gsw_eval.participation import (
+        EXCLUDED,
         PARTICIPANT_COLUMNS,
         RATING_COLUMNS,
         fresh_rows,
@@ -409,6 +410,9 @@ def collect(
             typer.echo("no answers on the server yet")
             return
         raise typer.BadParameter("give message files, or --server")
+    for p in sorted(set(by_person) & set(EXCLUDED)):
+        typer.echo(f"w{p}: not used, {EXCLUDED[p]}")
+        del by_person[p]
     submissions = [by_person[p] for p in sorted(by_person)]
     with (REPO_ROOT / "fresh" / "sentences_v1.csv").open(encoding="utf-8", newline="") as f:
         sentences = list(csv.DictReader(f))
@@ -430,7 +434,9 @@ def collect(
             f"w{sub['p']} ({sub['canton']}): {written}/{len(page['sentences'])} written, "
             f"{scored}/{mine} rated, {skipped} not understood"
         )
-    missing = sorted(set(range(1, page["people"] + 1)) - {s["p"] for s in submissions})
+    missing = sorted(
+        set(range(1, page["people"] + 1)) - {s["p"] for s in submissions} - set(EXCLUDED)
+    )
     if missing:
         typer.echo(f"still missing: {', '.join(f'person {p}' for p in missing)}")
 

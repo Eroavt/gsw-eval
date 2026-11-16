@@ -28,6 +28,11 @@ items of persons 1, 2 and 3, so agreement can be measured as soon as either of t
 finished. Agreement is Krippendorff's alpha,
 which allows different rater pairs and skipped items.
 
+**Outcome.** Persons 1, 2, 3, 4 and 8 finished (AG, SO and three times ZH); 5 and 6 never started.
+The fresh set was frozen for the model runs on 13 November 2026 at 10:00. Person 7 (ZH) finished
+later that day; the answers stay on the server but are not used (`participation.EXCLUDED`), so
+every model is scored on the same five writers.
+
 The 112 items are all four models on 24 test inputs (16 careful, 8 chat style) plus 16 model
 rewrites of Standard German input, which show how much of the gap to a perfect score is harmless
 paraphrase. The key that maps items to models stays in `data/ratings/` (not in git) until the

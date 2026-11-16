@@ -29,6 +29,10 @@ RATER_OFFSET = 2
 # then be measured as soon as either of the two has finished, and the links already sent to
 # persons 1 to 5 keep their items.
 MIRRORS = {6: 1, 7: 2, 8: 3}
+# The fresh set was frozen for the model runs on 13 November 2026 at 10:00 (commit of PR 38).
+# Answers finished after that are kept on the server but not used, so every model sees the
+# same writers. Person 7 (ZH) finished at 15:20 that day.
+EXCLUDED = {7: "finished after the fresh set was frozen for the model runs (13 Nov 2026, 10:00)"}
 SENTENCE_IDS = [f"f{i:02d}" for i in range(1, 21)] + ["f21", "f22", "f24", "f26"]
 RATING_COLUMNS = ["item", "rater", "adequacy", "reason"]
 PARTICIPANT_COLUMNS = ["writer", "canton", "chat_frequency"]

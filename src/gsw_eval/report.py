@@ -397,7 +397,7 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
         ]
         if len(points) < 2:
             continue
-        label = f"{MODEL_LABEL[model].split()[0]}: random noise"
+        label = MODEL_LABEL[model].split()[0]
         ax.plot(
             *zip(*points),
             color=color,
@@ -421,8 +421,10 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
         if model in fresh:
             run = fresh[model]
             cost = run["costs"]["real_spelling_cost"]
+            # All models share the same real chat, so spread the stars a little to keep them apart.
+            spread = 1.4 * (list(MODEL_STYLE).index(model) - 1.5)
             ax.errorbar(
-                100 * run["words_changed"]["texting"],
+                100 * run["words_changed"]["texting"] + spread,
                 cost["value"],
                 yerr=[[cost["value"] - cost["low"]], [cost["high"] - cost["value"]]],
                 fmt="*",
