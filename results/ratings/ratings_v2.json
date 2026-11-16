@@ -1,55 +1,55 @@
 {
  "n_items": 112,
- "n_ratings": 224,
+ "n_ratings": 269,
  "ratings_per_item": {
-  "min": 1,
+  "min": 2,
   "max": 3
  },
- "raters": 5,
- "alpha_interval": 0.48193140057166195,
- "exact_agreement": 0.5842696629213483,
- "kappa_quadratic": 0.4511878488900428,
+ "raters": 6,
+ "alpha_interval": 0.5212417810069956,
+ "exact_agreement": 0.6160714285714286,
+ "kappa_quadratic": 0.47893636092022707,
  "spearman_chrf_vs_human": {
-  "rho": 0.5947991233509256,
-  "p_value": 1.6581718662524429e-10
+  "rho": 0.6323736623969037,
+  "p_value": 4.823155976544895e-12
  },
  "mean_rating": {
   "apertus-8b": {
-   "value": 3.8472222222222228,
-   "low": 3.3262152777777776,
-   "high": 4.284722222222222
+   "value": 3.8402777777777772,
+   "low": 3.381770833333333,
+   "high": 4.263888888888889
   },
   "claude-sonnet-5.5": {
-   "value": 4.798611111111111,
-   "low": 4.611111111111111,
-   "high": 4.944444444444444
+   "value": 4.833333333333333,
+   "low": 4.680555555555555,
+   "high": 4.958333333333333
   },
   "gemma-3-27b": {
-   "value": 3.881944444444444,
-   "low": 3.3541666666666665,
+   "value": 3.9027777777777772,
+   "low": 3.402604166666666,
    "high": 4.381944444444444
   },
   "llama-3.1-8b": {
-   "value": 3.1111111111111107,
-   "low": 2.6666666666666665,
-   "high": 3.6114583333333328
+   "value": 3.0902777777777772,
+   "low": 2.652777777777778,
+   "high": 3.5833333333333335
   }
  },
  "pairwise_winner_agreement": {
-  "agree": 84,
-  "decided": 96,
-  "rate": 0.875
+  "agree": 89,
+  "decided": 101,
+  "rate": 0.8811881188118812
  },
  "rewrites_of_standard_german": {
   "n": 16,
-  "mean_rating": 4.197916666666667,
+  "mean_rating": 4.135416666666667,
   "mean_chrf": 77.47875,
-  "same_meaning": 0.5
+  "same_meaning": 0.4375
  },
  "errors": {
   "model": {
    "apertus-8b": {
-    "misread": 10,
+    "misread": 14,
     "missing": 2,
     "invented": 4,
     "dialect": 3
@@ -58,12 +58,12 @@
     "dialect": 3
    },
    "gemma-3-27b": {
-    "dialect": 5,
-    "misread": 9,
+    "dialect": 6,
+    "misread": 10,
     "invented": 2
    },
    "llama-3.1-8b": {
-    "misread": 18,
+    "misread": 24,
     "dialect": 7,
     "invented": 4
    }
@@ -71,38 +71,39 @@
   "dialect": {
    "AG": {
     "dialect": 4,
-    "misread": 5,
+    "misread": 6,
     "invented": 1
    },
    "BE": {
-    "misread": 6,
+    "misread": 7,
     "dialect": 1,
     "invented": 2
    },
    "BS": {
-    "misread": 4,
+    "misread": 6,
     "dialect": 1,
     "invented": 1
    },
    "GR": {
     "misread": 2,
-    "dialect": 1
+    "dialect": 2
    },
    "LU": {
-    "misread": 16,
+    "misread": 18,
     "dialect": 4,
     "missing": 1
    },
    "SG": {
-    "invented": 2
+    "invented": 2,
+    "misread": 1
    },
    "VS": {
     "dialect": 5,
-    "misread": 1,
+    "misread": 3,
     "invented": 2
    },
    "ZH": {
-    "misread": 3,
+    "misread": 5,
     "invented": 2,
     "missing": 1,
     "dialect": 2

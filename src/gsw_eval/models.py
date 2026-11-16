@@ -156,7 +156,14 @@ class CachedNormalizer:
             for line in self.path.read_text(encoding="utf-8").splitlines():
                 if line.strip():
                     row = json.loads(line)
-                    self._cache[row["key"]] = row["output"]
+                    key, output = row["key"], row["output"]
+                    # A key can appear twice: an early cut-off output and the full rerun. Keep
+                    # the usable one whatever the line order, because merging caches from two
+                    # machines (union merge) can put the old line last.
+                    known = self._cache.get(key)
+                    if known is not None and clean_output(known) and not clean_output(output):
+                        continue
+                    self._cache[key] = output
 
     def key(self, sentence: str) -> str:
         raw = f"{self.inner.name}\x1f{getattr(self.inner, 'prompt_version', '')}\x1f{sentence}"

@@ -176,7 +176,13 @@ def run(
         )
 
     if cache_only and todo and model != "identity":
-        typer.echo(f"  cache-only: {todo} inputs have no output and score as empty")
+        # Scoring missing outputs as empty would silently lower the result, so stop instead.
+        typer.echo(
+            f"  cache-only: {todo} inputs have no cached output. Run this model without "
+            "--cache-only (or on the Mac with scripts/run_local_models.sh) first.",
+            err=True,
+        )
+        raise typer.Exit(1)
     rows = run_items(
         normalizer,
         items,

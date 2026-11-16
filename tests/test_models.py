@@ -1,3 +1,4 @@
+import json
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -110,3 +111,15 @@ def test_cache_only_never_calls_the_model(tmp_path: Path) -> None:
     cached.normalize(["a"])
     assert cached.normalize(["a", "b"], generate=False) == ["A", ""]
     assert inner.calls == ["a"]
+
+
+def test_a_full_output_beats_a_cut_off_one_in_any_line_order(tmp_path: Path) -> None:
+    inner = CountingNormalizer()
+    key = CachedNormalizer(inner, cache_dir=tmp_path).key("a")
+    cut = json.dumps({"key": key, "output": "Der Satz lautet auf Standarddeutsch:"})
+    full = json.dumps({"key": key, "output": "Der Satz lautet auf Standarddeutsch:\n\nGanz."})
+    for lines in ([cut, full], [full, cut]):
+        (tmp_path / f"{inner.name}.jsonl").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        cached = CachedNormalizer(inner, cache_dir=tmp_path)
+        assert cached.missing(["a"]) == []
+        assert cached.normalize(["a"], generate=False) == ["Ganz."]

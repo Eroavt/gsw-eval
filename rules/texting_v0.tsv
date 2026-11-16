@@ -1,5 +1,6 @@
-# DRAFT texting rules, written by Claude as a starting point. Simone: please correct, delete
-# or add rules, adjust probabilities, and save as texting_v1.tsv. Applied top to bottom.
+# Texting rules v0, used unchanged in every experiment of the report. A first version was drafted
+# with an AI assistant. The report compares them with real chat from the fresh set: real writers
+# mostly change words, these rules mostly change case, punctuation and letters. Applied top to bottom.
 # Regex rules are case-insensitive and fire per match with the given probability.
 # @operations fire once per sentence.
 pattern	replacement	probability	note
