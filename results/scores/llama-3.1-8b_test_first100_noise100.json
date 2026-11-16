@@ -1,0 +1,198 @@
+{
+ "meta": {
+  "model": "llama-3.1-8b",
+  "split": "test",
+  "limit": 100,
+  "n_items": 1600,
+  "seed": 0,
+  "noise_rate": 1.0,
+  "rules": "texting_v0.tsv",
+  "prompt": "normalize_v1",
+  "words_changed": {
+   "char_noise": 0.9828
+  }
+ },
+ "scores": [
+  {
+   "condition": "char_noise",
+   "dialect": "AG",
+   "n": 100,
+   "chrf": {
+    "value": 41.0842804197204,
+    "low": 37.74140259707448,
+    "high": 44.464210325677
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "ALL",
+   "n": 800,
+   "chrf": {
+    "value": 41.23959327265477,
+    "low": 38.767046010303524,
+    "high": 43.827375258839304
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "BE",
+   "n": 100,
+   "chrf": {
+    "value": 39.0842253729948,
+    "low": 36.18429843170406,
+    "high": 42.228327248042504
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "BS",
+   "n": 100,
+   "chrf": {
+    "value": 44.98373415278574,
+    "low": 40.95262553326861,
+    "high": 48.742115217750694
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "GR",
+   "n": 100,
+   "chrf": {
+    "value": 45.30231481936426,
+    "low": 41.71218352830539,
+    "high": 49.06075075996786
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "LU",
+   "n": 100,
+   "chrf": {
+    "value": 36.56297158819719,
+    "low": 33.64299417698999,
+    "high": 39.58800754975893
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "SG",
+   "n": 100,
+   "chrf": {
+    "value": 41.88366023795436,
+    "low": 38.65667647726406,
+    "high": 45.37625245460507
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "VS",
+   "n": 100,
+   "chrf": {
+    "value": 41.64546633167081,
+    "low": 38.20813571999669,
+    "high": 45.01725996339412
+   }
+  },
+  {
+   "condition": "char_noise",
+   "dialect": "ZH",
+   "n": 100,
+   "chrf": {
+    "value": 39.371330053262476,
+    "low": 35.48060351505905,
+    "high": 43.12395167476616
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "AG",
+   "n": 100,
+   "chrf": {
+    "value": 66.66261366316576,
+    "low": 63.153065826356226,
+    "high": 69.79091736761552
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "ALL",
+   "n": 800,
+   "chrf": {
+    "value": 69.99896795441283,
+    "low": 67.70714272876523,
+    "high": 72.13516692592832
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "BE",
+   "n": 100,
+   "chrf": {
+    "value": 64.31206372872829,
+    "low": 60.8290704541645,
+    "high": 67.57370139058327
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "BS",
+   "n": 100,
+   "chrf": {
+    "value": 74.04863235001595,
+    "low": 70.87626395019822,
+    "high": 76.7914575511688
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "GR",
+   "n": 100,
+   "chrf": {
+    "value": 76.36962734095022,
+    "low": 73.08592743136488,
+    "high": 79.21501671513758
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "LU",
+   "n": 100,
+   "chrf": {
+    "value": 63.97544950320058,
+    "low": 60.82548227298608,
+    "high": 67.02530922256616
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "SG",
+   "n": 100,
+   "chrf": {
+    "value": 74.47207395172411,
+    "low": 71.5554561099722,
+    "high": 77.46601422245686
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "VS",
+   "n": 100,
+   "chrf": {
+    "value": 68.96337786185754,
+    "low": 65.8324941407079,
+    "high": 71.90658864924043
+   }
+  },
+  {
+   "condition": "clean",
+   "dialect": "ZH",
+   "n": 100,
+   "chrf": {
+    "value": 71.14655686102832,
+    "low": 68.2493624237907,
+    "high": 73.90677927165048
+   }
+  }
+ ],
+ "decomposition": {}
+}
