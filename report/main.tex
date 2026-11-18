@@ -80,18 +80,18 @@ the dialect cost on the same sentences.
 
 \section{Related Work}
 
-\textbf{Swiss German NLP.} Earlier work has been done in the normalization of Swiss German transcripts to a common spelling
-with machine translation on the character-level \citep{scherrer2016normalisation} on the ArchiMob
+\textbf{Swiss German NLP.} Earlier work has normalized Swiss German transcripts to a common spelling
+with character-level machine translation \citep{scherrer2016normalisation} on the ArchiMob
 corpus \citep{samardzic2016archimob}, but that is not text people have written themselves, but rather transcribed speech.
 The Swiss SMS corpus \citep{stark2014sms} has real messages, but does not offer any parallel
 versions across dialects, so it cannot be used for a reliable comparison. SwissBERT \citep{vamvas2023swissbert} adapts an encoder to
 Swiss national languages, and \citet{vamvas2024modular} adapt encoders to written Swiss German.
 SwissDial \citep{dogan2021swissdial} provides the same sentences in eight dialects with Standard
-German references, which allows for a controlled comparison across dialects, but necessitates
+German references, which allows for a controlled comparison across dialects, but has
 only one writer per dialect. This leaves the collection of dialect data as the bottleneck \citep{sun2025dialingle}.
 
 \textbf{Dialect and noise robustness.} \citet{aepli2023benchmark} show that standard MT
-metrics are unreliable when the output is Swiss German. Our outputs are in Standard German, whereas
+metrics are unreliable when the output is Swiss German. Our outputs are in Standard German, where
 chrF is on firmer ground, but we still must check it against human ratings. DialectBench \citep{faisal2024dialectbench} shows large
 gaps between standard and non-standard varieties across many tasks, but does not look at how much of a
 gap spelling is responsible for. Synthetic character noise
@@ -99,7 +99,7 @@ breaks neural translation \citep{belinkov2018noise}, and the injection of such n
 helps the transfer between closely related languages \citep{aepli2022noise}. We use the same noise
 for evaluation and vary its strength, because a single noise level is not sufficient for an evaluation of robustness.
 
-\textbf{Tokenization cost.} Even if the same content is the same, the number of tokens is very different in
+\textbf{Tokenization cost.} The same content needs very different numbers of tokens in
 different languages \citep{rust2021tokenizer,petrov2023unfairness}, making commercial models
 more expensive for some users \citep{ahia2023cost}. We use this viewpoint \emph{within} one
 language: Standard German versus its dialects.
