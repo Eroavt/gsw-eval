@@ -98,7 +98,9 @@ gaps between standard and non-standard varieties across many tasks, but does not
 gap spelling is responsible for. Synthetic character noise
 breaks neural translation \citep{belinkov2018noise}, and the injection of such noise during training
 helps the transfer between closely related languages \citep{aepli2022noise}. \citet{artemova2024colloquial}
-turn Standard German into colloquial forms with rules, much like our texting rules. We use the same noise
+turn Standard German into colloquial forms with rules, much like our texting rules, and
+\citet{ahmadi2023script} train normalizers for unconventional writing on synthetic noise and can
+check them on only 100 real sentences. We use the same noise
 for evaluation and vary its strength, because a single noise level is not sufficient for an evaluation of robustness.
 
 \textbf{Tokenization cost.} Multilingual tokenizers split some languages into far more subwords
