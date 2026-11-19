@@ -1,5 +1,6 @@
-// Local server: the static site plus the arena API on a real Postgres in WebAssembly.
-// Votes persist in .arena-db/. Run with `npm run dev`.
+// Local server: the static site plus the data-collection API on a real Postgres in WebAssembly,
+// to test the phone page without the hosted database. Data persists in .dev-db/.
+// Run with `npm run dev`.
 
 import { readFile, stat } from "node:fs/promises";
 import { createServer } from "node:http";
@@ -7,11 +8,7 @@ import { extname, join, normalize } from "node:path";
 
 import { PGlite } from "@electric-sql/pglite";
 
-import { createApp } from "./app.js";
 import { createParticipation } from "./participation.js";
-import { loadPrompt, loadShard } from "./files.js";
-import { hostedModels } from "./providers.js";
-import { createStore } from "./store.js";
 
 const PORT = Number(process.env.PORT ?? 8124);
 const TYPES = {
@@ -22,15 +19,7 @@ const TYPES = {
   ".json": "application/json",
 };
 
-const db = new PGlite(process.env.ARENA_DB ?? ".arena-db");
-const app = createApp({
-  store: createStore(async (text, params) => (await db.query(text, params)).rows),
-  secret: process.env.ARENA_SECRET ?? "local-development-only",
-  loadShard,
-  loadPrompt,
-  liveModels: hostedModels(),
-});
-
+const db = new PGlite(process.env.DEV_DB ?? ".dev-db");
 const query = async (text, params) => (await db.query(text, params)).rows;
 const participation = createParticipation({
   query,
@@ -43,12 +32,6 @@ const routes = {
   "OPTIONS /api/submit": participation.submit,
   "GET /api/submissions": participation.list,
   "GET /api/progress": participation.progress,
-  "GET /api/duel": app.duel,
-  "POST /api/vote": app.vote,
-  "GET /api/ranking": app.ranking,
-  "POST /api/live": app.live,
-  "GET /api/export": app.exportVotes,
-  "GET /api/status": app.status,
 };
 
 async function serveFile(url, response) {

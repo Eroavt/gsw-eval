@@ -5,7 +5,7 @@ gsw-eval run --model apertus-8b   run one model on the test split, all condition
 gsw-eval compare                  paired model differences and copy rates from saved outputs
 gsw-eval report                   tables and figures from everything in results/
 gsw-eval site                     data files for the results website in site/
-gsw-eval arena votes.csv          ranking and chrF check from the votes of the Dialäkt-Duell
+gsw-eval collect --server         fresh set and ratings from the phone page
 """
 
 import csv
@@ -283,20 +283,6 @@ def compare(
     typer.echo(f"wrote results/comparisons/paired_{split}.json")
 
 
-@app.command("fresh-import")
-def fresh_import(
-    sheet: Annotated[Path, typer.Argument(help="filled writer sheet (CSV)")],
-    writer: str = typer.Option(..., help="anonymous writer id, e.g. w1"),
-    dialect: str = typer.Option(..., help="canton code of the writer's dialect, e.g. ZH"),
-) -> None:
-    """Add one writer's careful and texting translations to the fresh set."""
-    from gsw_eval.fresh import import_sheet, merge_into
-
-    rows = import_sheet(sheet, writer, dialect)
-    total = merge_into(FRESH, rows)
-    typer.echo(f"{writer} ({dialect.upper()}): {len(rows)} rows; fresh set now {total} rows")
-
-
 @app.command("rating-sheet")
 def rating_sheet(
     models: str = typer.Option(
@@ -441,26 +427,6 @@ def collect(
         typer.echo(f"still missing: {', '.join(f'person {p}' for p in missing)}")
 
 
-@app.command("error-sheet")
-def error_sheet(
-    models: str = typer.Option("apertus-8b,claude-sonnet-5.5", help="comma-separated models"),
-    per_cell: int = typer.Option(3, help="outputs per dialect and model"),
-    seed: int = typer.Option(0),
-) -> None:
-    """Write low-chrF outputs for error analysis to data/ratings/ (not committed, cache only)."""
-    from gsw_eval.ratings import ERROR_COLUMNS, error_sample, write_csv
-
-    items = build_items(_examples("test"), ["clean"], None, SEED, NOISE_RATE)
-    outputs = {
-        name: run_items(get_model(name), items, generate=False)
-        for name in [m.strip() for m in models.split(",")]
-    }
-    rows = error_sample(outputs, per_cell=per_cell, seed=seed)
-    path = REPO_ROOT / "data" / "ratings" / "errors_v1.csv"
-    write_csv(rows, ERROR_COLUMNS, path)
-    typer.echo(f"{len(rows)} rows -> {path.relative_to(REPO_ROOT)}")
-
-
 @app.command()
 def report() -> None:
     """Build the results tables and figures from results/scores and results/tax."""
@@ -481,29 +447,3 @@ def site() -> None:
         build_summary(RESULTS), build_sentences(outputs), REPO_ROOT / "site" / "data"
     )
     typer.echo(f"wrote {len(paths)} files to site/data/")
-
-
-@app.command()
-def arena(
-    votes: Annotated[Path, typer.Argument(help="CSV from /api/export")],
-    native_only: bool = typer.Option(False, help="only voters who grew up with Swiss German"),
-) -> None:
-    """Analyse the arena votes and save the result to results/arena/."""
-    from gsw_eval.arena import analyse_votes, read_votes, select_votes
-    from gsw_eval.site import SITE_MODELS
-
-    chosen = select_votes(read_votes(votes), native_only=native_only)
-    result = analyse_votes(chosen, SITE_MODELS)
-    name = "votes_native" if native_only else "votes_all"
-    _save(result, RESULTS / "arena" / f"{name}.json")
-    typer.echo(f"{result['votes']} votes from {result['voters']} voters")
-    for row in result["ranking"]:
-        typer.echo(
-            f"  {row['model']:18s} {row['rating']:6.0f} [{row['low']:.0f}, {row['high']:.0f}]"
-        )
-    agreement = result["chrf_agreement"]
-    typer.echo(f"  chrF agrees on {agreement['share']:.0%} of {agreement['votes']} clear votes")
-
-
-if __name__ == "__main__":
-    app()

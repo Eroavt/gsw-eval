@@ -12,9 +12,7 @@ Conditions in the analysis:
 - de_input:  the Standard German sentence itself (upper bound)
 """
 
-import csv
 from collections.abc import Sequence
-from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -23,47 +21,6 @@ from gsw_eval.metrics import _score_from_stats, chrf_estimate, chrf_stats, refer
 from gsw_eval.noise import change_kinds, changed_words
 
 FRESH_COLUMNS = ["sentence_id", "writer", "dialect", "style", "gsw", "de"]
-
-
-def import_sheet(sheet: Path, writer: str, dialect: str) -> list[dict[str, str]]:
-    """Turn one filled writer sheet (sentence_id, de, careful, texting) into fresh-set rows.
-
-    Rows with an empty translation are skipped, so a half-filled sheet still imports.
-    """
-    rows = []
-    with sheet.open(encoding="utf-8-sig", newline="") as f:
-        for row in csv.DictReader(f):
-            for style in ("careful", "texting"):
-                text = (row.get(style) or "").strip()
-                if text:
-                    rows.append(
-                        {
-                            "sentence_id": row["sentence_id"].strip(),
-                            "writer": writer,
-                            "dialect": dialect.upper(),
-                            "style": style,
-                            "gsw": text,
-                            "de": row["de"].strip(),
-                        }
-                    )
-    return rows
-
-
-def merge_into(path: Path, new_rows: Sequence[dict[str, str]]) -> int:
-    """Add rows to the fresh-set CSV, replacing earlier rows of the same writer."""
-    writers = {r["writer"] for r in new_rows}
-    old: list[dict[str, str]] = []
-    if path.exists():
-        with path.open(encoding="utf-8", newline="") as f:
-            old = [r for r in csv.DictReader(f) if r["writer"] not in writers]
-    rows = old + list(new_rows)
-    rows.sort(key=lambda r: (r["writer"], r["sentence_id"], r["style"]))
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=FRESH_COLUMNS)
-        writer.writeheader()
-        writer.writerows(rows)
-    return len(rows)
 
 
 def _parse(row: dict[str, str]) -> tuple[str, str]:

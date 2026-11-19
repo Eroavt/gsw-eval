@@ -1,4 +1,4 @@
-import { submissions } from "../arena/production.js";
+import { submissions } from "../server/production.js";
 
 export const POST = (request) => submissions().submit(request);
 export const OPTIONS = (request) => submissions().submit(request);

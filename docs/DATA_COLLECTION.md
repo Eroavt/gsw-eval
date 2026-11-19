@@ -11,7 +11,6 @@ answers on our server (`/api/submit`, Vercel and Postgres). How nothing gets los
   never replaces a fuller one.
 - If the server cannot be reached at the end, the page says so and offers WhatsApp as a backup.
 
-Progress for the organiser: `status.html#key=EXPORT_KEY` shows how far each link is.
 
 ## What each person does
 

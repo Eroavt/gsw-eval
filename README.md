@@ -38,7 +38,7 @@ token counter that runs in the browser, and the leaderboard.
 | Benchmark | [`src/gsw_eval/`](src/gsw_eval/) | Data, input conditions, models, scoring, token tax, report tables |
 | Results | [`results/`](results/) | Every raw model output and every score, committed |
 | Website | [`site/`](site/) | Static results page, no build step |
-| Voting tool (optional) | [`arena/`](arena/), [`api/`](api/) | Blind votes between model answers, not used in the report |
+| Data collection | [`site/mitmachen.html`](site/mitmachen.html), [`server/`](server/), [`api/`](api/) | Phone page and server that collected the fresh set and the ratings |
 | Report | [`report/`](report/) | The paper, in ACL style |
 
 ```mermaid
@@ -112,22 +112,6 @@ model, see [CONTRIBUTING.md](CONTRIBUTING.md).
 Every output is stored in `results/cache/<model>.jsonl`, keyed by model, prompt and input, so a
 crashed run resumes and all scores can be recomputed for free.
 
-## Optional: the Dialäkt-Duell
-
-The repository also holds a small voting tool, inspired by
-[Chatbot Arena](https://arxiv.org/abs/2403.04132). A visitor sees a Swiss German sentence and two
-anonymous model answers, votes, and only then sees the models. Votes feed a Bradley-Terry ranking.
-The tool works and is tested, but it needs hosting and many voters, so **the report does not use
-it**. Human evaluation in the report comes from two native-speaker raters. To try it locally:
-
-```bash
-npm install
-npm run dev
-```
-
-Then open `http://localhost:8124/arena.html`. See [docs/DEPLOY.md](docs/DEPLOY.md) to host it, and
-analyse exported votes with `gsw-eval arena votes.csv`.
-
 ## Data
 
 | Dataset | Use | Licence |
@@ -145,10 +129,10 @@ Request SwissDial from ETH Zurich and put the text files under `data/swissdial/`
 
 ```bash
 pytest && ruff check src tests   # Python
-npm test                         # voting tool
+npm test                         # data-collection server
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). [`CLAUDE.md`](CLAUDE.md) holds the rules for AI coding agents.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Team
 

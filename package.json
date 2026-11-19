@@ -1,19 +1,18 @@
 {
-  "name": "gsw-eval-arena",
+  "name": "gsw-eval-server",
   "version": "1.0.0",
   "private": true,
-  "description": "Backend of the Dialäkt-Duell, the blind voting arena of gsw-eval",
+  "description": "Data-collection server of gsw-eval: stores the answers from the phone page",
   "type": "module",
   "license": "MIT",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "dev": "node arena/dev.js",
-    "test": "node --test arena/test/"
+    "dev": "node server/dev.js",
+    "test": "node --test server/test/"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^1.5.0",
     "@neondatabase/serverless": "^1.2.0"
   },
   "devDependencies": {

@@ -4,17 +4,32 @@ from pathlib import Path
 import pytest
 
 from gsw_eval.data import load_fresh
-from gsw_eval.fresh import analyse_fresh, import_sheet, merge_into
+from gsw_eval.fresh import FRESH_COLUMNS, analyse_fresh
 from gsw_eval.models import IdentityNormalizer
 from gsw_eval.noise import Rule
 from gsw_eval.run import build_items, run_items
 
 
-def _sheet(path: Path, rows: list[tuple[str, str, str, str]]) -> Path:
+def _fresh_csv(
+    path: Path, rows: list[tuple[str, str, str, str]], writer: str, dialect: str
+) -> Path:
+    """A fresh-set file as the phone page writes it: one row per sentence and style."""
     with path.open("w", encoding="utf-8", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["sentence_id", "de", "careful", "texting"])
-        w.writerows(rows)
+        w = csv.DictWriter(f, fieldnames=FRESH_COLUMNS)
+        w.writeheader()
+        for sentence_id, de, careful, texting in rows:
+            for style, gsw in (("careful", careful), ("texting", texting)):
+                if gsw:
+                    w.writerow(
+                        {
+                            "sentence_id": sentence_id,
+                            "writer": writer,
+                            "dialect": dialect,
+                            "style": style,
+                            "gsw": gsw,
+                            "de": de,
+                        }
+                    )
     return path
 
 
@@ -30,22 +45,14 @@ SHEET = [
 ]
 
 
-def test_import_and_merge(tmp_path: Path) -> None:
-    rows = import_sheet(_sheet(tmp_path / "s.csv", SHEET), writer="w1", dialect="zh")
-    assert len(rows) == 5 and rows[0]["dialect"] == "ZH"
-    target = tmp_path / "fresh.csv"
-    assert merge_into(target, rows) == 5
-    assert merge_into(target, rows) == 5  # same writer replaces, does not duplicate
-    other = import_sheet(_sheet(tmp_path / "t.csv", SHEET[:1]), writer="w2", dialect="BE")
-    assert merge_into(target, other) == 7
-    examples = load_fresh(target)
-    assert {e.writer for e in examples} == {"w1", "w2"}
+def test_load_fresh_reads_both_styles_per_writer(tmp_path: Path) -> None:
+    examples = load_fresh(_fresh_csv(tmp_path / "fresh.csv", SHEET, "w1", "ZH"))
+    assert len(examples) == 5  # f03 has no texting version
+    assert {e.writer for e in examples} == {"w1"}
 
 
 def test_analysis_of_identity_outputs(tmp_path: Path) -> None:
-    target = tmp_path / "fresh.csv"
-    merge_into(target, import_sheet(_sheet(tmp_path / "s.csv", SHEET), "w1", "ZH"))
-    examples = load_fresh(target)
+    examples = load_fresh(_fresh_csv(tmp_path / "fresh.csv", SHEET, "w1", "ZH"))
     items = build_items(examples, ["de_input", "clean", "texting"], [Rule("@lower", "", 1.0)])
     result = analyse_fresh(run_items(IdentityNormalizer(), items), n_boot=50)
     assert set(result["scores"]) == {"careful", "texting", "synthetic", "de_input"}
