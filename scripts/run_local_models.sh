@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run every local-model job on an Apple Silicon Mac (made for the M4 MacBook Pro, 48 GB).
+# Run every local-model job on an Apple Silicon Mac (Gemma 3 27B needs 48 GB of RAM). See docs/LOCAL_MODELS.md.
 # No sudo needed: uv and Python install into your home folder.
 #
 #   scripts/run_local_models.sh            all jobs, in order of importance
@@ -7,6 +7,7 @@
 #   scripts/run_local_models.sh ntrex      only the second test set (Swiss German NTREX)
 #   scripts/run_local_models.sh prompts    only the prompt check
 #   scripts/run_local_models.sh bf16       only the full-precision check
+#   scripts/run_local_models.sh dose       only the stress test (stronger character noise)
 #   scripts/run_local_models.sh fresh      only the fresh set
 #
 # Every output is cached, so the script can be stopped (Ctrl-C) and restarted at any time.
@@ -117,7 +118,7 @@ else
       echo "Open the pull request here: https://github.com/Eroavt/gsw-eval/pull/new/$branch"
     fi
   else
-    echo "Could not push. The results are committed on branch $branch; send Erik the folder results/cache/."
+    echo "Could not push. The results are committed locally on branch $branch."
   fi
 fi
 step "Done"

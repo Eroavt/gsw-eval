@@ -106,7 +106,7 @@ gsw-eval site                                            # data for the website
 
 Models: `identity`, `apertus-8b`, `llama-3.1-8b`, `gemma-3-27b`, `claude-sonnet-5.5`, and the bf16
 variants for checking the effect of 8-bit weights. The local models need Apple Silicon
-(`uv pip install -e ".[mlx]"`), Claude needs a key in `.env` (`uv pip install -e ".[api]"`). To add a
+(`uv pip install -e ".[mlx]"`, see [docs/LOCAL_MODELS.md](docs/LOCAL_MODELS.md)), Claude needs a key in `.env` (`uv pip install -e ".[api]"`). To add a
 model, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Every output is stored in `results/cache/<model>.jsonl`, keyed by model, prompt and input, so a
@@ -139,7 +139,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 Erik Avtandilyan, Simone Martinecz, Kelvin Myers. Course project, Essentials in Text and Speech
 Processing, University of Zurich, HS 2026.
 
-Code was written with AI coding assistants (Claude Code) and reviewed by the team.
+We used an AI assistant (Claude Code) to help write and debug the code; the team designed,
+reviewed and tested every change. The report's last section describes who did what.
 
 ## Citation
 
