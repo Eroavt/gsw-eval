@@ -118,7 +118,7 @@ crashed run resumes and all scores can be recomputed for free.
 |---|---|---|
 | [SwissDial](https://arxiv.org/abs/2103.11401) v1.1 | Main test set: 500 sentences in 8 dialects, one writer per dialect | CC BY-NC 4.0 |
 | [Swiss German NTREX](https://arxiv.org/abs/2311.16865) | Second test set: 500 news sentences, Bern and Zurich | See the source |
-| Fresh set | 24 sentences written twice by native speakers, as in a chat and carefully ([how](docs/DATA_COLLECTION.md)) | CC BY 4.0 |
+| Fresh set and ratings | 24 sentences written twice by 5 native speakers, as in a chat and carefully, plus 224 ratings of model outputs ([files and protocol](docs/DATA_COLLECTION.md#the-data)) | CC BY 4.0 |
 
 Request SwissDial from ETH Zurich and put the text files under `data/swissdial/`
 (see [`data/README.md`](data/README.md)). Only sentences available in all eight dialects are used,

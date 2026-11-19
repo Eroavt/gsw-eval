@@ -148,7 +148,7 @@ German}, the reference itself; (2)~\emph{clean}, the careful SwissDial translati
 (lower case, dropped punctuation, collapsed double vowels and short forms such as \emph{vlt} for
 \emph{vilicht}), each applied with a fixed probability; and (4)~\emph{character noise}, where 10\% of
 the words receive one random insertion, deletion or substitution of a letter, following
-\citet{aepli2022noise}. All noise is seeded per sentence. The texting rules are mild. Ignoring case
+\citet{aepli2022noise}, all seeded per sentence. The texting rules are mild. Ignoring case
 and punctuation, they change 6.5\% of the words on the SwissDial test set and leave
 57\% of the inputs untouched, so we added a stress test in which noise hits 25, 50 and 100\% of the
 words of 100 sentences. \emph{Words changed} is the share of words outside a word-by-word alignment
@@ -246,12 +246,14 @@ sentences (Table~\ref{tab:fresh}), the dialect costs the open models \FreshDiale
 \FreshDialectOpenMax{} points, whereas real chat costs only \FreshRealMin{} to \FreshRealMax{}, and
 the intervals do not overlap. Claude's dialect cost (\ClaudeFreshDialect) is uncertain because its
 Standard German score varies widely across the 24 sentences. Real chat also differs
-from our rules in kind. The writers changed \FreshChatChanged{} of the words of their careful
+from our rules in kind. For \emph{Ich komme heute etwas später nach Hause}, one Zurich writer
+wrote \emph{Ich chumme hüt bitz spöter Hei} carefully but \emph{Chumm hüt chli spöter hei} in chat,
+dropping the pronoun, respelling one word and replacing another. The writers changed \FreshChatChanged{} of the words of their careful
 versions, our rules \FreshRulesChanged{}. Per 100 words the writers respelled \ChatRespelled{} and
-reworded \ChatReworded{} (for instance, \emph{isch es} became \emph{ischs}), against
-\RulesRespelled{} and \RulesReworded{} for the rules. The surface, on the other hand, changed little:
-the writers lower-cased \ChatLowered{} of the sentences and dropped the final full stop in
-\ChatEndDropped{}, against \RulesLowered{} and \RulesEndDropped{} for the rules. Every model loses
+reworded \ChatReworded{}, against
+\RulesRespelled{} and \RulesReworded{} for the rules. The writers rarely changed the surface,
+lower-casing \ChatLowered{} of the sentences and dropping \ChatEndDropped{} of final full stops,
+against \RulesLowered{} and \RulesEndDropped{} for the rules. Every model loses
 more to real chat than to our rules, although the gap is clear only for Claude, and by point estimate
 less than to random noise of the same size, but every interval reaches that curve
 (Figure~\ref{fig:dose}).
@@ -263,10 +265,9 @@ prove it, since the two models differ in more than their data and on NTREX the g
 (2.9) is no larger than on Standard German (3.4). Gemma, three times larger, is only 1.1
 points ahead of Apertus on clean dialect. Claude leads Apertus by 11.5 points on clean dialect but
 ties with it on Standard German ($+0.2$, interval $-1.0$ to $+1.5$), so its advantage appears only on
-dialect input. For the Bernese \emph{Si het me drvo gno}, Claude is the only model that produces
-\emph{Sie hat mehr davon genommen}.
+dialect input.
 
-\textbf{Even Standard German is not simply copied.} No model reaches 100 on Standard German input.
+\textbf{Even Standard German is not simply copied.} No model copies Standard German input faithfully.
 Apertus returns it unchanged in 64\% of the cases, Claude in 59\%, Llama in 45\% and Gemma in only
 23\%, and otherwise paraphrases it. A small dialect cost is therefore not good news on its
 own. Gemma's dialect cost (9.4) is almost as small as Claude's (8.6) mainly because Gemma rewrites
@@ -345,7 +346,10 @@ The larger gain lies in handling the dialect, not the spelling.
 
 \section*{Code and Data}
 The code, the outputs of every model and the fresh set are available at
-\url{https://github.com/Eroavt/gsw-eval}. Every number in this report can be reproduced with a
+\url{https://github.com/Eroavt/gsw-eval}. The 24 source sentences are in
+\texttt{fresh/sentences\_v1.csv}, every chat and careful version in \texttt{fresh/data/}, every
+rating and the model behind each rated output in \texttt{ratings/}, and the phone page with its
+exact instructions in \texttt{site/mitmachen.html} (protocol: \texttt{docs/DATA\_COLLECTION.md}). Every number in this report can be reproduced with a
 single command, \texttt{scripts/reproduce.sh}. Because all model outputs are cached, it needs neither
 a GPU nor an API key, only the SwissDial text from ETH Zurich, and it ran unchanged on a fresh clone.
 The fresh-set writers agreed that their texts and ratings may be published without names; we store
