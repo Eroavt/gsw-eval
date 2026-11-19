@@ -8,14 +8,13 @@ cost an LLM, and how much of that comes from the dialect versus the spelling.
 Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pages, ACL style).
 
 ## Status (keep this short and current)
-- Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Gemma 3 27B,
-  Claude Sonnet 5.5 on both; prompt and bf16 checks; token tax for 9 tokenizers; paired
-  comparisons (`gsw-eval compare`); website; optional voting tool; report draft.
+- Submitted: v1.0 (tag and GitHub release), 19 November 2026. The report is `report/main.pdf`.
+- Done: SwissDial and Swiss German NTREX test sets; Apertus 8B, Llama 3.1 8B, Gemma 3 27B and
+  Claude Sonnet 5.5 on both; prompt, bf16 and stress-test checks; token tax; fresh set of five
+  writers with human ratings; website; optional voting tool.
 - Live: https://eroavt.github.io/gsw-eval/ (GitHub Pages from `main`; the repo is public).
-- Answers from the phone page go to https://gsw-eval.vercel.app/api/submit (Vercel project gsw-eval,
-  Neon database gsw-eval-db, account user-zurichs-projects). Read them with `gsw-eval collect --server`.
-- Open: up to eight native speakers fill in `site/mitmachen.html?p=1..8` (6 to 8 mirror the ratings of 1 to 3), then
-  `gsw-eval collect`, fresh-set runs, ratings; Discussion section; issue #24.
+- Data collection is closed. The phone page (`site/mitmachen.html`) and its server
+  (https://gsw-eval.vercel.app, Neon database) stay online; `gsw-eval collect --server` reads them.
 - Out of scope: collecting crowd votes. The voting tool stays as an optional, unused extra.
 
 ## Layout
@@ -43,4 +42,4 @@ Course project, UZH, deadline 20 November 2026. Report: `report/main.tex` (5 pag
 6. Local model runs take hours and heat the Mac: only start them when the user asks.
 7. No data and no API keys in git. Keys live in `.env`. The one exception is `site/data/`: SwissDial
    test sentences for the website (CC BY-NC 4.0, credited on the page). Never add NTREX sentences there.
-8. The rating key stays in `data/ratings/` until the ratings are in, then it moves to `ratings/`.
+8. The rating key is in `ratings/key_v2.csv` (all ratings are in).
