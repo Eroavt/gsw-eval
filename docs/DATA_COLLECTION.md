@@ -11,7 +11,6 @@ answers on our server (`/api/submit`, Vercel and Postgres). How nothing gets los
   never replaces a fuller one.
 - If the server cannot be reached at the end, the page says so and offers WhatsApp as a backup.
 
-Progress for the organiser: `status.html#key=EXPORT_KEY` shows how far each link is.
 
 ## What each person does
 
@@ -35,8 +34,25 @@ every model is scored on the same five writers.
 
 The 112 items are all four models on 24 test inputs (16 careful, 8 chat style) plus 16 model
 rewrites of Standard German input, which show how much of the gap to a perfect score is harmless
-paraphrase. The key that maps items to models stays in `data/ratings/` (not in git) until the
-ratings are in.
+paraphrase.
+
+## The data
+
+| What | File |
+|---|---|
+| The 24 Standard German source sentences (the questions) | [`fresh/sentences_v1.csv`](../fresh/sentences_v1.csv) |
+| Every chat and careful version, per writer and sentence | [`fresh/data/fresh_v1.csv`](../fresh/data/fresh_v1.csv) |
+| Canton and chat frequency per writer (no names) | [`fresh/data/participants.csv`](../fresh/data/participants.csv) |
+| The 112 rated outputs as the raters saw them | [`site/data/mitmachen.json`](../site/data/mitmachen.json) |
+| Every rating and error reason | [`ratings/ratings_v2.csv`](../ratings/ratings_v2.csv) |
+| Which model and input stand behind each rated output | [`ratings/key_v2.csv`](../ratings/key_v2.csv) |
+| The page with its exact instructions | [`site/mitmachen.html`](../site/mitmachen.html), [`site/js/mitmachen.js`](../site/js/mitmachen.js) |
+
+Example (writer w8, Zurich): *Ich komme heute etwas später nach Hause.* was written carefully as
+*Ich chumme hüt bitz spöter Hei.* and in chat as *Chumm hüt chli spöter hei.*
+
+All texts and ratings are released under CC BY 4.0. The writers agreed on the page that their
+sentences and ratings may be published without names.
 
 ## Run it
 

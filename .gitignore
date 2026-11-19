@@ -21,6 +21,9 @@ report/*.fdb_latexmk
 report/*.out
 
 node_modules/
-.arena-db/
+.dev-db/
 .vercel
 .env*
+
+# Old local database of the removed voting tool
+.arena-db/

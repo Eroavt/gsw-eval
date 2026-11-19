@@ -3,5 +3,5 @@
 ## How I tested it
 
 - [ ] `ruff check src tests` and `pytest` pass
-- [ ] `npm test` passes, if `arena/` changed
+- [ ] `npm test` passes, if `server/` changed
 - [ ] No data and no API keys added

@@ -11,7 +11,7 @@
 /ratings
 /rules
 .venv
-.arena-db
+.dev-db
 .env
 .env.local
 .env*
