@@ -32,27 +32,24 @@ Dialect versus Chat-Style Spelling in LLM Normalization}
 
 \begin{abstract}
 Swiss German has no standard spelling, and large language models (LLMs) handle it worse than
-Standard German while also splitting it into more tokens. We ask how much of this cost is due to the
-dialect itself and how much to the informal spelling people use when they chat. To separate the two,
-we built \textsc{gsw-eval}, an open, reproducible benchmark in which models rewrite the same 500
-sentences into Standard German from Standard German, careful Swiss German in eight dialects,
-simulated chat spelling and character noise, and we collected a fresh set in which \FreshWriters{}
-native speakers wrote the same sentences once as in a chat and once carefully.
-Moving from Standard German to careful Swiss German costs the 8B models 20 to 24 chrF points and
-Claude Sonnet~5.5 8.6, while simulated chat spelling costs only 1 to 5 more. Real chat behaves
-differently from the simulation. Writers keep most letters but reword \FreshChatChanged{} of the
-words, and this costs the models
-\FreshRealMin{} to \FreshRealMax{} points, still far less than the dialect on the same sentences
-(\FreshDialectOpenMin{} to \FreshDialectOpenMax{} for the open models). Open LLM tokenizers need
-16 to 30\% more tokens for Swiss German, and human raters, like chrF, rank Claude first and Llama
-last.
+Standard German while also splitting it into more tokens. We ask how much of this cost comes from the
+dialect itself and how much from the informal spelling of chat. We built \textsc{gsw-eval}, an open,
+reproducible benchmark in which models rewrite the same 500 sentences into Standard German from
+Standard German, careful Swiss German in eight dialects, simulated chat spelling and character
+noise, and we collected chat and careful versions of 24 sentences from \FreshWriters{} native
+speakers. Careful Swiss German costs the 8B models 20 to 24 chrF points and Claude Sonnet~5.5 only
+8.6, while simulated chat spelling costs 1 to 5 more. Real chat changes \FreshChatChanged{} of the
+words, mostly whole words rather than letters, and costs \FreshRealMin{} to \FreshRealMax{} points,
+far less than the dialect on the same sentences. Open LLM tokenizers need 16 to 30\% more tokens for Swiss German,
+and human raters, like chrF, rank Claude first and Llama last.
 \end{abstract}
 
 \section{Introduction}
 
 Swiss German is written every day, in text messages, on social media and in comments. It is a
-low-resource variety of a high-resource language: Standard German is among the
-best-served languages in NLP, while its dialects are not \citep{joshi2020state}. Two properties make
+low-resource variety of a high-resource language: Standard German is among the best-served
+languages in NLP \citep{joshi2020state}, while annotated data for its dialects is scarce
+\citep{dogan2021swissdial}. Two properties make
 written Swiss German hard for a language model. The first is the \emph{dialect} itself, since the
 dialects differ from Standard German and from each other in vocabulary, pronunciation and grammar.
 The second is \emph{spelling}. There is no orthography, so people write as they speak, and the same
@@ -76,16 +73,17 @@ German into a \emph{dialect cost} and a \emph{spelling cost}, each with a confid
 size and a frontier model loses less than half as much to the dialect as the 8B models.
 \item A token-tax analysis of eight open tokenizers and Claude's, which shows that simulated chat
 spelling does not explain the extra tokens.
-\item A small fresh test set in which \FreshWriters{} native speakers wrote the same sentences in chat
-style and carefully, so that real chat can be compared with simulated spelling and with the dialect
-cost on identical sentences.
+\item A fresh test set in which \FreshWriters{} native speakers wrote the same sentences in chat style
+and carefully, which shows how real chat differs from simulated spelling.
 \end{enumerate}
 
 \section{Related Work}
 
 \textbf{Swiss German NLP.} Earlier work has normalized Swiss German transcripts to a common spelling
 with character-level machine translation \citep{scherrer2016normalisation} on the ArchiMob
-corpus \citep{samardzic2016archimob}, but that is not text people have written themselves, but rather transcribed speech.
+corpus \citep{samardzic2016archimob}, but that is transcribed speech rather than text people have written themselves.
+\citet{honnet2018normalizing} normalize Swiss German before machine translation, and
+\citet{alam2025normalizer} use LLMs as normalizers for dialectal translation, including Swiss German.
 The Swiss SMS corpus \citep{stark2014sms} has real messages, but does not offer any parallel
 versions across dialects, so it cannot be used for a reliable comparison. SwissBERT \citep{vamvas2023swissbert} adapts an encoder to
 Swiss national languages, and \citet{vamvas2024modular} adapt encoders to written Swiss German.
@@ -99,19 +97,22 @@ chrF is on firmer ground, but we still must check it against human ratings. Dial
 gaps between standard and non-standard varieties across many tasks, but does not look at how much of a
 gap spelling is responsible for. Synthetic character noise
 breaks neural translation \citep{belinkov2018noise}, and the injection of such noise during training
-helps the transfer between closely related languages \citep{aepli2022noise}. We use the same noise
+helps the transfer between closely related languages \citep{aepli2022noise}. \citet{artemova2024colloquial}
+turn Standard German into colloquial forms with rules, much like our texting rules. We use the same noise
 for evaluation and vary its strength, because a single noise level is not sufficient for an evaluation of robustness.
 
-\textbf{Tokenization cost.} The same content needs very different numbers of tokens in
-different languages \citep{rust2021tokenizer,petrov2023unfairness}, making commercial models
-more expensive for some users \citep{ahia2023cost}. We use this viewpoint \emph{within} one
-language: Standard German versus its dialects.
+\textbf{Tokenization cost.} Multilingual tokenizers split some languages into far more subwords
+than others \citep{rust2021tokenizer}, and the same content needs very different numbers of tokens
+in different languages \citep{petrov2023unfairness}, making commercial models more expensive for
+some users \citep{ahia2023cost}. \citet[App.~B]{petrov2023unfairness} already found that a German
+tokenizer needs 1.38 (Zurich) to 1.59 (Bern) times as many tokens for the SwissDial dialects as for
+Standard German. We extend this to current LLM tokenizers and ask whether chat spelling adds to it.
 
 \section{Data}
 \label{sec:data}
 
 \textbf{SwissDial.} SwissDial v1.1 \citep{dogan2021swissdial} contains 11,213 Standard German
-sentences with transcriptions in up to eight dialects (AG, BE, BS, GR, LU, SG, VS, ZH), each dialect
+sentences with written translations into up to eight dialects (AG, BE, BS, GR, LU, SG, VS, ZH), each dialect
 written by a single person. The dialect versions are free translations, so they share the meaning of
 the source but not its exact wording. We kept the 2,529 sentences that exist in all eight dialects
 and removed 232 that are marked as code-switching, which leaves 2,297. From these we drew a fixed
@@ -119,8 +120,8 @@ split of 50 development and 500 test sentences (seed 13), giving 4,000 Swiss Ger
 condition. The Standard German sentence always serves as the reference.
 
 \textbf{Swiss German NTREX.} As a second, independent test set we use the Swiss German version of
-NTREX-128 \citep{federmann2022ntrex}, for which \citet{aepli2023benchmark} had professional
-translators render the 1,997 English news sentences into Bernese and Zurich German. The Standard
+NTREX-128 \citep{federmann2022ntrex}, for which \citet{aepli2023benchmark} had two
+native-speaker translators render the 1,997 English news sentences into Bernese and Zurich German. The Standard
 German translation in NTREX-128 serves as the reference, and we fixed 500 of the 1,850 sentences
 that can be aligned across both dialects as a test split. Since all versions were translated from
 English independently, the reference is looser and all scores are lower.
@@ -137,7 +138,7 @@ released with the code under CC BY 4.0.
 \section{Method}
 
 \textbf{Conditions.} Each test sentence is given to every model in four forms: (1)~\emph{Standard
-German}, the reference itself; (2)~\emph{clean}, the careful SwissDial transcription;
+German}, the reference itself; (2)~\emph{clean}, the careful SwissDial translation;
 (3)~\emph{texting}, the clean text rewritten by 23 hand-written rules that simulate chat spelling
 (lower case, dropped punctuation, collapsed double vowels and short forms such as \emph{vlt} for
 \emph{vilicht}), each applied with a fixed probability; and (4)~\emph{character noise}, where 10\% of
@@ -145,26 +146,23 @@ the words receive one random insertion, deletion or substitution of a letter, fo
 \citet{aepli2022noise}. All noise is seeded per sentence. The texting rules turned out to be mild.
 Ignoring case and punctuation, they change 6.5\% of the words on the SwissDial test set and leave
 57\% of the inputs untouched, so we added a stress test in which noise hits 25, 50 and 100\% of the
-words of 100 sentences. We measure how much a rewrite changes a text as \emph{words changed}, the
-share of words that fall outside a word-by-word alignment of the two versions, with case and
-punctuation ignored. For the fresh set we further count a one-to-one substitution with a character
+words of 100 sentences. \emph{Words changed} is the share of words outside a word-by-word alignment
+of two versions, ignoring case and punctuation. For the fresh set we further count a one-to-one substitution with a character
 similarity of at least 0.5 as \emph{respelled} and every other change, including added, merged and
 moved words, as \emph{reworded}, so the two can add up to more than the words changed.
 
-\textbf{Baselines.} The \emph{identity} baseline returns the Swiss German input unchanged and marks
-the lower bound, while Standard German input marks the upper bound.
-
-\textbf{Dialect and spelling cost.} We define the \emph{dialect cost} as chrF on Standard German
+\textbf{Baselines and costs.} The \emph{identity} baseline returns the Swiss German input unchanged
+and marks the lower bound, while Standard German input marks the upper bound. We define the \emph{dialect cost} as chrF on Standard German
 input minus chrF on clean Swiss German, and the \emph{spelling cost} as chrF on clean minus chrF on
 texting input. Because both are computed on the same source sentences, topic and meaning are held
 constant, although the wording is not. The dialect cost therefore covers everything that separates
 careful Swiss German from Standard German, including each writer's own spelling, while the spelling
 cost only covers chat-style changes on top of it.
 
-\textbf{Models.} Apertus 8B Instruct \citep{apertus2025} was trained with a strong Swiss and
-multilingual focus, Llama 3.1 8B Instruct \citep{grattafiori2024llama3} has the same size but no
-Swiss focus, and Gemma 3 27B Instruct \citep{gemma2025gemma3} is a larger open model, also without a
-Swiss focus. All three run locally with 8-bit weights and greedy decoding in
+\textbf{Models.} Apertus 8B Instruct \citep{apertus2025} was trained on 1,811 languages and
+post-trained with Swiss data, including Swiss German. Llama 3.1 8B Instruct
+\citep{grattafiori2024llama3} has the same size but no Swiss focus, and Gemma 3 27B Instruct
+\citep{gemma2025gemma3} is a larger open model, also without one. All three run locally with 8-bit weights and greedy decoding in
 MLX.\footnote{\url{https://github.com/ml-explore/mlx-lm}} Claude Sonnet 5.5 serves as a commercial
 reference and runs through its API with the lowest thinking setting. Every model receives the same
 German prompt, which asks for the Standard German sentence and nothing else. Because the prompt
@@ -211,7 +209,7 @@ of the 95\% bootstrap interval.}
 \textbf{Clean dialect costs far more than simulated chat spelling.} As Table~\ref{tab:quality}
 shows, moving from Standard German to clean Swiss German costs Apertus 19.9 and Llama 23.8 chrF
 points, but Claude only 8.6. Simulated chat spelling costs these models a further 3.5, 5.0 and 1.1
-points, and character noise 2.9, 3.0 and 1.4. All models remain far above the identity baseline
+points. All models remain far above the identity baseline
 (46.9), so they translate rather than copy. Only for this baseline is the texting loss almost
 entirely case and punctuation (6.8 points, but 0.6 once both are ignored).
 
@@ -251,22 +249,23 @@ reworded \ChatReworded{} (for instance, \emph{isch es} became \emph{ischs}), aga
 \RulesRespelled{} and \RulesReworded{} for the rules. The surface, on the other hand, changed little:
 the writers lower-cased \ChatLowered{} of the sentences and dropped the final full stop in
 \ChatEndDropped{}, against \RulesLowered{} and \RulesEndDropped{} for the rules. Every model loses
-more to real chat than to our rules, clearly so only for Claude, and by point estimate less than to
-random noise of the same size, although every interval reaches that curve (Figure~\ref{fig:dose}).
+more to real chat than to our rules, although the gap is clear only for Claude, and by point estimate
+less than to random noise of the same size, but every interval reaches that curve
+(Figure~\ref{fig:dose}).
 
 \textbf{The Swiss-focused model leads at 8B, and Claude leads overall.} Apertus beats Llama in
 every condition (paired bootstrap, $p < 0.01$), by 2.5 points on Standard German input, 6.4 on clean
-dialect and 7.9 on texting input. This is consistent with the idea that Swiss training text helps,
-but it does not prove it. The two models differ in more than their data, and on NTREX the gap on
-clean input (2.9) is no larger than on Standard German (3.4). Gemma, three times larger, is only 1.1
+dialect and 7.9 on texting input. This fits the idea that Swiss training text helps but does not
+prove it, since the two models differ in more than their data and on NTREX the gap on clean input
+(2.9) is no larger than on Standard German (3.4). Gemma, three times larger, is only 1.1
 points ahead of Apertus on clean dialect. Claude leads Apertus by 11.5 points on clean dialect but
 ties with it on Standard German ($+0.2$, interval $-1.0$ to $+1.5$), so its advantage appears only on
 dialect input. For the Bernese \emph{Si het me drvo gno}, Claude is the only model that produces
 \emph{Sie hat mehr davon genommen}.
 
 \textbf{Even Standard German is not simply copied.} No model reaches 100 on Standard German input.
-Apertus returns the sentence unchanged in 64\% of the cases, Claude in 59\%, Llama in 45\% and Gemma
-in only 23\%, and otherwise paraphrases it. A small dialect cost is therefore not good news on its
+Apertus returns it unchanged in 64\% of the cases, Claude in 59\%, Llama in 45\% and Gemma in only
+23\%, and otherwise paraphrases it. A small dialect cost is therefore not good news on its
 own. Gemma's dialect cost (9.4) is almost as small as Claude's (8.6) mainly because Gemma rewrites
 even Standard German (84.7 against 94.2), so the dialect cost must be read together with the upper
 bound. Raters gave these rewrites a mean score of \ParaphraseRating{} and judged \ParaphraseSame{}
@@ -275,11 +274,10 @@ of the gap to 100 is harmless paraphrase, but not all of it.
 
 
 \textbf{Hard dialects are those written farthest from Standard German.} Apertus scores range
-from 69.6 (AG) to 80.5 (GR), and Llama and Gemma rank the dialects almost the same way. Across the eight dialects, the open models' scores correlate strongly with the
-identity score, our measure of how close a dialect's written form is to Standard German ($r = 0.93$,
-$0.97$, $0.95$), and Claude's less so ($r = 0.79$, with scores between 81.0 and
-89.4). Models therefore do worst where the written form is farthest from Standard German, although
-eight dialects allow only rough estimates.
+from 69.6 (AG) to 80.5 (GR), and Llama and Gemma rank the dialects almost the same way. Across
+dialects, the open models' scores correlate strongly with the identity score, which measures how close
+a dialect's written form is to Standard German ($r = 0.93$, $0.97$, $0.95$), Claude's less so
+($r = 0.79$), although eight dialects allow only rough estimates.
 
 \begin{table}[t]
 \centering
@@ -299,11 +297,10 @@ figures by at most 1.3\% for the LLM tokenizers. Claude's tokenizer, which we co
 split through Anthropic's endpoint, needs about three tokens per word for both Swiss and Standard
 German, so Swiss German costs nothing extra there.
 
-\textbf{A second test set shows the same order.} On Swiss German NTREX, clean input gives Claude
+\textbf{A second test set and other prompts give the same picture.} On Swiss German NTREX, clean input gives Claude
 59.9, Gemma 57.5, Apertus 56.6 and Llama 53.8, and neighboring models differ with $p < 0.01$.
 Claude's lead over Apertus shrinks from 11.5 to 3.3 points, and chat spelling costs 0.4 to 2.3.
-
-\textbf{Robustness.} Across three prompt wordings on 100 sentences, clean chrF moves by at most 3.1
+Across three prompt wordings on 100 sentences, clean chrF moves by at most 3.1
 points, Apertus stays ahead of Llama, and the 8B models' spelling cost (3.1 to 5.3) stays far below
 their dialect cost (16.5 to 21.7). Full-precision weights change scores by at most 0.5.
 
@@ -339,10 +336,10 @@ be part of the models' training data. The fresh set cannot be, but it is small, 
 writers from \FreshNCantons{} cantons.
 
 \section{Conclusion}
-For a language model, most of the cost of Swiss German lies in the written dialect itself, which
-costs the 8B models 20 to 24 chrF points and Claude 8.6. Real chat adds \FreshRealMin{} to
-\FreshRealMax{} points, and since writers mostly change whole words, character noise is a poor
-stand-in for it. The larger gain lies in handling the dialect, not the spelling.
+Most of what Swiss German costs a language model lies in the written dialect itself, 20 to 24 chrF
+points for the 8B models and 8.6 for Claude. Real chat adds \FreshRealMin{} to \FreshRealMax{}
+points, and because writers mostly change whole words, character noise is a poor stand-in for it.
+The larger gain lies in handling the dialect, not the spelling.
 
 \section*{Code and Data}
 The code, the outputs of every model and the fresh set are available at
