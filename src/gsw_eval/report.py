@@ -391,7 +391,7 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
         if "costs" in r and r["meta"]["model"] in MODEL_STYLE
     }
     rules = next((r for r in rows if r["label"].startswith("Simulated")), None)
-    fig, ax = plt.subplots(figsize=(3.1, 2.5))
+    fig, ax = plt.subplots(figsize=(3.1, 2.15))
     for model, (color, marker) in MODEL_STYLE.items():
         points = [(0.0, 0.0)] + [
             (100 * r["words_changed"], r["loss"][model]) for r in noise if model in r["loss"]
@@ -633,7 +633,7 @@ def dialect_figure(runs: list[dict[str, Any]], out: Path) -> list[Path]:
     if identity is None:
         return []
     x = per_dialect(identity)
-    fig, ax = plt.subplots(figsize=(3.1, 3.1))
+    fig, ax = plt.subplots(figsize=(3.1, 2.45))
     markers = ["o", "s", "^", "D"]
     for j, run in enumerate(r for r in runs if r["meta"]["model"] != "identity"):
         y = per_dialect(run)
