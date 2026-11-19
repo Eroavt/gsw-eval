@@ -84,8 +84,11 @@ with character-level machine translation \citep{scherrer2016normalisation} on th
 corpus \citep{samardzic2016archimob}, but that is transcribed speech rather than text people have written themselves.
 \citet{honnet2018normalizing} normalize Swiss German before machine translation, and
 \citet{alam2025normalizer} use LLMs as normalizers for dialectal translation, including Swiss German.
-The Swiss SMS corpus \citep{stark2014sms} has real messages, but does not offer any parallel
-versions across dialects, so it cannot be used for a reliable comparison. SwissBERT \citep{vamvas2023swissbert} adapts an encoder to
+Closest to us, \citet{kresic2024normalizing} fine-tune mT5 on SwissDial and report chrF above 90,
+but on lower-cased text and a random split of sentence pairs that does not keep the dialect versions
+of a sentence together; we keep all versions of a sentence in one split.
+The Swiss SMS corpus \citep{stark2014sms} has real messages, but no parallel
+versions across dialects that would allow a controlled comparison. SwissBERT \citep{vamvas2023swissbert} adapts an encoder to
 Swiss national languages, and \citet{vamvas2024modular} adapt encoders to written Swiss German.
 SwissDial \citep{dogan2021swissdial} provides the same sentences in eight dialects with Standard
 German references, which allows for a controlled comparison across dialects, but has
@@ -101,7 +104,7 @@ helps the transfer between closely related languages \citep{aepli2022noise}. \ci
 turn Standard German into colloquial forms with rules, much like our texting rules, and
 \citet{ahmadi2023script} train normalizers for unconventional writing on synthetic noise and can
 check them on only 100 real sentences. We use the same noise
-for evaluation and vary its strength, because a single noise level is not sufficient for an evaluation of robustness.
+for evaluation and vary its strength, since a single noise level says little about robustness.
 
 \textbf{Tokenization cost.} Multilingual tokenizers split some languages into far more subwords
 than others \citep{rust2021tokenizer}, and the same content needs very different numbers of tokens
@@ -119,7 +122,7 @@ written by a single person. The dialect versions are free translations, so they 
 the source but not its exact wording. We kept the 2,529 sentences that exist in all eight dialects
 and removed 232 that are marked as code-switching, which leaves 2,297. From these we drew a fixed
 split of 50 development and 500 test sentences (seed 13), giving 4,000 Swiss German test inputs per
-condition. The Standard German sentence always serves as the reference.
+condition, with the Standard German sentence as the reference.
 
 \textbf{Swiss German NTREX.} As a second, independent test set we use the Swiss German version of
 NTREX-128 \citep{federmann2022ntrex}, for which \citet{aepli2023benchmark} had two
@@ -133,8 +136,8 @@ writers in total) translated 24 Standard German sentences, 20 everyday chat mess
 sentences, twice on their phones. They first wrote them the way they would text a friend and then,
 in a separate round, carefully. The chat round came first so that it would stay natural, and nothing
 was pre-filled. Because each person wrote both versions, the two differ in spelling, style and
-wording but not in dialect. The set was written after the models were trained. One further writer
-(ZH) finished after we had frozen the set for the model runs and is not included. The set is
+wording but not in dialect. The set was written after the models were trained; one further writer
+(ZH) finished after we had frozen it for the model runs and is not included. The set is
 released with the code under CC BY 4.0.
 
 \section{Method}
@@ -145,8 +148,8 @@ German}, the reference itself; (2)~\emph{clean}, the careful SwissDial translati
 (lower case, dropped punctuation, collapsed double vowels and short forms such as \emph{vlt} for
 \emph{vilicht}), each applied with a fixed probability; and (4)~\emph{character noise}, where 10\% of
 the words receive one random insertion, deletion or substitution of a letter, following
-\citet{aepli2022noise}. All noise is seeded per sentence. The texting rules turned out to be mild.
-Ignoring case and punctuation, they change 6.5\% of the words on the SwissDial test set and leave
+\citet{aepli2022noise}. All noise is seeded per sentence. The texting rules are mild. Ignoring case
+and punctuation, they change 6.5\% of the words on the SwissDial test set and leave
 57\% of the inputs untouched, so we added a stress test in which noise hits 25, 50 and 100\% of the
 words of 100 sentences. \emph{Words changed} is the share of words outside a word-by-word alignment
 of two versions, ignoring case and punctuation. For the fresh set we further count a one-to-one substitution with a character
@@ -212,8 +215,7 @@ of the 95\% bootstrap interval.}
 shows, moving from Standard German to clean Swiss German costs Apertus 19.9 and Llama 23.8 chrF
 points, but Claude only 8.6. Simulated chat spelling costs these models a further 3.5, 5.0 and 1.1
 points. All models remain far above the identity baseline
-(46.9), so they translate rather than copy. Only for this baseline is the texting loss almost
-entirely case and punctuation (6.8 points, but 0.6 once both are ignored).
+(46.9), so they translate rather than copy.
 
 \begin{figure}[t]
 \centering
@@ -234,9 +236,8 @@ therefore reflects a small dose and is no proof that spelling does not matter.
 \small
 \setlength{\tabcolsep}{2.5pt}
 \input{../results/tables/fresh.tex}
-\caption{Fresh set (\FreshWriters{} writers $\times$ 24 sentences): chrF on careful input; chrF lost
-from Standard German to careful input (dialect cost), and from careful input to the writers' chat
-versions (real chat) and to our rules. $\pm$: half-width of the 95\% interval.}
+\caption{Fresh set (\FreshWriters{} writers $\times$ 24 sentences). Costs are chrF lost from Standard
+German to careful input (dialect) and from careful input to real chat or to our rules. $\pm$: 95\% CI.}
 \label{tab:fresh}
 \end{table}
 
@@ -244,7 +245,7 @@ versions (real chat) and to our rules. $\pm$: half-width of the 95\% interval.}
 sentences (Table~\ref{tab:fresh}), the dialect costs the open models \FreshDialectOpenMin{} to
 \FreshDialectOpenMax{} points, whereas real chat costs only \FreshRealMin{} to \FreshRealMax{}, and
 the intervals do not overlap. Claude's dialect cost (\ClaudeFreshDialect) is uncertain because its
-Standard German score varies widely across the 24 sentences (\ClaudeFreshDE). Real chat also differs
+Standard German score varies widely across the 24 sentences. Real chat also differs
 from our rules in kind. The writers changed \FreshChatChanged{} of the words of their careful
 versions, our rules \FreshRulesChanged{}. Per 100 words the writers respelled \ChatRespelled{} and
 reworded \ChatReworded{} (for instance, \emph{isch es} became \emph{ischs}), against
@@ -279,7 +280,7 @@ of the gap to 100 is harmless paraphrase, but not all of it.
 from 69.6 (AG) to 80.5 (GR), and Llama and Gemma rank the dialects almost the same way. Across
 dialects, the open models' scores correlate strongly with the identity score, which measures how close
 a dialect's written form is to Standard German ($r = 0.93$, $0.97$, $0.95$), Claude's less so
-($r = 0.79$), although eight dialects allow only rough estimates.
+($r = 0.79$), though eight dialects give only rough estimates.
 
 \begin{table}[t]
 \centering
@@ -287,8 +288,8 @@ a dialect's written form is to Standard German ($r = 0.93$, $0.97$, $0.95$), Cla
 \setlength{\tabcolsep}{4pt}
 \input{../results/tables/tax.tex}
 \caption{Token tax: tokens for Swiss German divided by tokens for the same Standard German
-sentences (punctuation removed, dialects pooled). Range: cheapest (mostly ZH) to most expensive (BE)
-dialect. Texting: change caused by chat spelling. Tok./word: tokens per Standard German word.}
+sentences, dialects pooled. Range: cheapest (mostly ZH) to most expensive (BE) dialect. Texting:
+change by chat spelling.}
 \label{tab:tax}
 \end{table}
 
@@ -333,8 +334,7 @@ is rare, as four of five writers keep capitals even in chat and the fifth writes
 both versions.
 
 \textbf{Scope.} We studied a single task, normalization, and the costs may differ for other tasks.
-The main run uses one prompt and 8-bit weights per model, which we checked on a subset. SwissDial may
-be part of the models' training data. The fresh set cannot be, but it is small, with \FreshWriters{}
+SwissDial may be part of the models' training data. The fresh set cannot be, but it is small, with \FreshWriters{}
 writers from \FreshNCantons{} cantons.
 
 \section{Conclusion}
@@ -348,6 +348,8 @@ The code, the outputs of every model and the fresh set are available at
 \url{https://github.com/Eroavt/gsw-eval}. Every number in this report can be reproduced with a
 single command, \texttt{scripts/reproduce.sh}. Because all model outputs are cached, it needs neither
 a GPU nor an API key, only the SwissDial text from ETH Zurich, and it ran unchanged on a fresh clone.
+The fresh-set writers agreed that their texts and ratings may be published without names; we store
+only their canton and their answers.
 
 \section*{Use of AI Assistants}
 We used an AI coding assistant (Claude Code, Anthropic) throughout. It wrote most of the code, the

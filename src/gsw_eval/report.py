@@ -391,7 +391,7 @@ def dose_figure(results: Path, out: Path) -> list[Path]:
         if "costs" in r and r["meta"]["model"] in MODEL_STYLE
     }
     rules = next((r for r in rows if r["label"].startswith("Simulated")), None)
-    fig, ax = plt.subplots(figsize=(3.1, 2.15))
+    fig, ax = plt.subplots(figsize=(3.1, 2.0))
     for model, (color, marker) in MODEL_STYLE.items():
         points = [(0.0, 0.0)] + [
             (100 * r["words_changed"], r["loss"][model]) for r in noise if model in r["loss"]
